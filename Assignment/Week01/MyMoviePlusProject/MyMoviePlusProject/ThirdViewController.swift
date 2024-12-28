@@ -29,4 +29,6 @@ class ThirdViewController: UIViewController {
         thumbImage2.layer.masksToBounds = true
         thumbImage3.layer.masksToBounds = true
     }
+    
+    
 }

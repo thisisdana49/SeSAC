@@ -27,4 +27,33 @@ class FirstTabViewController: UIViewController {
         thumbImage2.layer.masksToBounds = true
         thumbImage3.layer.masksToBounds = true
     }
+    
+    @IBAction func playButtonTapped(_ sender: UIButton) {
+        switchRandomPoster()
+//        switchRandomMark()
+    }
+    
+    func getRandomFourPoster() -> [String] {
+        var posterArray: [String] = []
+        
+        for _ in 0...3 {
+            let randomInt = Int.random(in: 1...34)
+            let posterName = "poster\(randomInt)"
+            posterArray.append(posterName)
+        }
+        
+        return posterArray
+    }
+    
+    func switchRandomPoster() {
+        let posterArray = getRandomFourPoster()
+        mainImage.image = UIImage(named: posterArray[0])
+        thumbImage1.image = UIImage(named: posterArray[1])
+        thumbImage2.image = UIImage(named: posterArray[2])
+        thumbImage3.image = UIImage(named: posterArray[3])
+    }
+    
+    func switchRandomMark() {
+        print("switch random mark")
+    }
 }
