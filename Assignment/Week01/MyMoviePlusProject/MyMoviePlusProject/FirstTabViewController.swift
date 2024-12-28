@@ -14,9 +14,14 @@ class FirstTabViewController: UIViewController {
     @IBOutlet weak var thumbImage2: UIImageView!
     @IBOutlet weak var thumbImage3: UIImageView!
     
+
+    @IBOutlet var badgeViewArray: [UIView]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        switchRandomPoster()
+        
         mainImage.layer.cornerRadius = 10
         thumbImage1.layer.cornerRadius = 5
         thumbImage2.layer.cornerRadius = 5
@@ -26,14 +31,22 @@ class FirstTabViewController: UIViewController {
         thumbImage1.layer.masksToBounds = true
         thumbImage2.layer.masksToBounds = true
         thumbImage3.layer.masksToBounds = true
+        
+        for index in 0...2 {
+            badgeViewArray[index].addSubview(UIImageView(image: UIImage(named: "badge1")))
+            badgeViewArray[index].addSubview(UIImageView(image: UIImage(named: "blue")))
+            badgeViewArray[index].addSubview(UIImageView(image: UIImage(named: "pink")))
+            
+            badgeViewArray[index].subviews.forEach { $0.isHidden = true }
+        }
     }
     
     @IBAction func playButtonTapped(_ sender: UIButton) {
         switchRandomPoster()
-//        switchRandomMark()
+        switchRandomMark()
     }
-    
-    func getRandomFourPoster() -> [String] {
+
+    func switchRandomPoster() {
         var posterArray: [String] = []
         
         for _ in 0...3 {
@@ -42,11 +55,6 @@ class FirstTabViewController: UIViewController {
             posterArray.append(posterName)
         }
         
-        return posterArray
-    }
-    
-    func switchRandomPoster() {
-        let posterArray = getRandomFourPoster()
         mainImage.image = UIImage(named: posterArray[0])
         thumbImage1.image = UIImage(named: posterArray[1])
         thumbImage2.image = UIImage(named: posterArray[2])
@@ -54,6 +62,30 @@ class FirstTabViewController: UIViewController {
     }
     
     func switchRandomMark() {
-        print("switch random mark")
+        
+        for index in 0...2 {
+            let randomInt = Int.random(in: 1...4)
+            
+            switch randomInt {
+            case 1:
+                badgeViewArray[index].subviews[0].isHidden = false
+                badgeViewArray[index].subviews[1].isHidden = true
+                badgeViewArray[index].subviews[2].isHidden = true
+            case 2:
+                badgeViewArray[index].subviews[0].isHidden = true
+                badgeViewArray[index].subviews[1].isHidden = false
+                badgeViewArray[index].subviews[2].isHidden = true
+            case 3:
+                badgeViewArray[index].subviews[0].isHidden = true
+                badgeViewArray[index].subviews[1].isHidden = true
+                badgeViewArray[index].subviews[2].isHidden = false
+            case 4:
+                badgeViewArray[index].subviews[0].isHidden = true
+                badgeViewArray[index].subviews[1].isHidden = true
+                badgeViewArray[index].subviews[2].isHidden = true
+            default:
+                print("default")
+            }
+        }
     }
 }

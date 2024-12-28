@@ -71,6 +71,18 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R5o-Vx-g3S">
+                                <rect key="frame" x="16" y="632" width="118" height="155"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0PU-kd-WZP">
+                                <rect key="frame" x="142" y="632" width="118" height="155"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hR9-Em-45H">
+                                <rect key="frame" x="268" y="632" width="118" height="155"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -81,6 +93,9 @@
                         <outlet property="thumbImage1" destination="vA8-aJ-efd" id="DKf-bn-GN0"/>
                         <outlet property="thumbImage2" destination="BG3-Vg-6wB" id="V3x-ZS-42e"/>
                         <outlet property="thumbImage3" destination="YiZ-Vi-8pV" id="BuB-Mg-zfr"/>
+                        <outletCollection property="badgeViewArray" destination="R5o-Vx-g3S" collectionClass="NSMutableArray" id="oQ8-u9-6Cc"/>
+                        <outletCollection property="badgeViewArray" destination="0PU-kd-WZP" collectionClass="NSMutableArray" id="4Mk-Wi-DCe"/>
+                        <outletCollection property="badgeViewArray" destination="hR9-Em-45H" collectionClass="NSMutableArray" id="uk7-GG-0mK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
