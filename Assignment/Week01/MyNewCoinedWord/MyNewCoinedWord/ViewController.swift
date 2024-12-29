@@ -31,24 +31,26 @@ class ViewController: UIViewController, UISearchBarDelegate {
 
     // SearchBar Protocol
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        newCoinedWordArray.keys.forEach { key in
-            if key.contains(searchBar.text!) {
-                if key.contains(searchBar.text!) {
-                    titleLabel.text = key
-                    contentTextView.text = newCoinedWordArray[key]
-                }
-            }
-        }
+        searchInputText(searchBar: searchBar)
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        newCoinedWordArray.keys.forEach { key in
-            if key.contains(searchBar.text!) {
-                if key.contains(searchBar.text!) {
-                    titleLabel.text = key
-                    contentTextView.text = newCoinedWordArray[key]
-                }
-            }
+        searchInputText(searchBar: searchBar)
+    }
+    
+    func searchInputText(searchBar: UISearchBar) {
+        guard let searchText = searchBar.text, !searchText.isEmpty else {
+            titleLabel.text = "검색 결과가 없습니다."
+            contentTextView.text = "목록 중 하나를 선택해볼까요?"
+            return
+        }
+        
+        if let meaning = newCoinedWordArray[searchText] {
+            titleLabel.text = searchText
+            contentTextView.text = meaning
+        } else {
+            titleLabel.text = "'\(searchText)'에 대한 검색 결과가 없습니다."
+            contentTextView.text = "목록 중 하나를 선택해볼까요?"
         }
     }
 
