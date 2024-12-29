@@ -22,6 +22,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
     ]
 
     @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet var labelView: UIView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var contentTextView: UITextView!
 
@@ -59,22 +60,65 @@ class ViewController: UIViewController, UISearchBarDelegate {
     @IBAction func tapGestureRecognized(_ sender: Any) {
         view.endEditing(true)
     }
+    
+    fileprivate func getRandomKeys() -> [String] {
+        var keys: Set<String> = []
+        
+        while keys.count < 4 {
+            if let key = newCoinedWordArray.keys.randomElement() {
+                keys.insert(key)
+            }
+        }
+
+        return Array(keys).sorted()
+    }
 
     func setUI() {
         searchBar.tintColor = .accent
 
-        setLabelUI()
+        setKeywordLabelUI()
         setTextViewUI()
+        setLabelViewUI()
     }
 
-    func setLabelUI() {
+    fileprivate func setKeywordLabelUI() {
         titleLabel.backgroundColor = .accent
         titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
         titleLabel.text = #"궁금한 신조어를 검색 해보세요!"#
     }
 
-    func setTextViewUI() {
+    fileprivate func setTextViewUI() {
         contentTextView.font = .systemFont(ofSize: 18, weight: .regular)
-        contentTextView.text = "신조어의 뜻을 알려드립니다 :)"
+        contentTextView.text = "뭐라고 검색할지 고민된다면 추천 검색어 중에 하나를 골라보세요😉"
     }
+    
+    fileprivate func setLabelViewUI() {
+        labelView.subviews.forEach { $0.removeFromSuperview() }
+        
+        let randomKeys = getRandomKeys()
+        print("random keys: \(randomKeys)")
+        
+        var xOffset: CGFloat = 0
+        let labelHeight: CGFloat = 30
+        let labelSpacing: CGFloat = 10
+
+        for key in randomKeys {
+            let wordLabel = UILabel()
+            wordLabel.text = key
+            wordLabel.textAlignment = .center
+            wordLabel.font = UIFont.systemFont(ofSize: 15)
+            wordLabel.textColor = .black
+            wordLabel.backgroundColor = .accent
+            wordLabel.layer.masksToBounds = true
+            wordLabel.layer.cornerRadius = 5
+            
+            let labelWidth = wordLabel.intrinsicContentSize.width + 20
+            
+            wordLabel.frame = CGRect(x: xOffset, y: 10, width: labelWidth, height: labelHeight)
+            labelView.addSubview(wordLabel)
+            
+            xOffset += labelWidth + labelSpacing
+        }
+    }
+
 }
