@@ -22,9 +22,17 @@ class ViewController: UIViewController {
     func setUI() {
         searchBar.tintColor = .accent
         
+        setLabelUI()
+        setTextViewUI()
+    }
+    
+    func setLabelUI() {
         titleLabel.backgroundColor = .accent
         titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
         titleLabel.text = #"✅ 궁금한 신조어를 검색 해보세요!"#
+    }
+    
+    func setTextViewUI() {
         contentTextView.font = .systemFont(ofSize: 18, weight: .regular)
         contentTextView.text = "신조어의 뜻을 알려드립니다 :)"
     }
