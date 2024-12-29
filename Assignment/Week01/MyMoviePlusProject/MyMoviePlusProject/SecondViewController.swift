@@ -10,6 +10,7 @@ import UIKit
 class SecondViewController
 : UIViewController {
     
+    @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var buttonArray: [UIButton]!
     
     @IBOutlet var contentsLabel: UILabel!
@@ -18,7 +19,7 @@ class SecondViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        buttonTapped(buttonArray[0])
+        setUI()
     }
     
     @IBAction func buttonTapped(_ sender: UIButton) {
@@ -52,6 +53,20 @@ class SecondViewController
         default:
             self.contentsLabel.text = "이런! 찾으시는 작품이 없습니다."
             self.descLabel.text = "다른 영화, 시리즈, 배우, 감독 또는 장르를 검색해 보세요."
+        }
+    }
+    
+    fileprivate func setUI() {
+        buttonTapped(buttonArray[0])
+        if let textField = searchBar.value(forKey: "searchField") as? UITextField {
+            
+            textField.backgroundColor = .darkGray
+            textField.textColor = .lightGray
+            
+            if let leftView = textField.leftView as? UIImageView {
+                leftView.image = leftView.image?.withRenderingMode(.alwaysTemplate)
+                leftView.tintColor = .lightGray
+            }
         }
     }
 }
