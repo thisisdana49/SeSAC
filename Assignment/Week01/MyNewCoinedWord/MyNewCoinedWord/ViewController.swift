@@ -23,9 +23,9 @@ class ViewController: UIViewController, UISearchBarDelegate {
 
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var labelView: UIView!
-    @IBOutlet var titleLabelView: UIView!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var contentTextView: UITextView!
+    @IBOutlet var keywordLabelView: UIView!
+    @IBOutlet var keywordLabel: UILabel!
+    @IBOutlet var contentLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,17 +45,17 @@ class ViewController: UIViewController, UISearchBarDelegate {
     func searchInputText(searchBar: UISearchBar) {
         guard let searchText = searchBar.text?.uppercased(), !searchText.isEmpty
         else {
-            titleLabel.text = "✅  검색 결과가 없습니다."
-            contentTextView.text = "목록 중 하나를 클릭해볼까요?"
+            keywordLabel.text = "✅  검색 결과가 없습니다."
+            contentLabel.text = "목록 중 하나를 클릭해볼까요?"
             return
         }
 
         if let meaning = newCoinedWordArray[searchText] {
-            titleLabel.text = "✅  \(searchText)"
-            contentTextView.text = meaning
+            keywordLabel.text = "✅  \(searchText)"
+            contentLabel.text = meaning
         } else {
-            titleLabel.text = "✅  '\(searchText)'에 대한 검색 결과가 없습니다."
-            contentTextView.text = "목록 중 하나를 선택해볼까요?"
+            keywordLabel.text = "✅  '\(searchText)'에 대한 검색 결과가 없습니다."
+            contentLabel.text = "목록 중 하나를 선택해볼까요?"
         }
     }
 
@@ -81,14 +81,14 @@ class ViewController: UIViewController, UISearchBarDelegate {
         else { return }
 
         let meaning = newCoinedWordArray[word]
-        titleLabel.text = "✅  \(word)"
-        contentTextView.text = meaning
+        keywordLabel.text = "✅  \(word)"
+        contentLabel.text = meaning
     }
 
     fileprivate func setUI() {
         setSearchBarUI()
         setKeywordLabelUI()
-        setTextViewUI()
+        setContentLabelUI()
         setLabelViewUI()
     }
 
@@ -109,14 +109,18 @@ class ViewController: UIViewController, UISearchBarDelegate {
     }
 
     fileprivate func setKeywordLabelUI() {
-        titleLabelView.backgroundColor = .accent
-        titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
-        titleLabel.text = "✅  궁금한 신조어를 검색 해보세요!"
+        keywordLabelView.backgroundColor = .accent
+        keywordLabel.font = .systemFont(ofSize: 18, weight: .bold)
+        keywordLabel.textAlignment = .center
+        keywordLabel.text = "✅  궁금한 신조어를 검색 해보세요!"
     }
 
-    fileprivate func setTextViewUI() {
-        contentTextView.font = .systemFont(ofSize: 18, weight: .regular)
-        contentTextView.text = "뭐라고 검색할지 고민된다면 추천 검색어 중에 하나를 골라보세요😉"
+    fileprivate func setContentLabelUI() {
+        contentLabel.numberOfLines = 0
+        contentLabel.lineBreakMode = .byTruncatingTail
+        contentLabel.font = .systemFont(ofSize: 16, weight: .regular)
+        contentLabel.textAlignment = .center
+        contentLabel.text = "뭐라고 검색할지 고민된다면 추천 검색어 중에 하나를 골라보세요😉"
     }
 
     fileprivate func setLabelViewUI() {
