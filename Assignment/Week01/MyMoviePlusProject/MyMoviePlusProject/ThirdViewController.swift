@@ -16,7 +16,7 @@ class ThirdViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
         thumbImage1.transform = thumbImage1.transform.rotated(by: -30 * CGFloat.pi / 180)
         thumbImage2.transform = thumbImage2.transform.rotated(by: 30 * CGFloat.pi / 180)
         thumbImage3.transform = thumbImage3.transform.rotated(by: .pi * 2)
