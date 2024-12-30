@@ -9,11 +9,8 @@ import UIKit
 
 class FirstTabViewController: UIViewController {
     
-    @IBOutlet weak var mainImage: UIImageView!
-    @IBOutlet weak var thumbImage1: UIImageView!
-    @IBOutlet weak var thumbImage2: UIImageView!
-    @IBOutlet weak var thumbImage3: UIImageView!
-    
+    @IBOutlet var mainLayerImage: UIImageView!
+    @IBOutlet var thumbnailImageArray: [UIImageView]!
     @IBOutlet var badgeViewArray: [UIView]!
     
     override func viewDidLoad() {
@@ -36,10 +33,9 @@ class FirstTabViewController: UIViewController {
             posterArray.append(posterName)
         }
         
-        mainImage.image = UIImage(named: posterArray[0])
-        thumbImage1.image = UIImage(named: posterArray[1])
-        thumbImage2.image = UIImage(named: posterArray[2])
-        thumbImage3.image = UIImage(named: posterArray[3])
+        for index in 0...3 {
+            thumbnailImageArray[index].image = UIImage(named: posterArray[index])
+        }
     }
     
     func switchRandomBadge() {
@@ -70,16 +66,24 @@ class FirstTabViewController: UIViewController {
         }
     }
     
-    func setUI() {
-        mainImage.layer.cornerRadius = 10
-        thumbImage1.layer.cornerRadius = 5
-        thumbImage2.layer.cornerRadius = 5
-        thumbImage3.layer.cornerRadius = 5
+    fileprivate func setMainImageUI() {
+        thumbnailImageArray[0].layer.cornerRadius = 10
+        thumbnailImageArray[0].layer.masksToBounds = true
         
-        mainImage.layer.masksToBounds = true
-        thumbImage1.layer.masksToBounds = true
-        thumbImage2.layer.masksToBounds = true
-        thumbImage3.layer.masksToBounds = true
+        mainLayerImage.image = .background
+        mainLayerImage.layer.cornerRadius = 10
+    }
+    
+    fileprivate func setThumbnailImageUI() {
+        for index in 1...3 {
+            thumbnailImageArray[index].layer.cornerRadius = 5
+            thumbnailImageArray[index].layer.masksToBounds = true
+        }
+    }
+    
+    func setUI() {
+        setMainImageUI()
+        setThumbnailImageUI()
         
         
         for index in 0...2 {
