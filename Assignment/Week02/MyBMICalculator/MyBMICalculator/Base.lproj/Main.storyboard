@@ -132,7 +132,9 @@
                         <viewLayoutGuide key="safeArea" id="NRD-qB-8gE"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="510-Ch-Qrb"/>
+                    <navigationItem key="navigationItem" id="510-Ch-Qrb">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="SWS-Qg-p82"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="guideContentLabel" destination="Im2-6y-pDm" id="CDm-S0-YFS"/>
                         <outlet property="guideTitleLabel" destination="2ba-et-2Rb" id="e7n-1h-6cr"/>

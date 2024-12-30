@@ -23,6 +23,8 @@ class CalculatorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        navigationItem.hidesBackButton = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "초기화하기", style: .plain, target: self, action: #selector(resetButtonTapped))
         
         nickname = UserDefaults.standard.string(forKey: "nickname")!
         
@@ -72,6 +74,18 @@ class CalculatorViewController: UIViewController {
         calculateBMI(h: height, w: weight)
     }
 
+    @objc func resetButtonTapped() {
+        UserDefaults.standard.removeObject(forKey: "\(nickname)Height")
+        UserDefaults.standard.removeObject(forKey: "\(nickname)Weight")
+        
+        let alert = UIAlertController(title: "✅ 초기화", message: "\(nickname)님의 BMI 기록이 초기화되었습니다.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "처음으로 돌아가기", style: .destructive, handler: { (_) in
+            self.navigationController?.popToRootViewController(animated: true)
+        })
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
     func calculateBMI(h height: Double, w weight: Double) {
         let bmi = weight / (height * height)
         let roundedBMI = getRoundedBMI(bmi: bmi)
