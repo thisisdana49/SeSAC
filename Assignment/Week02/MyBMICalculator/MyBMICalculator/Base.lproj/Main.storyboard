@@ -29,6 +29,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                 <connections>
+                                    <action selector="nextButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kHE-dQ-utB"/>
                                     <segue destination="apV-2p-nFc" kind="show" id="9gs-hI-PgM"/>
                                 </connections>
                             </button>

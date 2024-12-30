@@ -17,14 +17,30 @@ class CalculatorViewController: UIViewController {
     @IBOutlet var randomBmiButton: UIButton!
     @IBOutlet var nextButton: UIButton!
     
+    var nickname: String = ""
+    var savedHeight: Double?
+    var savedWeight: Double?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        nickname = UserDefaults.standard.string(forKey: "nickname")!
+        
+        let isSavedHeightData = UserDefaults.standard.bool(forKey: "\(nickname)Height")
+        let isSavedWeightData = UserDefaults.standard.bool(forKey: "\(nickname)Weight")
+        if isSavedHeightData {
+            savedHeight = UserDefaults.standard.double(forKey: "\(nickname)Height")
+            savedWeight = UserDefaults.standard.double(forKey: "\(nickname)Weight")
+            heightTextField.text = String(round(savedHeight!))
+            weightTextField.text = String(savedWeight!)
+        }
         setUI()
     }
     
     @IBAction func calculateButtonTapped(_ sender: UIButton) {
         let height = (Double(heightTextField.text ?? "") ?? 0) * 0.01
+        UserDefaults.standard.set(height * 100, forKey: "\(nickname)Height")
+        print(UserDefaults.standard.string(forKey: "\(nickname)Height")!)
         if height < 0 || height > 300 {
             let alert = UIAlertController(title: "⚠️ 입력 오류", message: "입력한 키를 다시 한 번 확인해 주세요.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .default)
@@ -34,6 +50,8 @@ class CalculatorViewController: UIViewController {
         }
         
         let weight = Double(weightTextField.text ?? "") ?? 0
+        UserDefaults.standard.set(weight, forKey: "\(nickname)Weight")
+        print(UserDefaults.standard.string(forKey: "\(nickname)Weight")!)
         if weight < 0 || weight > 500 {
             let alert = UIAlertController(title: "⚠️ 입력 오류", message: "입력한 체중을 다시 한 번 확인해 주세요.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .default)
@@ -49,9 +67,8 @@ class CalculatorViewController: UIViewController {
         let bmi = weight / (height * height)
         let roundedBMI = getRoundedBMI(bmi: bmi)
         let obesity = getObesity(bmi: bmi)
-        UserDefaults.standard.set(roundedBMI, forKey: "bmi")
         
-        let alert = UIAlertController(title: "✅ BMI 결과", message: "다은님의 BMI 지수는 \(roundedBMI)로\n\(obesity)입니다.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "✅ BMI 결과", message: "\(nickname)님의 BMI 지수는 \(roundedBMI)로\n\(obesity)입니다.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert.addAction(okAction)
         present(alert, animated: true)
@@ -80,7 +97,7 @@ class CalculatorViewController: UIViewController {
         guideTitleLabel.font = UIFont.boldSystemFont(ofSize: 24)
         
         guideContentLabel.numberOfLines = 0
-        guideContentLabel.text = "다은님의 BMI 지수를\n알려드릴게요."
+        guideContentLabel.text = "\(nickname)님의 BMI 지수를\n알려드릴게요."
         guideContentLabel.font = UIFont.systemFont(ofSize: 16)
         guideContentLabel.textColor = .lightGray
         
@@ -115,7 +132,6 @@ class CalculatorViewController: UIViewController {
         
         randomBmiButton.setTitle("랜덤으로 BMI 계산하기", for: .normal)
         randomBmiButton.setTitleColor(UIColor.systemGray3, for: .normal)
-//        randomBmiButton.backgroundColor = .white
     }
     
 }

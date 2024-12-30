@@ -19,6 +19,10 @@ class NicknameViewController: UIViewController {
         setUI()
     }
 
+    @IBAction func nextButtonTapped(_ sender: UIButton) {
+        UserDefaults.standard.set(nicknameTextField.text!, forKey: "nickname")
+    }
+    
     fileprivate func setUI() {
         guideTitleLabel.numberOfLines = 0
         guideTitleLabel.text = "체중 관리,\n함께 해볼까요?"
