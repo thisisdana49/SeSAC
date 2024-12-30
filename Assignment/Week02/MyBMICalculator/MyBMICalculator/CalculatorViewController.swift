@@ -14,7 +14,7 @@ class CalculatorViewController: UIViewController {
     @IBOutlet var weightTextField: UITextField!
     @IBOutlet var heightLabel: UILabel!
     @IBOutlet var weightLabel: UILabel!
-    @IBOutlet var resultLabel: UILabel!
+    @IBOutlet var randomBmiButton: UIButton!
     @IBOutlet var nextButton: UIButton!
     
     override func viewDidLoad() {
@@ -23,6 +23,41 @@ class CalculatorViewController: UIViewController {
         setUI()
     }
 
+    @IBAction func calculateButtonTapped(_ sender: UIButton) {
+        let h = (Double(heightTextField.text ?? "") ?? 0) * 0.01
+        let w = Double(weightTextField.text ?? "") ?? 0
+        calculateBMI(h: h, w: w)
+    }
+
+    func calculateBMI(h height: Double, w weight: Double) {
+        let bmi = weight / (height * height)
+        let roundedBMI = getRoundedBMI(bmi: bmi)
+        let obesity = getObesity(bmi: bmi)
+        UserDefaults.standard.set(roundedBMI, forKey: "bmi")
+        
+        let alert = UIAlertController(title: "✅ BMI 결과", message: "다은님의 BMI 지수는 \(roundedBMI)로\n\(obesity)입니다.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
+    
+    func getRoundedBMI(bmi: Double) -> Double {
+        let roundedBMI = Double(round(100 * bmi) / 100)
+        return roundedBMI
+    }
+    
+    func getObesity(bmi: Double) -> String {
+        if bmi < 18.5 {
+            return "저체중"
+        } else if bmi < 23.0 {
+            return "정상"
+        } else if bmi < 25.0 {
+            return "과체중"
+        } else {
+            return "비만"
+        }
+    }
+    
     fileprivate func setUI() {
         guideTitleLabel.numberOfLines = 0
         guideTitleLabel.text = "체중과 키가\n어떻게 되시나요?"
@@ -62,6 +97,9 @@ class CalculatorViewController: UIViewController {
         nextButton.backgroundColor = .systemBlue
         nextButton.layer.cornerRadius = 10
         
-        resultLabel.isHidden = true
+        randomBmiButton.setTitle("랜덤으로 BMI 계산하기", for: .normal)
+        randomBmiButton.setTitleColor(UIColor.systemGray3, for: .normal)
+//        randomBmiButton.backgroundColor = .white
     }
+    
 }
