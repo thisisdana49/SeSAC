@@ -29,6 +29,13 @@ class NicknameViewController: UIViewController {
         guideContentLabel.font = UIFont.systemFont(ofSize: 16)
         guideContentLabel.textColor = .lightGray
         
+        nicknameTextField.placeholder = "예) 다우니맛"
+        nicknameTextField.font = UIFont.systemFont(ofSize: 16)
+        nicknameTextField.frame.size.height = 50
+        nicknameTextField.layer.borderWidth = 1
+        nicknameTextField.layer.borderColor = UIColor.systemGray6.cgColor
+        nicknameTextField.layer.cornerRadius = 10
+        
         nextButton.setTitle("다음", for: .normal)
         nextButton.tintColor = .white
         nextButton.backgroundColor = .systemBlue

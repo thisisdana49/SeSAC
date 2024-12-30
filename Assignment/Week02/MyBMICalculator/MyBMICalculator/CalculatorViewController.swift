@@ -10,7 +10,10 @@ import UIKit
 class CalculatorViewController: UIViewController {
     @IBOutlet var guideTitleLabel: UILabel!
     @IBOutlet var guideContentLabel: UILabel!
-    @IBOutlet var nicknameTextField: UITextField!
+    @IBOutlet var heightTextField: UITextField!
+    @IBOutlet var weightTextField: UITextField!
+    @IBOutlet var heightLabel: UILabel!
+    @IBOutlet var weightLabel: UILabel!
     @IBOutlet var resultLabel: UILabel!
     @IBOutlet var nextButton: UIButton!
     
@@ -29,6 +32,30 @@ class CalculatorViewController: UIViewController {
         guideContentLabel.text = "다은님의 BMI 지수를\n알려드릴게요."
         guideContentLabel.font = UIFont.systemFont(ofSize: 16)
         guideContentLabel.textColor = .lightGray
+        
+        heightTextField.keyboardType = .numberPad
+        heightTextField.textAlignment = .right
+        heightTextField.placeholder = "168"
+        heightTextField.font = UIFont.systemFont(ofSize: 16)
+        heightTextField.frame.size.height = 50
+        heightTextField.layer.borderWidth = 1
+        heightTextField.layer.borderColor = UIColor.systemGray6.cgColor
+        heightTextField.layer.cornerRadius = 10
+        
+        heightLabel.text = "cm"
+        heightLabel.font = UIFont.systemFont(ofSize: 16)
+
+        weightTextField.keyboardType = .numberPad
+        weightTextField.textAlignment = .right
+        weightTextField.placeholder = "42"
+        weightTextField.font = UIFont.systemFont(ofSize: 16)
+        weightTextField.frame.size.height = 50
+        weightTextField.layer.borderWidth = 1
+        weightTextField.layer.borderColor = UIColor.systemGray6.cgColor
+        weightTextField.layer.cornerRadius = 10
+        
+        weightLabel.text = "kg"
+        weightLabel.font = UIFont.systemFont(ofSize: 16)
         
         nextButton.setTitle("확인", for: .normal)
         nextButton.tintColor = .white
