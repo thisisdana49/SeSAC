@@ -37,11 +37,18 @@ class CalculatorViewController: UIViewController {
         setUI()
     }
     
+    @IBAction func randomBMIButtonTapped(_ sender: UIButton) {
+        let height = Double.random(in: 140..<250) * 0.01
+        let weight = Double.random(in: 30..<200)
+        
+        calculateBMI(h: height, w: weight)
+    }
+    
     @IBAction func calculateButtonTapped(_ sender: UIButton) {
         let height = (Double(heightTextField.text ?? "") ?? 0) * 0.01
         UserDefaults.standard.set(height * 100, forKey: "\(nickname)Height")
         print(UserDefaults.standard.string(forKey: "\(nickname)Height")!)
-        if height < 0 || height > 300 {
+        if height < 0 || height > 250 {
             let alert = UIAlertController(title: "⚠️ 입력 오류", message: "입력한 키를 다시 한 번 확인해 주세요.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .default)
             alert.addAction(okAction)
@@ -52,7 +59,7 @@ class CalculatorViewController: UIViewController {
         let weight = Double(weightTextField.text ?? "") ?? 0
         UserDefaults.standard.set(weight, forKey: "\(nickname)Weight")
         print(UserDefaults.standard.string(forKey: "\(nickname)Weight")!)
-        if weight < 0 || weight > 500 {
+        if weight < 0 || weight > 200 {
             let alert = UIAlertController(title: "⚠️ 입력 오류", message: "입력한 체중을 다시 한 번 확인해 주세요.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .default)
             alert.addAction(okAction)
