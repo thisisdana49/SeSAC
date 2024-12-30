@@ -28,7 +28,7 @@ class CalculatorViewController: UIViewController {
         
         let isSavedHeightData = UserDefaults.standard.bool(forKey: "\(nickname)Height")
         let isSavedWeightData = UserDefaults.standard.bool(forKey: "\(nickname)Weight")
-        if isSavedHeightData {
+        if isSavedHeightData && isSavedWeightData {
             savedHeight = UserDefaults.standard.double(forKey: "\(nickname)Height")
             savedWeight = UserDefaults.standard.double(forKey: "\(nickname)Weight")
             heightTextField.text = String(round(savedHeight!))
@@ -39,7 +39,9 @@ class CalculatorViewController: UIViewController {
     
     @IBAction func randomBMIButtonTapped(_ sender: UIButton) {
         let height = Double.random(in: 140..<250) * 0.01
+        heightTextField.text = String(round(height) * 100)
         let weight = Double.random(in: 30..<200)
+        weightTextField.text = String(round(weight))
         
         calculateBMI(h: height, w: weight)
     }
@@ -108,7 +110,7 @@ class CalculatorViewController: UIViewController {
         guideContentLabel.font = UIFont.systemFont(ofSize: 16)
         guideContentLabel.textColor = .lightGray
         
-        heightTextField.keyboardType = .numberPad
+        heightTextField.keyboardType = .numbersAndPunctuation
         heightTextField.textAlignment = .right
         heightTextField.placeholder = "168"
         heightTextField.font = UIFont.systemFont(ofSize: 16)
@@ -120,7 +122,7 @@ class CalculatorViewController: UIViewController {
         heightLabel.text = "cm"
         heightLabel.font = UIFont.systemFont(ofSize: 16)
 
-        weightTextField.keyboardType = .numberPad
+        weightTextField.keyboardType = .numbersAndPunctuation
         weightTextField.textAlignment = .right
         weightTextField.placeholder = "42"
         weightTextField.font = UIFont.systemFont(ofSize: 16)
