@@ -38,8 +38,7 @@ class FirstTabViewController: UIViewController {
         }
     }
     
-    func switchRandomBadge() {
-        
+    public func switchRandomBadge() {
         for index in 0...2 {
             let randomInt = Int.random(in: 1...4)
             
@@ -81,10 +80,9 @@ class FirstTabViewController: UIViewController {
         }
     }
     
-    func setUI() {
+    fileprivate func setUI() {
         setMainImageUI()
         setThumbnailImageUI()
-        
         
         for index in 0...2 {
             let badge1 = UIImageView(image: UIImage(named: "badge1"))

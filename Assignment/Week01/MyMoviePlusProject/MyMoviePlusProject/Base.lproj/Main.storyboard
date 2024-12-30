@@ -111,19 +111,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="'나만의 자동 저장' 기능" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cDh-DW-yM3">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cDh-DW-yM3">
                                 <rect key="frame" x="106" y="232" width="190" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y3P-0u-Pl5">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y3P-0u-Pl5">
                                 <rect key="frame" x="34" y="266" width="332" height="59"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <string key="text">취향에 맞는 영화와 시리즈를 자동으로 저장해 드립니다.
-디바이스에 언제나 시청할 콘텐츠가 준비되니 지루할 틈이
-없어요.</string>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                 <color key="textColor" systemColor="systemGray2Color"/>
                                 <nil key="highlightedColor"/>
@@ -171,27 +168,44 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="poster34" translatesAutoresizingMaskIntoConstraints="NO" id="9ZG-B8-IBE">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9ZG-B8-IBE">
                                 <rect key="frame" x="96" y="391" width="86" height="109"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="poster6" highlightedImage="poster4" translatesAutoresizingMaskIntoConstraints="NO" id="QqT-KO-mWa">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bc5-Yw-gQx">
+                                <rect key="frame" x="97" y="391" width="86" height="109"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QqT-KO-mWa">
                                 <rect key="frame" x="217" y="391" width="88" height="109"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="poster10" translatesAutoresizingMaskIntoConstraints="NO" id="dGV-hO-CES">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U8m-11-jzB">
+                                <rect key="frame" x="217" y="391" width="88" height="109"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dGV-hO-CES">
                                 <rect key="frame" x="153" y="367" width="96" height="132"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6xw-If-vbL">
+                                <rect key="frame" x="153" y="367" width="96" height="132"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="bpO-A7-VXS"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <navigationItem key="navigationItem" title="저장한 콘텐츠 목록" id="CbM-D5-0XT"/>
                     <connections>
-                        <outlet property="thumbImage1" destination="9ZG-B8-IBE" id="snO-kk-lZY"/>
-                        <outlet property="thumbImage2" destination="QqT-KO-mWa" id="brf-RX-iOr"/>
-                        <outlet property="thumbImage3" destination="dGV-hO-CES" id="UM1-Hb-jk3"/>
+                        <outlet property="contentlabel" destination="y3P-0u-Pl5" id="H5D-HH-Zgw"/>
+                        <outlet property="titleLabel" destination="cDh-DW-yM3" id="g1j-IW-y7y"/>
+                        <outletCollection property="badgeViewArray" destination="Bc5-Yw-gQx" collectionClass="NSMutableArray" id="Hld-TD-fmw"/>
+                        <outletCollection property="badgeViewArray" destination="U8m-11-jzB" collectionClass="NSMutableArray" id="4Ir-1d-Tas"/>
+                        <outletCollection property="badgeViewArray" destination="6xw-If-vbL" collectionClass="NSMutableArray" id="tv0-Pa-Yza"/>
+                        <outletCollection property="thumbnailImageArray" destination="9ZG-B8-IBE" collectionClass="NSMutableArray" id="uHk-f2-lex"/>
+                        <outletCollection property="thumbnailImageArray" destination="QqT-KO-mWa" collectionClass="NSMutableArray" id="Zqe-si-0uQ"/>
+                        <outletCollection property="thumbnailImageArray" destination="dGV-hO-CES" collectionClass="NSMutableArray" id="XMM-PF-xXe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dpg-ht-I8r" sceneMemberID="firstResponder"/>
@@ -221,7 +235,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" fixedFrame="YES" barStyle="black" searchBarStyle="minimal" placeholder="게임, 시리즈, 영화를 검색하세요..." translatesAutoresizingMaskIntoConstraints="NO" id="89g-zh-gQS">
+                            <searchBar contentMode="redraw" fixedFrame="YES" barStyle="black" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="89g-zh-gQS">
                                 <rect key="frame" x="16" y="106" width="370" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -520,10 +534,6 @@
         <image name="play.rectangle.on.rectangle" catalog="system" width="128" height="98"/>
         <image name="play_normal" width="97" height="26"/>
         <image name="plus" catalog="system" width="128" height="113"/>
-        <image name="poster10" width="440" height="660"/>
-        <image name="poster34" width="440" height="660"/>
-        <image name="poster4" width="240" height="361"/>
-        <image name="poster6" width="240" height="361"/>
         <image name="turquoise" width="24" height="24"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

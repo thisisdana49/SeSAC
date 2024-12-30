@@ -62,6 +62,7 @@ class SecondViewController
             
             textField.backgroundColor = .darkGray
             textField.textColor = .lightGray
+            textField.placeholder = "게임, 시리즈, 영화를 검색하세요..."
             
             if let leftView = textField.leftView as? UIImageView {
                 leftView.image = leftView.image?.withRenderingMode(.alwaysTemplate)
