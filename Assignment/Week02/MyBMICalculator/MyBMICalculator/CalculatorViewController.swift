@@ -22,11 +22,27 @@ class CalculatorViewController: UIViewController {
         
         setUI()
     }
-
+    
     @IBAction func calculateButtonTapped(_ sender: UIButton) {
-        let h = (Double(heightTextField.text ?? "") ?? 0) * 0.01
-        let w = Double(weightTextField.text ?? "") ?? 0
-        calculateBMI(h: h, w: w)
+        let height = (Double(heightTextField.text ?? "") ?? 0) * 0.01
+        if height < 0 || height > 300 {
+            let alert = UIAlertController(title: "⚠️ 입력 오류", message: "입력한 키를 다시 한 번 확인해 주세요.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(okAction)
+            present(alert, animated: true)
+            return
+        }
+        
+        let weight = Double(weightTextField.text ?? "") ?? 0
+        if weight < 0 || weight > 500 {
+            let alert = UIAlertController(title: "⚠️ 입력 오류", message: "입력한 체중을 다시 한 번 확인해 주세요.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(okAction)
+            present(alert, animated: true)
+            return
+        }
+            
+        calculateBMI(h: height, w: weight)
     }
 
     func calculateBMI(h height: Double, w weight: Double) {
