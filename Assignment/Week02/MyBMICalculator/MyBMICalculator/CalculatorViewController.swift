@@ -23,7 +23,7 @@ class CalculatorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationItem.hidesBackButton = true
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "초기화하기", style: .plain, target: self, action: #selector(resetButtonTapped))
         
         nickname = UserDefaults.standard.string(forKey: "nickname")!
