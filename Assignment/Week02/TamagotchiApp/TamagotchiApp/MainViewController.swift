@@ -49,8 +49,8 @@ class MainViewController: UIViewController {
         }
     }
 
-    @IBAction func unwindToMainViewController(_ sender: UIStoryboardSegue) { }
     // 왜 Right Bar Button Item이랑은 연결할 수 없을까? 아니면 나의 문제인가..? 🧐
+    @IBAction func unwindToMainViewController(_ sender: UIStoryboardSegue) { }
     
     func setUserInformation() {
         guard let userNickname = UserDefaults.standard.string(forKey: "userNickname") else {
@@ -67,14 +67,16 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func waterButtonTapped(_ sender: UIButton) {
-        speechBubbleLabel.text = "물을 마셨더니 건강해졌어요. 고마워요 \(userNickname)님!"
+        speechBubbleLabel.text = "물을 마셨더니 건강해졌어요.\n고마워요 \(userNickname)님!"
     }
     
     
     func setUI() {
         navigationItem.title = "\(userNickname)님의 다마고치"
+        view.backgroundColor = .base
         
         profileEditButton.image = UIImage(systemName: "person.crop.circle")
+        profileEditButton.tintColor = .primary
         
         speechBubbleImageView.image = .bubble
         speechBubbleImageView.contentMode = .scaleAspectFill
@@ -85,13 +87,26 @@ class MainViewController: UIViewController {
         tamagotchiImageView.image = ._2_1
         
         levelBadgeLabel.text = "방실방실 다마고치"
+        levelBadgeLabel.textColor = .primary
+        
         detailStateLabel.text = "LV1 · 밥알 0개 · 물방울 0개"
+        detailStateLabel.textColor = .primary
+        detailStateLabel.font = UIFont.boldSystemFont(ofSize: 14)
         
         mealTextField.placeholder = "밥주세용"
         mealButton.setTitle("밥먹기", for: .normal)
+        mealButton.setTitleColor(.primary, for: .normal)
+        mealButton.layer.borderColor = UIColor.primary.cgColor
+        mealButton.layer.borderWidth = 1
+        mealButton.layer.cornerRadius = 10
         
         waterTextField.placeholder = "물주세용"
         waterButton.setTitle("물먹기", for: .normal)
+        waterButton.setTitleColor(.primary, for: .normal)
+        waterButton.layer.borderColor = UIColor.primary.cgColor
+        waterButton.layer.borderWidth = 1
+        waterButton.layer.cornerRadius = 10
+        waterButton.layer.masksToBounds = true
     }
 }
 
