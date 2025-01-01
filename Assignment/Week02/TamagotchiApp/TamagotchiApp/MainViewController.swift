@@ -37,6 +37,16 @@ class MainViewController: UIViewController {
                 speechBubbleLabel.text = "앞으로 \(userNickname)님으로 부르면 되죠?"
             }
         }
+        
+        let randomNumber = Int.random(in: 1...10)
+        switch randomNumber {
+        case 1:
+            speechBubbleLabel.text = "보고 싶었다구요 \(userNickname)님~"
+        case 5:
+            speechBubbleLabel.text = "오늘 뭔가 \(userNickname)님을 만날 수 있을 것 같았어요😏"
+        default:
+            speechBubbleLabel.text = "\(userNickname)님 만나서 반가워요!"
+        }
     }
 
     @IBAction func unwindToMainViewController(_ sender: UIStoryboardSegue) { }
@@ -52,6 +62,15 @@ class MainViewController: UIViewController {
         self.userNickname = userNickname
     }
     
+    @IBAction func mealButtonTapped(_ sender: UIButton) {
+        speechBubbleLabel.text = "\(userNickname)님이 줘서 더 맛있는 밥이에용😋"
+    }
+    
+    @IBAction func waterButtonTapped(_ sender: UIButton) {
+        speechBubbleLabel.text = "물을 마셨더니 건강해졌어요. 고마워요 \(userNickname)님!"
+    }
+    
+    
     func setUI() {
         navigationItem.title = "\(userNickname)님의 다마고치"
         
@@ -59,6 +78,7 @@ class MainViewController: UIViewController {
         
         speechBubbleImageView.image = .bubble
         speechBubbleImageView.contentMode = .scaleAspectFill
+        speechBubbleLabel.numberOfLines = 0
         speechBubbleLabel.textAlignment = .center
         speechBubbleLabel.text = "\(userNickname)님 만나서 반가워요!"
         
