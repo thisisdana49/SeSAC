@@ -29,10 +29,23 @@ class MainViewController: UIViewController {
         setUI()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let editedNickname = UserDefaults.standard.string(forKey: "userNickname") {
+            if userNickname != editedNickname {
+                self.userNickname = editedNickname
+                speechBubbleLabel.text = "앞으로 \(userNickname)님으로 부르면 되죠?"
+            }
+        }
+    }
+
+    @IBAction func unwindToMainViewController(_ sender: UIStoryboardSegue) { }
+    // 왜 Right Bar Button Item이랑은 연결할 수 없을까? 아니면 나의 문제인가..? 🧐
+    
     func setUserInformation() {
         guard let userNickname = UserDefaults.standard.string(forKey: "userNickname") else {
-            UserDefaults.standard.set("대장쓰", forKey: "userNickname")
-            userNickname = "대장쓰"
+            UserDefaults.standard.set("대장", forKey: "userNickname")
+            userNickname = "대장"
             return
         }
         
@@ -46,6 +59,7 @@ class MainViewController: UIViewController {
         
         speechBubbleImageView.image = .bubble
         speechBubbleImageView.contentMode = .scaleAspectFill
+        speechBubbleLabel.textAlignment = .center
         speechBubbleLabel.text = "\(userNickname)님 만나서 반가워요!"
         
         tamagotchiImageView.image = ._2_1

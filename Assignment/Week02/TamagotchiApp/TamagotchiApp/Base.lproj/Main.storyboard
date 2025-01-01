@@ -31,7 +31,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OpW-lc-aE0">
-                                <rect key="frame" x="167" y="227" width="41.333333333333343" height="20.333333333333343"/>
+                                <rect key="frame" x="93.666666666666686" y="227" width="188" height="20.333333333333343"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -98,6 +98,7 @@
                             <constraint firstItem="WnZ-qS-MDh" firstAttribute="top" secondItem="psZ-oE-rmV" secondAttribute="bottom" constant="16" id="Ug5-Iw-pmN"/>
                             <constraint firstItem="trp-QV-a0k" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="76" id="VBM-d1-eUd"/>
                             <constraint firstItem="cAI-ku-I7Z" firstAttribute="top" secondItem="WnZ-qS-MDh" secondAttribute="bottom" constant="8" id="aQD-ZK-PUB"/>
+                            <constraint firstItem="OpW-lc-aE0" firstAttribute="width" secondItem="1CO-fU-yKd" secondAttribute="width" multiplier="0.8" id="cL5-z8-2Hk"/>
                             <constraint firstItem="psZ-oE-rmV" firstAttribute="top" secondItem="1CO-fU-yKd" secondAttribute="bottom" constant="4" id="jLZ-RP-qjz"/>
                             <constraint firstItem="1CO-fU-yKd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jQE-t7-QBi"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="trp-QV-a0k" secondAttribute="trailing" constant="76" id="ktT-Qh-mR9"/>
@@ -160,12 +161,23 @@
                                 <rect key="frame" x="16" y="98" width="343" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="nicknameTextFieldDidChange:" destination="1dJ-2d-6HM" eventType="editingChanged" id="8po-2A-1q5"/>
+                                </connections>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="73e-Fy-KrI">
+                                <rect key="frame" x="16" y="140" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="IBc-F5-ngf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ih1-SF-QpI" firstAttribute="leading" secondItem="IBc-F5-ngf" secondAttribute="leading" constant="16" id="7f7-kN-pOG"/>
+                            <constraint firstItem="73e-Fy-KrI" firstAttribute="leading" secondItem="IBc-F5-ngf" secondAttribute="leading" constant="16" id="Ce5-YF-Yti"/>
+                            <constraint firstItem="73e-Fy-KrI" firstAttribute="top" secondItem="ih1-SF-QpI" secondAttribute="bottom" constant="8" id="Kee-pK-2m9"/>
                             <constraint firstItem="IBc-F5-ngf" firstAttribute="trailing" secondItem="ih1-SF-QpI" secondAttribute="trailing" constant="16" id="VL4-cO-wkW"/>
                             <constraint firstItem="ih1-SF-QpI" firstAttribute="top" secondItem="IBc-F5-ngf" secondAttribute="top" constant="4" id="hIh-fX-IVm"/>
                         </constraints>
@@ -174,6 +186,8 @@
                         <barButtonItem key="rightBarButtonItem" title="Item" id="hNu-Qg-bxx"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="guideLabel" destination="73e-Fy-KrI" id="2b3-92-nhj"/>
+                        <outlet property="nicknameTextField" destination="ih1-SF-QpI" id="aJJ-s9-DFO"/>
                         <outlet property="saveNicknameButton" destination="hNu-Qg-bxx" id="fj5-I4-vyf"/>
                     </connections>
                 </viewController>
