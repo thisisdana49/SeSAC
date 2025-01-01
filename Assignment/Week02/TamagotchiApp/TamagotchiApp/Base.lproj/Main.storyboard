@@ -171,8 +171,8 @@
                                     <action selector="nicknameTextFieldDidChange:" destination="1dJ-2d-6HM" eventType="editingChanged" id="8po-2A-1q5"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="73e-Fy-KrI">
-                                <rect key="frame" x="16" y="140" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="73e-Fy-KrI">
+                                <rect key="frame" x="16" y="140" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -189,7 +189,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mgu-p4-7wE">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="hNu-Qg-bxx"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="hNu-Qg-bxx"/>
                     </navigationItem>
                     <connections>
                         <outlet property="guideLabel" destination="73e-Fy-KrI" id="2b3-92-nhj"/>
