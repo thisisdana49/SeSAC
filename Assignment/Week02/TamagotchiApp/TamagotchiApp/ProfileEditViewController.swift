@@ -9,7 +9,6 @@ import UIKit
 
 class ProfileEditViewController: UIViewController {
 
-    
     @IBOutlet var saveNicknameButton: UIBarButtonItem!
     
     override func viewDidLoad() {

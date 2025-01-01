@@ -20,19 +20,33 @@ class MainViewController: UIViewController {
     @IBOutlet var waterButton: UIButton!
     @IBOutlet var waterTextField: UITextField!
     
+    var userNickname: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        setUserInformation()
         setUI()
     }
 
+    func setUserInformation() {
+        guard let userNickname = UserDefaults.standard.string(forKey: "userNickname") else {
+            UserDefaults.standard.set("대장쓰", forKey: "userNickname")
+            userNickname = "대장쓰"
+            return
+        }
+        
+        self.userNickname = userNickname
+    }
+    
     func setUI() {
-        navigationItem.title = "대장님의 다마고치"
+        navigationItem.title = "\(userNickname)님의 다마고치"
         
         profileEditButton.image = UIImage(systemName: "person.crop.circle")
         
         speechBubbleImageView.image = .bubble
-        speechBubbleLabel.text = "대장님 만나서 반가워요!"
+        speechBubbleImageView.contentMode = .scaleAspectFill
+        speechBubbleLabel.text = "\(userNickname)님 만나서 반가워요!"
         
         tamagotchiImageView.image = ._2_1
         
