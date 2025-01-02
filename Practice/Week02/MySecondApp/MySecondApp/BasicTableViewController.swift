@@ -51,6 +51,7 @@ class BasicTableViewController: UITableViewController {
         cell?.textLabel?.text = list[indexPath.row]
         cell?.textLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         cell?.detailTextLabel?.text = "상세보기"
+        cell?.detailTextLabel?.setPrimaryLabel("test")
         
         print(#function, indexPath)
         

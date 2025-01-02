@@ -16,6 +16,8 @@ class NumberViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setBackgroundColor()
+        
 //        print(NSHomeDirectory())
         
         guard let savedNumber = UserDefaults.standard.value(forKey: "number") else {
