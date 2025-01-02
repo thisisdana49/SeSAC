@@ -61,15 +61,15 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cc0-pX-zT0">
-                                        <rect key="frame" x="151" y="371" width="41.333333333333343" height="20.333333333333314"/>
+                                        <rect key="frame" x="151" y="363" width="41.333333333333343" height="20.333333333333314"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3DT-Lf-Isu">
-                                        <rect key="frame" x="16" y="423.33333333333337" width="311" height="44"/>
+                                        <rect key="frame" x="16" y="415.33333333333337" width="311" height="52"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="HEq-Oi-wPJ"/>
+                                            <constraint firstAttribute="height" constant="52" id="HEq-Oi-wPJ"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Button"/>

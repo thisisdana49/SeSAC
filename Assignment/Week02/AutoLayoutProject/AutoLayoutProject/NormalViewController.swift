@@ -36,7 +36,11 @@ class NormalViewController: UIViewController {
             button.backgroundColor = .black
         }
         
-        closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        payLogoImageView.image = .naverLogo
+        
+        closeButton.setImage(UIImage(systemName: "xmark")?.withTintColor(.black), for: .normal)
+        
+        lockImageView.image = .naverLock
         
         contentLabel.textAlignment = .center
         contentLabel.numberOfLines = 0
@@ -48,7 +52,7 @@ class NormalViewController: UIViewController {
         
         confirmButton.setTitle("확인", for: .normal)
         confirmButton.setTitleColor(.white, for: .normal)
-        confirmButton.backgroundColor = .green
+        confirmButton.backgroundColor = .naverPrimary
         confirmButton.layer.cornerRadius = 20
         
     }
