@@ -133,24 +133,34 @@ class MainViewController: UIViewController {
         switch level {
         case 1:
             tamagotchiImageView.image = ._2_1
+            levelBadgeLabel.text = "아직 새싹 다마고치"
         case 2:
             tamagotchiImageView.image = ._2_2
+            levelBadgeLabel.text = "떡잎이 남다른 다마고치"
         case 3:
             tamagotchiImageView.image = ._2_3
+            levelBadgeLabel.text = "장래유망 다마고치"
         case 4:
             tamagotchiImageView.image = ._2_4
+            levelBadgeLabel.text = "무럭무럭 다마고치"
         case 5:
             tamagotchiImageView.image = ._2_5
+            levelBadgeLabel.text = "까꿍 다마고치"
         case 6:
             tamagotchiImageView.image = ._2_6
+            levelBadgeLabel.text = "무르익은 다마고치"
         case 7:
             tamagotchiImageView.image = ._2_7
+            levelBadgeLabel.text = "예쁘게 자란 다마고치"
         case 8:
             tamagotchiImageView.image = ._2_8
+            levelBadgeLabel.text = "곧 피어날 다마고치"
         case 9...10:
             tamagotchiImageView.image = ._2_9
+            levelBadgeLabel.text = "활짝 핀 다마고치"
         default:
             tamagotchiImageView.image = ._2_1
+            levelBadgeLabel.text = "아직 새싹 다마고치"
         }
     }
     
@@ -169,7 +179,7 @@ class MainViewController: UIViewController {
         
         tamagotchiImageView.image = ._2_1
         
-        levelBadgeLabel.text = "방실방실 다마고치"
+        levelBadgeLabel.text = "아직 새싹 다마고치"
         levelBadgeLabel.textColor = .primary
         
         detailStateLabel.text = "LV\(level) · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
