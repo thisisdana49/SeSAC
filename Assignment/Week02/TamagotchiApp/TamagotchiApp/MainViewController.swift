@@ -21,14 +21,21 @@ class MainViewController: UIViewController {
     @IBOutlet var waterTextField: UITextField!
     
     var userNickname: String = ""
+    var level: Int = 1 {
+        didSet {
+            detailStateLabel.text = "LV\(level) · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
+        }
+    }
     var mealCount: Int = 0 {
         didSet {
-            detailStateLabel.text = "LV1 · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
+            detailStateLabel.text = "LV\(level) · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
+            computeLevel()
         }
     }
     var waterCount: Int = 0 {
         didSet {
-            detailStateLabel.text = "LV1 · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
+            detailStateLabel.text = "LV1\(level) · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
+            computeLevel()
         }
     }
     
@@ -81,6 +88,12 @@ class MainViewController: UIViewController {
             return
         }
         self.waterCount = waterCount
+        
+        guard let level = UserDefaults.standard.value(forKey: "level") as? Int else {
+            self.level = 1
+            return
+        }
+        self.level = level
     }
     
     @IBAction func mealButtonTapped(_ sender: UIButton) {
@@ -109,6 +122,15 @@ class MainViewController: UIViewController {
         }
     }
     
+    func computeLevel() {
+        let mealRatio = Double(mealCount / 5)
+        let waterRatio = Double(waterCount / 2)
+        let levelRatio = Int(floor((mealRatio + waterRatio) * 0.1))
+        
+        level = levelRatio <= 10 ? levelRatio : 10
+        UserDefaults.standard.set(level, forKey: "level")
+    }
+    
     func setUI() {
         navigationItem.title = "\(userNickname)님의 다마고치"
         view.backgroundColor = .base
@@ -127,7 +149,7 @@ class MainViewController: UIViewController {
         levelBadgeLabel.text = "방실방실 다마고치"
         levelBadgeLabel.textColor = .primary
         
-        detailStateLabel.text = "LV1 · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
+        detailStateLabel.text = "LV\(level) · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
         detailStateLabel.textColor = .primary
         detailStateLabel.font = UIFont.boldSystemFont(ofSize: 14)
         
