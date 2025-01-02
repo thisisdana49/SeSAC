@@ -22,10 +22,14 @@ class MainViewController: UIViewController {
     
     var userNickname: String = ""
     var mealCount: Int = 0 {
-        didSet { detailStateLabel.text = "LV1 · 밥알 \(mealCount)개 · 물방울 \(waterCount)개" }
+        didSet {
+            detailStateLabel.text = "LV1 · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
+        }
     }
     var waterCount: Int = 0 {
-        didSet { detailStateLabel.text = "LV1 · 밥알 \(mealCount)개 · 물방울 \(waterCount)개" }
+        didSet {
+            detailStateLabel.text = "LV1 · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
+        }
     }
     
     override func viewDidLoad() {
@@ -64,22 +68,45 @@ class MainViewController: UIViewController {
             userNickname = "대장"
             return
         }
-        
         self.userNickname = userNickname
+        
+        guard let mealCount = UserDefaults.standard.value(forKey: "mealCount") as? Int else {
+            self.mealCount = 0
+            return
+        }
+        self.mealCount = mealCount
+        
+        guard let waterCount = UserDefaults.standard.value(forKey: "waterCount") as? Int else {
+            self.waterCount = 0
+            return
+        }
+        self.waterCount = waterCount
     }
     
     @IBAction func mealButtonTapped(_ sender: UIButton) {
         speechBubbleLabel.text = "\(userNickname)님이 줘서 더 맛있는 밥이에용😋"
         var givenMealCount = Int(mealTextField.text != "" ? mealTextField.text! : "1")!
-        mealCount += givenMealCount
-        mealTextField.text = ""
+        if givenMealCount > 99 {
+            speechBubbleLabel.text = "\(userNickname)님, \(givenMealCount)개는 너무 많은 걸요?😵‍💫\n99개가 최대예요!"
+            mealTextField.text = ""
+        } else {
+            mealCount += givenMealCount
+            UserDefaults.standard.set(mealCount, forKey: "mealCount")
+            mealTextField.text = ""
+        }
     }
     
     @IBAction func waterButtonTapped(_ sender: UIButton) {
         speechBubbleLabel.text = "물을 마셨더니 건강해졌어요.\n고마워요 \(userNickname)님!"
         var givenWaterCount = Int(waterTextField.text != "" ? waterTextField.text! : "1")!
-        waterCount += givenWaterCount
-        waterTextField.text = ""
+        if givenWaterCount > 49 {
+            speechBubbleLabel.text = "\(userNickname)님, \(givenWaterCount)개는 너무 많은 걸요?😵‍💫\n49개가 최대예요!"
+            waterTextField.text = ""
+        } else {
+            waterCount += givenWaterCount
+            UserDefaults.standard.set(waterCount, forKey: "waterCount")
+            waterTextField.text = ""
+        }
     }
     
     func setUI() {
