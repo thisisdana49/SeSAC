@@ -129,6 +129,29 @@ class MainViewController: UIViewController {
         
         level = levelRatio <= 10 ? levelRatio : 10
         UserDefaults.standard.set(level, forKey: "level")
+        
+        switch level {
+        case 1:
+            tamagotchiImageView.image = ._2_1
+        case 2:
+            tamagotchiImageView.image = ._2_2
+        case 3:
+            tamagotchiImageView.image = ._2_3
+        case 4:
+            tamagotchiImageView.image = ._2_4
+        case 5:
+            tamagotchiImageView.image = ._2_5
+        case 6:
+            tamagotchiImageView.image = ._2_6
+        case 7:
+            tamagotchiImageView.image = ._2_7
+        case 8:
+            tamagotchiImageView.image = ._2_8
+        case 9...10:
+            tamagotchiImageView.image = ._2_9
+        default:
+            tamagotchiImageView.image = ._2_1
+        }
     }
     
     func setUI() {
