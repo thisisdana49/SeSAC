@@ -9,7 +9,11 @@ import UIKit
 
 class BasicTableViewController: UITableViewController {
 
-    let list = ["Project", "Main Task", "SeSAC Assignment"]
+    var list = ["Project", "Main Task", "SeSAC Assignment"] {
+        didSet { // property가 달라질 때 실행되는 메서드
+            tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +41,13 @@ class BasicTableViewController: UITableViewController {
         // cell의 개수만큼 호출이 된다
         let cell = tableView.dequeueReusableCell(withIdentifier: "firstCell")
         
+        if indexPath.row >= 0 && indexPath.row < 3 {
+            cell?.backgroundColor = .lightGray
+        } else {
+            cell?.backgroundColor = .white
+        }
+        // else 처리가 되어있지 않으면, 100% 모든 케이스에 대해서 처리를 해주지 않으면 ->
+        
         cell?.textLabel?.text = list[indexPath.row]
         cell?.textLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         cell?.detailTextLabel?.text = "상세보기"
@@ -44,6 +55,11 @@ class BasicTableViewController: UITableViewController {
         print(#function, indexPath)
         
         return cell ?? UITableViewCell()
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(#function, indexPath)
+        list.remove(at: indexPath.row)
     }
     
     // 3. Height for Row
@@ -54,4 +70,14 @@ class BasicTableViewController: UITableViewController {
             return 80
         }
     }
+    
+    @IBAction func randomTextTapped(_ sender: UIBarButtonItem) {
+        let random = ["장보기", "영화보기", "쇼핑하기", "맛집탐방", "새싹과제", "산책하기"]
+        let value = random.randomElement()!
+        list.append(value)
+        
+        // view와 Data는 따로 놀기 때문에 갱신하며 잘 맞춰줘야 한다!
+        tableView.reloadData()
+    }
+    
 }
