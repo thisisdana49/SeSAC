@@ -55,6 +55,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="132" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="mealTextFieldEditingChange:" destination="BYZ-38-t0r" eventType="editingChanged" id="q0l-DS-dJv"/>
+                                        </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YQQ-Cs-PXW">
                                         <rect key="frame" x="148" y="0.0" width="75" height="34"/>
@@ -76,6 +79,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="132" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="waterTextFieldEditingChange:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="OKO-4h-FSt"/>
+                                        </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aen-lC-4uY">
                                         <rect key="frame" x="148" y="0.0" width="75" height="34"/>

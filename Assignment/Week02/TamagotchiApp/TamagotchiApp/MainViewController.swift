@@ -21,6 +21,12 @@ class MainViewController: UIViewController {
     @IBOutlet var waterTextField: UITextField!
     
     var userNickname: String = ""
+    var mealCount: Int = 0 {
+        didSet { detailStateLabel.text = "LV1 · 밥알 \(mealCount)개 · 물방울 \(waterCount)개" }
+    }
+    var waterCount: Int = 0 {
+        didSet { detailStateLabel.text = "LV1 · 밥알 \(mealCount)개 · 물방울 \(waterCount)개" }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,12 +70,17 @@ class MainViewController: UIViewController {
     
     @IBAction func mealButtonTapped(_ sender: UIButton) {
         speechBubbleLabel.text = "\(userNickname)님이 줘서 더 맛있는 밥이에용😋"
+        var givenMealCount = Int(mealTextField.text != "" ? mealTextField.text! : "1")!
+        mealCount += givenMealCount
+        mealTextField.text = ""
     }
     
     @IBAction func waterButtonTapped(_ sender: UIButton) {
         speechBubbleLabel.text = "물을 마셨더니 건강해졌어요.\n고마워요 \(userNickname)님!"
+        var givenWaterCount = Int(waterTextField.text != "" ? waterTextField.text! : "1")!
+        waterCount += givenWaterCount
+        waterTextField.text = ""
     }
-    
     
     func setUI() {
         navigationItem.title = "\(userNickname)님의 다마고치"
@@ -89,7 +100,7 @@ class MainViewController: UIViewController {
         levelBadgeLabel.text = "방실방실 다마고치"
         levelBadgeLabel.textColor = .primary
         
-        detailStateLabel.text = "LV1 · 밥알 0개 · 물방울 0개"
+        detailStateLabel.text = "LV1 · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
         detailStateLabel.textColor = .primary
         detailStateLabel.font = UIFont.boldSystemFont(ofSize: 14)
         
