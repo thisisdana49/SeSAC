@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class MainTableViewController: UITableViewController {
+class FirstTableViewController: UITableViewController {
 
     var magazines = MagazineInfo().magazine
     
@@ -31,7 +31,7 @@ class MainTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MainTableViewCell", for: indexPath) as? MainTableViewCell else { return MainTableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FirstTableViewCell", for: indexPath) as? FirstTableViewCell else { return FirstTableViewCell() }
 
         let magazine = magazines[indexPath.row]
         

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainTableViewCell: UITableViewCell {
+class FirstTableViewCell: UITableViewCell {
 
     @IBOutlet var mainImageView: UIImageView!
     @IBOutlet var titleLabel: UILabel!
