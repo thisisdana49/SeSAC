@@ -9,6 +9,7 @@ import UIKit
 
 class HardViewController: UIViewController {
 
+    @IBOutlet var backgroundImageVIew: UIImageView!
     @IBOutlet var closeButton: UIButton!
     @IBOutlet var giftButton: UIButton!
     @IBOutlet var qrCodeButton: UIButton!
@@ -30,18 +31,29 @@ class HardViewController: UIViewController {
     }
     
     func setUI() {
-        closeButton.setImage(UIImage(systemName: "xmark"), for:.normal)
-        giftButton.setImage(UIImage(systemName: "gift"), for: .normal)
-        qrCodeButton.setImage(UIImage(systemName: "qrcode"), for: .normal)
-        settingsButton.setImage(UIImage(systemName: "gearshape"), for: .normal)
+        backgroundImageVIew.contentMode = .scaleAspectFill
+        backgroundImageVIew.clipsToBounds = true
+        backgroundImageVIew.image = .backgroundProfile
         
-        chatButton.setImage(UIImage(systemName: "bubble.fill"), for: .normal)
+        closeButton.setImage(UIImage(systemName: "xmark")?.withTintColor(.white).withRenderingMode(.alwaysOriginal), for:.normal)
+        giftButton.setImage(UIImage(systemName: "gift")?.withTintColor(.white).withRenderingMode(.alwaysOriginal), for: .normal)
+        qrCodeButton.setImage(UIImage(systemName: "qrcode")?.withTintColor(.white).withRenderingMode(.alwaysOriginal), for: .normal)
+        settingsButton.setImage(UIImage(systemName: "gearshape")?.withTintColor(.white).withRenderingMode(.alwaysOriginal), for: .normal)
+    
+        backgroundImageVIew.contentMode = .scaleAspectFill
+        
+        profileImageView.image = .profile
+        profileImageView.contentMode = .scaleAspectFill
+        profileImageView.layer.cornerRadius = 50
+        profileImageView.layer.masksToBounds = true
+        
+        chatButton.setImage(UIImage(systemName: "bubble.fill")?.withTintColor(.white).withRenderingMode(.alwaysOriginal), for: .normal)
         chatLabel.text = "나와의 채팅"
         
-        editButton.setImage(UIImage(systemName: "pencil"), for: .normal)
+        editButton.setImage(UIImage(systemName: "pencil")?.withTintColor(.white).withRenderingMode(.alwaysOriginal), for: .normal)
         editLabel.text = "프로필 편집"
         
-        storyButton.setImage(UIImage(systemName: "quote.closing"), for: .normal)
+        storyButton.setImage(UIImage(systemName: "quote.closing")?.withTintColor(.white).withRenderingMode(.alwaysOriginal), for: .normal)
         storyLabel.text = "카카오스토리"
     }
 }

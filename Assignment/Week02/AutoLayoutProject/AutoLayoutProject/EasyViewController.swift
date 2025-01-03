@@ -5,6 +5,8 @@
 //  Created by 조다은 on 1/1/25.
 //
 
+// 현재 시작하는 스토리보드가 Easy로 되어있습니다!
+// 이점 참고해주시면 감사하겠습니다 :D
 import UIKit
 
 class EasyViewController: UIViewController {

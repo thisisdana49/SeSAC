@@ -16,6 +16,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W5T-Xe-2xZ">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y7h-qD-TUZ">
                                 <rect key="frame" x="16" y="63" width="35" height="35"/>
                                 <constraints>
@@ -127,17 +130,22 @@
                             <constraint firstItem="y7h-qD-TUZ" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="4" id="H6l-t8-3In"/>
                             <constraint firstItem="9k3-QH-os9" firstAttribute="leading" secondItem="IOT-Fd-DLk" secondAttribute="trailing" constant="12" id="Hdw-fn-lpp"/>
                             <constraint firstItem="IOT-Fd-DLk" firstAttribute="leading" secondItem="3o5-qu-fkO" secondAttribute="trailing" constant="12" id="LUs-hu-Hnd"/>
+                            <constraint firstAttribute="bottom" secondItem="W5T-Xe-2xZ" secondAttribute="bottom" id="QM0-K6-6pU"/>
                             <constraint firstItem="y7h-qD-TUZ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="VaN-BW-CsK"/>
+                            <constraint firstItem="W5T-Xe-2xZ" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="WdG-kI-fkg"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="xcs-8m-mKv" secondAttribute="bottom" constant="52" id="Y5L-2j-Coe"/>
+                            <constraint firstItem="W5T-Xe-2xZ" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="aKF-FW-3df"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="bXk-Qu-3US" secondAttribute="bottom" constant="52" id="ayT-YN-37I"/>
                             <constraint firstItem="3o5-qu-fkO" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="4" id="beg-5h-3Nt"/>
                             <constraint firstItem="bXk-Qu-3US" firstAttribute="leading" secondItem="bLH-Vw-h3t" secondAttribute="trailing" constant="28" id="ffw-Ao-Zx0"/>
                             <constraint firstItem="3a6-Do-cts" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="jRp-0Z-yeM"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="bLH-Vw-h3t" secondAttribute="bottom" constant="52" id="sBP-gY-KMf"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="9k3-QH-os9" secondAttribute="trailing" constant="16" id="tMo-i3-BPt"/>
+                            <constraint firstItem="W5T-Xe-2xZ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="wX5-IE-Cwa"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backgroundImageVIew" destination="W5T-Xe-2xZ" id="0SP-c9-ML4"/>
                         <outlet property="chatButton" destination="gsK-yU-Fgd" id="mOs-R7-MLC"/>
                         <outlet property="chatLabel" destination="sdA-3M-7lv" id="gYI-Go-dfU"/>
                         <outlet property="closeButton" destination="y7h-qD-TUZ" id="nBp-7F-iLb"/>
@@ -154,7 +162,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-69" y="5"/>
+            <point key="canvasLocation" x="-69.465648854961827" y="4.9295774647887329"/>
         </scene>
     </scenes>
     <resources>
