@@ -16,7 +16,7 @@ class MainTableViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.separatorStyle = .none
-        navigationController?.navigationItem.title = "DANA TOUR"
+        navigationItem.title = "DANA TOUR"
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -53,14 +53,20 @@ class MainTableViewController: UITableViewController {
         cell.subTitleLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         cell.subTitleLabel.textColor = .systemGray2
         
+        let formatedDate = formatStringToDateString(magazine.date)
         cell.dateLabel.textAlignment = .right
-        cell.dateLabel.text = magazine.date
+        cell.dateLabel.text = formatedDate
         cell.dateLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         cell.dateLabel.textColor = .systemGray3
         
         return cell
     }
 
+    func formatStringToDateString(_ date: String) -> String {
+        let dateArray = Array(date)
+        let formatedDate = "\(dateArray[0])\(dateArray[1])년 \(dateArray[2])\(dateArray[3])월 \(dateArray[4])\(dateArray[5])일"
+        return formatedDate
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
