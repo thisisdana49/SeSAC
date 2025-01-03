@@ -23,7 +23,7 @@ class BasicTableViewController: UITableViewController {
         
         // create new Monster
         var monster = Monster(clothes: "Dress", speed: 10, power: 10, experience: 10) // 인스턴스 생성
-        var monsterStrunct = MonsterStruct(clothes: <#T##String#>, speed: <#T##Int#>, power: <#T##Int#>, experience: <#T##Int#>)
+//        var monsterStrunct = MonsterStruct(clothes: <#T##String#>, speed: <#T##Int#>, power: <#T##Int#>, experience: <#T##Int#>)
     }
     
     // 1. Number of Section

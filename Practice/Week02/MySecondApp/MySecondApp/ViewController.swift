@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ViewController: UIViewController {
 
     @IBOutlet var wordTextField: UITextField!
     @IBOutlet var suggestButton: UIButton!
     @IBOutlet var resultLabel: UILabel!
+    @IBOutlet var posterImageView: UIImageView!
+    @IBOutlet var posterLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +24,16 @@ class ViewController: UIViewController {
         resultLabel.isUserInteractionEnabled = true
         
         aboutOptional()
+        
+        // Kingfisher
+//        let url = URL(string: "https://thumb.pann.com/tc_480/https://fimg5.pann.com/new/download.jsp?FileID=65482453")
+        if let url = URL(string: "https://thumb.pann.com/tc_480/https://fimg5.pann.com/new/download.jsp?FileID=65482453") {
+            posterImageView.kf.setImage(with: url)
+        } else {
+            posterImageView.image = UIImage(named: "star")
+        }
+        
+        
     }
     
     // Did End on Exit
@@ -45,9 +58,6 @@ class ViewController: UIViewController {
     @IBAction func labelTapped(_ sender: UITapGestureRecognizer) {
         print(#function)
     }
-    
-    
-    
     
     func aboutOptional() {
         var nickname: String? = "다우니맛"
