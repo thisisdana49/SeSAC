@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3EEE2AA22D27FB6D00E2BFF6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 3EEE2AA12D27FB6D00E2BFF6 /* Kingfisher */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		3EEE2A3F2D27F26E00E2BFF6 /* TourGuideApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TourGuideApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EEE2AA22D27FB6D00E2BFF6 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = TourGuideApp;
 			packageProductDependencies = (
+				3EEE2AA12D27FB6D00E2BFF6 /* Kingfisher */,
 			);
 			productName = TourGuideApp;
 			productReference = 3EEE2A3F2D27F26E00E2BFF6 /* TourGuideApp.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = 3EEE2A362D27F26E00E2BFF6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3EEE2AA02D27FB6D00E2BFF6 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3EEE2A402D27F26E00E2BFF6 /* Products */;
 			projectDirPath = "";
@@ -345,6 +354,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3EEE2AA02D27FB6D00E2BFF6 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3EEE2AA12D27FB6D00E2BFF6 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3EEE2AA02D27FB6D00E2BFF6 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3EEE2A372D27F26E00E2BFF6 /* Project object */;
 }

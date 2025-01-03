@@ -6,12 +6,17 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MainTableViewController: UITableViewController {
 
+    var magazines = MagazineInfo().magazine
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.separatorStyle = .none
+        navigationController?.navigationItem.title = "DANA TOUR"
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -21,25 +26,40 @@ class MainTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return magazines.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MainTableViewCell", for: indexPath) as? MainTableViewCell else { return MainTableViewCell() }
 
-        // Configure the cell...
-
+        let magazine = magazines[indexPath.row]
+        
+        if let img = URL(string: magazine.photo_image) {
+            cell.mainImageView.kf.setImage(with: img)
+        } else {
+            cell.mainImageView.image = .no
+        }
+        cell.mainImageView.contentMode = .scaleAspectFill
+        cell.mainImageView.layer.cornerRadius = 20
+        
+        cell.titleLabel.numberOfLines = 0
+        cell.titleLabel.lineBreakMode = .byWordWrapping
+        cell.titleLabel.lineBreakStrategy = .hangulWordPriority
+        cell.titleLabel.text = magazine.title
+        cell.titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        
+        cell.subTitleLabel.text = magazine.subtitle
+        cell.subTitleLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        cell.subTitleLabel.textColor = .systemGray2
+        
+        cell.dateLabel.textAlignment = .right
+        cell.dateLabel.text = magazine.date
+        cell.dateLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        cell.dateLabel.textColor = .systemGray3
+        
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.

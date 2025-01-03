@@ -96,6 +96,7 @@ class MainViewController: UIViewController {
         self.level = level
     }
     
+    // enum 활용해서 하나로!!
     @IBAction func mealButtonTapped(_ sender: UIButton) {
         speechBubbleLabel.text = "\(userNickname)님이 줘서 더 맛있는 밥이에용😋"
         var givenMealCount = Int(mealTextField.text != "" ? mealTextField.text! : "1")!
@@ -130,6 +131,7 @@ class MainViewController: UIViewController {
         level = levelRatio <= 10 ? levelRatio : 10
         UserDefaults.standard.set(level, forKey: "level")
         
+        // 활용해서 고민해보기
         switch level {
         case 1:
             tamagotchiImageView.image = ._2_1
