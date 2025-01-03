@@ -16,7 +16,7 @@ struct Duck {
 
 class UserTableViewController: UITableViewController {
     
-    let friends = FriendsInfo().list
+    var friends = FriendsInfo().list
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,11 +53,22 @@ class UserTableViewController: UITableViewController {
         cell.statusLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         
         cell.likeButton.setImage(UIImage(systemName: friend.like ? "heart.fill" : "heart"), for: .normal)
-        
+        cell.likeButton.tag = indexPath.row
+        // IBAction 대신에 코드로 연결
+        // Function Types
+        cell.likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+        // self : 이 TableView에서 일어날 일이야
+        // .touchUpInside : 눌렀을 때 일어날 일이야
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         100
+    }
+    
+    @objc func likeButtonTapped(_ sender: UIButton) {
+        print(#function, sender.tag)
+        friends[sender.tag].like.toggle()
+        tableView.reloadData()
     }
 }
