@@ -12,4 +12,5 @@ class UserTableViewCell: UITableViewCell {
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var aliasLabel: UILabel!
     @IBOutlet var statusLabel: UILabel!
+    @IBOutlet var likeButton: UIButton!
 }

@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4Az-Ra-8UF">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="userCell" rowHeight="106" id="oKi-yv-96a" customClass="UserTableViewCell" customModule="MySecondApp" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserTableViewCell" rowHeight="106" id="oKi-yv-96a" customClass="UserTableViewCell" customModule="MySecondApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="50" width="393" height="106"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oKi-yv-96a" id="0yu-XV-uLh">
@@ -46,18 +46,29 @@
                                                 </label>
                                             </subviews>
                                         </stackView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6tS-r6-bOL">
+                                            <rect key="frame" x="24" y="16" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="5Gp-yz-ciL"/>
+                                                <constraint firstAttribute="width" constant="20" id="xX6-Rs-rnZ"/>
+                                            </constraints>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="tbj-KC-HvS" firstAttribute="leading" secondItem="0yu-XV-uLh" secondAttribute="leading" constant="16" id="84r-5X-eTU"/>
                                         <constraint firstItem="y4c-oD-VJr" firstAttribute="leading" secondItem="tbj-KC-HvS" secondAttribute="trailing" constant="16" id="Ba7-aw-RAX"/>
                                         <constraint firstAttribute="trailing" secondItem="y4c-oD-VJr" secondAttribute="trailing" constant="16" id="XeC-JW-fiX"/>
                                         <constraint firstAttribute="bottom" secondItem="tbj-KC-HvS" secondAttribute="bottom" constant="8" id="g7s-nZ-f9u"/>
+                                        <constraint firstItem="6tS-r6-bOL" firstAttribute="leading" secondItem="tbj-KC-HvS" secondAttribute="leading" constant="8" id="sh3-Nl-Byb"/>
+                                        <constraint firstItem="6tS-r6-bOL" firstAttribute="top" secondItem="tbj-KC-HvS" secondAttribute="top" constant="8" id="u9T-DM-ZmH"/>
                                         <constraint firstItem="y4c-oD-VJr" firstAttribute="centerY" secondItem="0yu-XV-uLh" secondAttribute="centerY" id="vKH-d9-5nl"/>
                                         <constraint firstItem="tbj-KC-HvS" firstAttribute="top" secondItem="0yu-XV-uLh" secondAttribute="top" constant="8" id="yAn-iw-uPj"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="aliasLabel" destination="8MD-6S-cC9" id="mq6-9A-LmK"/>
+                                    <outlet property="likeButton" destination="6tS-r6-bOL" id="xc6-wY-iA5"/>
                                     <outlet property="profileImageView" destination="tbj-KC-HvS" id="T8J-do-q0c"/>
                                     <outlet property="statusLabel" destination="opN-9q-SH6" id="EEM-Rk-tmP"/>
                                 </connections>
