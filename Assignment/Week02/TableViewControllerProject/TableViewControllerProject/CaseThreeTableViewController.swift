@@ -41,25 +41,36 @@ class CaseThreeTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // tag를 0으로 줬더니 view의 색이 변하지 않았다. cell의 속성 tag 기본값이 0이라서 그런 것일까?
         let backgroundView = cell.viewWithTag(100)
-        let checkboxImage = cell.viewWithTag(1) as? UIImageView
+        let checkboxButton = cell.viewWithTag(1) as? UIButton
         let todoLabel = cell.viewWithTag(2) as? UILabel
-        let bookmarkImage = cell.viewWithTag(3) as? UIImageView
+        let bookmarkButton = cell.viewWithTag(3) as? UIButton
         
+        cell.selectionStyle = .none
+        
+        // tag를 0으로 줬더니 view의 배경색이 변하지 않았다. cell의 속성 tag 기본값이 0이라서 그런 것일까?
         backgroundView?.backgroundColor = .systemGray6
         backgroundView?.layer.cornerRadius = 10
-        checkboxImage?.image = UIImage(systemName: "checkmark.square")?.withTintColor(.black).withRenderingMode(.alwaysOriginal)
+        
+        checkboxButton?.setImage(UIImage(systemName: "square")?.withTintColor(.black).withRenderingMode(.alwaysOriginal), for: .normal)
+        checkboxButton?.setImage(UIImage(systemName: "checkmark.square")?.withTintColor(.black).withRenderingMode(.alwaysOriginal), for: .selected)
+        checkboxButton?.tintColor = .clear
+        checkboxButton?.addTarget(self, action: #selector(checkboxButtonTapped(sender:)), for: .touchUpInside)
+        
         todoLabel?.text = todoArray[indexPath.row]
         todoLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-        bookmarkImage?.image = UIImage(systemName: "star")?.withTintColor(.black).withRenderingMode(.alwaysOriginal)
+        
+        bookmarkButton?.setImage(UIImage(systemName: "star")?.withTintColor(.black).withRenderingMode(.alwaysOriginal), for: .normal)
+        bookmarkButton?.setImage(UIImage(systemName: "star.fill")?.withTintColor(.black).withRenderingMode(.alwaysOriginal), for: .selected)
+        bookmarkButton?.tintColor = .clear
+        bookmarkButton?.isUserInteractionEnabled = true
+        bookmarkButton?.addTarget(self, action: #selector(bookmarkButtonTapped(sender:)), for: .touchUpInside)
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-        
     }
     
     @IBAction func addTodoButtonTapped(_ sender: UIButton) {
@@ -68,6 +79,15 @@ class CaseThreeTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    @objc func checkboxButtonTapped(sender: UIButton) {
+        print(#function, sender)
+        sender.isSelected.toggle()
+    }
+    
+    @objc func bookmarkButtonTapped(sender: UIButton) {
+        print(#function, sender)
+        sender.isSelected.toggle()
+    }
     
     /*
     // Override to support conditional editing of the table view.
