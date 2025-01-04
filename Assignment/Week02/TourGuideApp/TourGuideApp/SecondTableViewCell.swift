@@ -11,7 +11,8 @@ class SecondTableViewCell: UITableViewCell {
 
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var descLabel: UILabel!
-    @IBOutlet var detailInfoLabel: UILabel!
+    @IBOutlet var gradeLabel: UILabel!
+    @IBOutlet var saveLabel: UILabel!
     @IBOutlet var travelImageView: UIImageView!
     @IBOutlet var likeButton: UIButton!
     

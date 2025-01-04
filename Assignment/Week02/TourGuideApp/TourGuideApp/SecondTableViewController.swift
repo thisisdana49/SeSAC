@@ -33,6 +33,7 @@ class SecondTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SecondTableViewCell", for: indexPath) as? SecondTableViewCell else { return SecondTableViewCell() }
 
         let travel = travels[indexPath.row]
+        cell.gradeLabel.tag = indexPath.row
         
         cell.titleLabel.text = travel.title
         cell.titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
@@ -43,21 +44,37 @@ class SecondTableViewController: UITableViewController {
         cell.descLabel.textColor = .systemGray2
         
         if let grade = travel.grade, let save = travel.save, let img = travel.travel_image {
-            cell.detailInfoLabel.text = "\(grade) · 저장 \(save)"
-            cell.detailInfoLabel.font = UIFont.systemFont(ofSize: 13)
-            cell.detailInfoLabel.textColor = .systemGray3
+            setStarsLabel(from: grade, to: cell.gradeLabel)
+            
+            cell.saveLabel.text = "· 저장 \(save)"
+            cell.saveLabel.font = UIFont.systemFont(ofSize: 13)
+            cell.saveLabel.textColor = .systemGray3
             if let imgURL = URL(string: img) {
                 cell.travelImageView.kf.setImage(with: imgURL)
                 cell.travelImageView.contentMode = .scaleAspectFill
-                cell.travelImageView.layer.cornerRadius = 10
+                cell.travelImageView.layer.cornerRadius = 8
             } else {
                 cell.travelImageView.image = .no
             }
         } else {
-            cell.detailInfoLabel.text = "It's add"
+            cell.gradeLabel.text = "It's add"
         }
             
         return cell
+    }
+    
+    func setStarsLabel(from doubleValue: Double, to label: UILabel) {
+        let starCount = Int(round(doubleValue))
+        let yellowStars = NSAttributedString(string: String(repeating: "★", count: starCount), attributes: [.foregroundColor: UIColor.pointYellow])
+        
+        let remaingCount = max(5 - starCount, 0)
+        let grayStarts = NSAttributedString(string: String(repeating: "★", count: remaingCount), attributes: [.foregroundColor: UIColor.systemGray6])
+        
+        let combinedStars = NSMutableAttributedString()
+        combinedStars.append(yellowStars)
+        combinedStars.append(grayStarts)
+        
+        label.attributedText = combinedStars
     }
 
 }
