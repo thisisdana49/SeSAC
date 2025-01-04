@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SecondTableViewController: UITableViewController {
 
+    let travels = TravelInfo().travel
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,69 +24,40 @@ class SecondTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return travels.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SecondTableViewCell", for: indexPath) as? SecondTableViewCell else { return SecondTableViewCell() }
 
-        // Configure the cell...
-
+        let travel = travels[indexPath.row]
+        
+        cell.titleLabel.text = travel.title
+        cell.titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        cell.titleLabel.textColor = .darkGray
+        
+        cell.descLabel.text = travel.description
+        cell.descLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        cell.descLabel.textColor = .systemGray2
+        
+        if let grade = travel.grade, let save = travel.save, let img = travel.travel_image {
+            cell.detailInfoLabel.text = "\(grade) · 저장 \(save)"
+            cell.detailInfoLabel.font = UIFont.systemFont(ofSize: 13)
+            cell.detailInfoLabel.textColor = .systemGray3
+            if let imgURL = URL(string: img) {
+                cell.travelImageView.kf.setImage(with: imgURL)
+                cell.travelImageView.contentMode = .scaleAspectFill
+                cell.travelImageView.layer.cornerRadius = 10
+            } else {
+                cell.travelImageView.image = .no
+            }
+        } else {
+            cell.detailInfoLabel.text = "It's add"
+        }
+            
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

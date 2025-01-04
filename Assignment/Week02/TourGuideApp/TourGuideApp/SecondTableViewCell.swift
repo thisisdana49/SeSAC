@@ -9,6 +9,12 @@ import UIKit
 
 class SecondTableViewCell: UITableViewCell {
 
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var descLabel: UILabel!
+    @IBOutlet var detailInfoLabel: UILabel!
+    @IBOutlet var travelImageView: UIImageView!
+    @IBOutlet var likeButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
