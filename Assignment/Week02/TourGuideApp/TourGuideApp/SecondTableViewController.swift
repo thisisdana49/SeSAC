@@ -34,19 +34,20 @@ class SecondTableViewController: UITableViewController {
 
         let travel = travels[indexPath.row]
         cell.gradeLabel.tag = indexPath.row
+        cell.saveLabel.tag = indexPath.row
         
         cell.titleLabel.text = travel.title
         cell.titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         cell.titleLabel.textColor = .darkGray
         
         cell.descLabel.text = travel.description
-        cell.descLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        cell.descLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         cell.descLabel.textColor = .systemGray2
         
         if let grade = travel.grade, let save = travel.save, let img = travel.travel_image {
             setStarsLabel(from: grade, to: cell.gradeLabel)
-            
-            cell.saveLabel.text = "· 저장 \(save)"
+            setFormattedNumberLabel(from: save, to: cell.saveLabel)
+
             cell.saveLabel.font = UIFont.systemFont(ofSize: 13)
             cell.saveLabel.textColor = .systemGray3
             if let imgURL = URL(string: img) {
@@ -77,4 +78,11 @@ class SecondTableViewController: UITableViewController {
         label.attributedText = combinedStars
     }
 
+    func setFormattedNumberLabel(from intValue: Int, to label: UILabel) {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let formattedSave = numberFormatter.string(for: intValue)
+        
+        label.text = "· 저장 \(formattedSave!)"
+    }
 }
