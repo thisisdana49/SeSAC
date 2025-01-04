@@ -10,7 +10,7 @@ import Kingfisher
 
 class SecondTableViewController: UITableViewController {
 
-    let travels = TravelInfo().travel
+    var travels = TravelInfo().travel
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +35,7 @@ class SecondTableViewController: UITableViewController {
         let travel = travels[indexPath.row]
         cell.gradeLabel.tag = indexPath.row
         cell.saveLabel.tag = indexPath.row
+        cell.likeButton.tag = indexPath.row
         
         cell.titleLabel.text = travel.title
         cell.titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
@@ -57,11 +58,18 @@ class SecondTableViewController: UITableViewController {
             } else {
                 cell.travelImageView.image = .no
             }
+            cell.likeButton.setImage(UIImage(systemName: travel.like! ?  "heart" : "heart.fill")?.withTintColor(.white).withRenderingMode(.alwaysOriginal), for: .normal)
+            cell.likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
         } else {
             cell.gradeLabel.text = "It's add"
         }
             
         return cell
+    }
+    
+    @objc func likeButtonTapped(_ sender: UIButton) {
+        travels[sender.tag].like?.toggle()
+        tableView.reloadData()
     }
     
     func setStarsLabel(from doubleValue: Double, to label: UILabel) {
