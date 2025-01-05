@@ -12,7 +12,7 @@ class ThirdTableViewController: UITableViewController {
     @IBOutlet var shopListTextField: UITextField!
     @IBOutlet var addButton: UIButton!
     
-    let shoppingLists = ShoppingList().list
+    var shoppingLists = ShoppingList().list
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,17 +30,45 @@ class ThirdTableViewController: UITableViewController {
         
         let item = shoppingLists[indexPath.row]
         
+        cell.baseView.backgroundColor = .systemGray6
+        cell.baseView.layer.cornerRadius = 10
+        
+        cell.doneButton.isUserInteractionEnabled = true
+        cell.doneButton.tag = indexPath.row
         cell.doneButton.setImage(UIImage(systemName: item.done ? "checkmark.square" : "square")?.withTintColor(.black).withRenderingMode(.alwaysOriginal), for: .normal)
+        cell.doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
         
         cell.titleLabel?.text = item.title
         cell.titleLabel.textColor = .black
         
+        cell.bookmarkButton.isUserInteractionEnabled = true
+        cell.bookmarkButton.tag = indexPath.row
         cell.bookmarkButton.setImage(UIImage(systemName: item.bookmark ? "star.fill" : "star")?.withTintColor(.black).withRenderingMode(.alwaysOriginal), for: .normal)
+        cell.bookmarkButton.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
 
         return cell
     }
-
+    
+    @IBAction func addButtonTapped(_ sender: UIButton) {
+        let newItem = Shopping(title: shopListTextField.text ?? "error", done: false, bookmark: false)
+        shoppingLists.append(newItem)
+        shopListTextField.text = ""
+        tableView.reloadData()
+    }
+    
+    @objc func doneButtonTapped(_ sender: UIButton) {
+        shoppingLists[sender.tag].done.toggle()
+        tableView.reloadData()
+    }
+    
+    @objc func bookmarkButtonTapped(_ sender: UIButton) {
+        shoppingLists[sender.tag].bookmark.toggle()
+        tableView.reloadData()
+    }
+    
     fileprivate func setUI() {
+        navigationItem.title = "쇼핑"
+        tableView.separatorStyle = .none
         shopListTextField.placeholder = "무엇을 구매하실 건가요?"
         shopListTextField.backgroundColor = .systemGray6
         

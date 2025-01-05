@@ -9,8 +9,8 @@ import Foundation
 
 struct Shopping {
     let title: String
-    let done: Bool
-    let bookmark: Bool
+    var done: Bool
+    var bookmark: Bool
 }
 
 struct ShoppingList {
