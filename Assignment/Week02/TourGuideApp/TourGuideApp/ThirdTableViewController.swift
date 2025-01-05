@@ -49,6 +49,16 @@ class ThirdTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard editingStyle == .delete else { return }
+        shoppingLists.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+    }
+    
     @IBAction func addButtonTapped(_ sender: UIButton) {
         let newItem = Shopping(title: shopListTextField.text ?? "error", done: false, bookmark: false)
         shoppingLists.append(newItem)
