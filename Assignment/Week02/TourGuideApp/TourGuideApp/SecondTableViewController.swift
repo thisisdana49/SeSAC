@@ -30,22 +30,24 @@ class SecondTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SecondTableViewCell", for: indexPath) as? SecondTableViewCell else { return SecondTableViewCell() }
-
         let travel = travels[indexPath.row]
-        cell.gradeLabel.tag = indexPath.row
-        cell.saveLabel.tag = indexPath.row
-        cell.likeButton.tag = indexPath.row
-        
-        cell.titleLabel.text = travel.title
-        cell.titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        cell.titleLabel.textColor = .darkGray
-        
-        cell.descLabel.text = travel.description
-        cell.descLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        cell.descLabel.textColor = .systemGray2
         
         if let grade = travel.grade, let save = travel.save, let img = travel.travel_image {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "SecondTableViewCell", for: indexPath) as? SecondTableViewCell else { return SecondTableViewCell() }
+            tableView.rowHeight = 160
+//            tableView.separatorColor = .red
+            
+            cell.gradeLabel.tag = indexPath.row
+            cell.saveLabel.tag = indexPath.row
+            cell.likeButton.tag = indexPath.row
+            
+            cell.titleLabel.text = travel.title
+            cell.titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+            cell.titleLabel.textColor = .darkGray
+            
+            cell.descLabel.text = travel.description
+            cell.descLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+            cell.descLabel.textColor = .systemGray2
             setStarsLabel(from: grade, to: cell.gradeLabel)
             setFormattedNumberLabel(from: save, to: cell.saveLabel)
 
@@ -60,11 +62,33 @@ class SecondTableViewController: UITableViewController {
             }
             cell.likeButton.setImage(UIImage(systemName: travel.like! ?  "heart" : "heart.fill")?.withTintColor(.white).withRenderingMode(.alwaysOriginal), for: .normal)
             cell.likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+            
+            return cell
         } else {
-            cell.gradeLabel.text = "It's add"
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "SecondAdTableViewCell", for: indexPath) as? SecondAdTableViewCell else { return SecondTableViewCell() }
+            tableView.rowHeight = 90
+//            tableView.separatorColor = .white
+            
+            let colors: [UIColor] = [.pointPink, .pointGreen]
+            let color = colors.randomElement()
+            cell.baseView.backgroundColor = color
+            cell.baseView.layer.cornerRadius = 10
+            
+            cell.contentLabel.textAlignment = .center
+            cell.contentLabel.numberOfLines = 0
+            cell.contentLabel.text = travel.title
+            cell.contentLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+            
+            cell.badgeLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+            cell.badgeLabel.textAlignment = .center
+            cell.badgeLabel.text = "AD"
+            cell.badgeLabel.backgroundColor = .white
+            cell.badgeLabel.layer.cornerRadius = 10
+            cell.badgeLabel.layer.masksToBounds = true
+            
+            return cell
         }
             
-        return cell
     }
     
     @objc func likeButtonTapped(_ sender: UIButton) {
