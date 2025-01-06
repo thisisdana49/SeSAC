@@ -28,7 +28,6 @@ class FirstTableViewCell: UITableViewCell {
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.lineBreakStrategy = .hangulWordPriority
-        
         titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
 
         subTitleLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
@@ -37,6 +36,10 @@ class FirstTableViewCell: UITableViewCell {
         dateLabel.textAlignment = .right
         dateLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         dateLabel.textColor = .systemGray3
+    }
+    
+    override func prepareForReuse() {
+        mainImageView.image = .no
     }
     
     func configureData(row: Magazine) {
@@ -54,10 +57,17 @@ class FirstTableViewCell: UITableViewCell {
     }
     
     func formatStringToDateString(_ date: String) -> String {
-        let dateArray = Array(date)
-        let formatedDate = "\(dateArray[0])\(dateArray[1])년 \(dateArray[2])\(dateArray[3])월 \(dateArray[4])\(dateArray[5])일"
-        return formatedDate
+        let strToDate = DateFormatter()
+        strToDate.dateFormat = "yyMMdd"
+        let formattedDate = strToDate.date(from: date) ?? Date()
+        
+        let dateToFormattedStr = DateFormatter()
+        dateToFormattedStr.dateFormat = "yy년 MM월 dd일"
+        dateToFormattedStr.locale = Locale(identifier: "ko_KR")
+        let formattedStr = dateToFormattedStr.string(from: formattedDate)
+        
+        print("결과", formattedDate)
+        
+        return formattedStr
     }
-
-
 }
