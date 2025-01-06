@@ -24,6 +24,12 @@ class UserTableViewCell: UITableViewCell {
         configure()
     }
     
+    override func prepareForReuse() {
+        print(#function)
+        // reuse 되고있던 찌꺼기를 정리해주는 작업
+        profileImageView.image = UIImage(systemName: "person.fill")
+    }
+    
     // 바깥에서 부를 일이 없는 친구, . 찍어도 나오지 않게 하려면 접근 제어자로 연결고리를 끊어놓자
     private func configure() {
         aliasLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
@@ -40,9 +46,8 @@ class UserTableViewCell: UITableViewCell {
         if let imageUrl {
             let url = URL(string: imageUrl)
             profileImageView.kf.setImage(with: url)
-        } else {
-            profileImageView.image = UIImage(systemName: "person.fill")
         }
+//        else {ㅌ
         
         aliasLabel.text = friend.name
         statusLabel.text = friend.message

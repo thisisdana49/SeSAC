@@ -19,6 +19,11 @@ class UserTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // xib cell
+        // bundle에 관련해서는 언젠가 다음 시간에.
+        let nib = UINib(nibName: "NoProfileTableViewCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: "NoProfileTableViewCell")
     }
 
     // MARK: - Table view data source
@@ -32,6 +37,9 @@ class UserTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "NoProfileTableViewCell", for: indexPath) as! NoProfileTableViewCell
+        
+        
         // cell의 identifier 이름과 UITableViewCell을 클래스 이름을 같게 하는게 좋음.
         // 어떻게하면 cellForRowAt의 코드 분량을 줄일 수 있을까?🤫
         // -> cell 파일 내부에 configureData 추가
