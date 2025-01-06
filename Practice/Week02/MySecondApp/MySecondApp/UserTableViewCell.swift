@@ -33,6 +33,7 @@ class UserTableViewCell: UITableViewCell {
     // 바깥에서 부를 일이 없는 친구, . 찍어도 나오지 않게 하려면 접근 제어자로 연결고리를 끊어놓자
     private func configure() {
         aliasLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        statusLabel.numberOfLines = 0
         statusLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
     }
 

@@ -9,7 +9,7 @@ import UIKit
 
 class BasicTableViewController: UITableViewController {
 
-    var list = ["Project", "Main Task", "SeSAC Assignment"] {
+    var list = ["ProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProject", "Main Task", "SeSAC Assignment", "ProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProjectProject", "Main Task", "SeSAC Assignment"] {
         didSet { // property가 달라질 때 실행되는 메서드
             tableView.reloadData()
         }
@@ -19,7 +19,7 @@ class BasicTableViewController: UITableViewController {
         super.viewDidLoad()
 
         // 모두 같은 높이를 주려고 할 때는 그냥 이렇게 주면 됨.
-        tableView.rowHeight = 80
+        tableView.rowHeight = UITableView.automaticDimension
         
         // create new Monster
         var monster = Monster(clothes: "Dress", speed: 10, power: 10, experience: 10) // 인스턴스 생성
@@ -51,7 +51,7 @@ class BasicTableViewController: UITableViewController {
             cell?.backgroundColor = .white
         }
         // else 처리가 되어있지 않으면, 100% 모든 케이스에 대해서 처리를 해주지 않으면 ->
-        
+        cell?.textLabel?.numberOfLines = 0
         cell?.textLabel?.text = list[indexPath.row]
         cell?.textLabel?.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         cell?.detailTextLabel?.text = "상세보기"
@@ -67,7 +67,7 @@ class BasicTableViewController: UITableViewController {
         list.remove(at: indexPath.row)
     }
     
-    // 3. Height for Row
+//     3. Height for Row
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 1 {
             return 200

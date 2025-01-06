@@ -60,7 +60,7 @@ class UserTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        100
+        return UITableView.automaticDimension
     }
     
     @objc func likeButtonTapped(_ sender: UIButton) {
