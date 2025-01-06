@@ -101,6 +101,7 @@ class FourTableViewController: UITableViewController, UITextFieldDelegate {
         }
 
         isSearching = true
+        let trimmedText = searchText.capitalized.trimmingCharacters(in: [" "])
 
         let currentCities: [City]
         switch segmentedControl.selectedSegmentIndex {
@@ -115,9 +116,9 @@ class FourTableViewController: UITableViewController, UITextFieldDelegate {
         }
 
         filteredCities = currentCities.filter {
-            $0.city_name.contains(searchText.capitalized)
-                || $0.city_english_name.contains(searchText.capitalized)
-                || $0.city_explain.contains(searchText.capitalized)
+            $0.city_name.contains(trimmedText)
+                || $0.city_english_name.contains(trimmedText)
+                || $0.city_explain.contains(trimmedText)
         }
 
         tableView.reloadData()
