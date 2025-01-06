@@ -360,6 +360,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="UDg-3t-HJ2"/>
                     <connections>
+                        <outlet property="searchButton" destination="J6f-B6-QEa" id="ucf-aI-3v9"/>
                         <outlet property="searchTextField" destination="IYS-7T-kIc" id="4tx-uI-R4R"/>
                         <outlet property="segmentedControl" destination="4qD-ra-nCj" id="Q5b-cc-o9L"/>
                     </connections>
