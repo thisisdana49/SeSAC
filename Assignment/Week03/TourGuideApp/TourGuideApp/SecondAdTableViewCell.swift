@@ -21,8 +21,6 @@ class SecondAdTableViewCell: UITableViewCell {
     }
 
     private func configure() {
-        self.separatorInset = UIEdgeInsets(top: 0, left: UIScreen.main.bounds.width, bottom: 0, right: 0)
-        
         let colors: [UIColor] = [.pointPink, .pointGreen]
         let color = colors.randomElement()
         baseView.backgroundColor = color

@@ -17,6 +17,7 @@ class SecondTableViewCell: UITableViewCell {
     @IBOutlet private var travelImageView: UIImageView!
     @IBOutlet var likeButton: UIButton!
     
+    // Q. 왜 하트를 누를 때마다 값이 변경 되는 걸까... 대체 why?
     private let reviewNum = String(Int.random(in: 1...1000))
     
     override func awakeFromNib() {
@@ -30,11 +31,10 @@ class SecondTableViewCell: UITableViewCell {
     }
     
     private func configure() {
-        self.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        
         titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         titleLabel.textColor = .darkGray
         
+        descLabel.numberOfLines = 0
         descLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         descLabel.textColor = .systemGray
         

@@ -27,7 +27,12 @@ class SecondTableViewController: UITableViewController {
         
         if !travel.ad {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SecondTableViewCell.identifier, for: indexPath) as? SecondTableViewCell else { return SecondTableViewCell() }
-            tableView.rowHeight = 160
+            let nextRow = min(indexPath.row + 1, travels.count - 1)
+            if travels[nextRow].ad {
+                cell.separatorInset = UIEdgeInsets(top: 0, left: UIScreen.main.bounds.width, bottom: 0, right: 0)
+            } else {
+                cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+            }
 
             cell.configureData(row: travel, index: indexPath.row)
             cell.likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
@@ -35,11 +40,15 @@ class SecondTableViewController: UITableViewController {
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SecondAdTableViewCell.identifier, for: indexPath) as? SecondAdTableViewCell else { return SecondAdTableViewCell() }
-            tableView.rowHeight = 90
+            cell.separatorInset = UIEdgeInsets(top: 0, left: UIScreen.main.bounds.width, bottom: 0, right: 0)
             cell.configureData(row: travel)
             
             return cell
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
     
     @objc func likeButtonTapped(_ sender: UIButton) {
