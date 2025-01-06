@@ -288,7 +288,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="402" height="101"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="MPi-Gp-ERe">
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="MPi-Gp-ERe">
                                     <rect key="frame" x="16" y="8" width="370" height="85"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dg9-4e-adZ">
@@ -326,11 +326,22 @@
                                                 <segment title="First"/>
                                                 <segment title="Second"/>
                                             </segments>
+                                            <connections>
+                                                <action selector="segmentedControlSelected:" destination="PGw-I4-gvF" eventType="valueChanged" id="H4L-xX-cTY"/>
+                                            </connections>
                                         </segmentedControl>
                                     </subviews>
                                 </stackView>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="MPi-Gp-ERe" firstAttribute="top" secondItem="vJA-uX-DxI" secondAttribute="top" constant="8" id="FqA-0W-nDT"/>
+                                <constraint firstItem="MPi-Gp-ERe" firstAttribute="centerX" secondItem="vJA-uX-DxI" secondAttribute="centerX" id="KvX-3a-Hhd"/>
+                                <constraint firstAttribute="bottom" secondItem="MPi-Gp-ERe" secondAttribute="bottom" constant="8" id="h6M-ta-lnH"/>
+                                <constraint firstItem="MPi-Gp-ERe" firstAttribute="leading" secondItem="vJA-uX-DxI" secondAttribute="leading" constant="16" id="jnm-GR-pcX"/>
+                                <constraint firstItem="MPi-Gp-ERe" firstAttribute="centerY" secondItem="vJA-uX-DxI" secondAttribute="centerY" id="wT6-fZ-NT7"/>
+                                <constraint firstAttribute="trailing" secondItem="MPi-Gp-ERe" secondAttribute="trailing" constant="16" id="xUl-Ay-IKN"/>
+                            </constraints>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="3JV-Ix-Cco">
@@ -350,7 +361,7 @@
                     <navigationItem key="navigationItem" id="UDg-3t-HJ2"/>
                     <connections>
                         <outlet property="searchTextField" destination="IYS-7T-kIc" id="4tx-uI-R4R"/>
-                        <outlet property="travelFilterSegmentedControl" destination="4qD-ra-nCj" id="Q5b-cc-o9L"/>
+                        <outlet property="segmentedControl" destination="4qD-ra-nCj" id="Q5b-cc-o9L"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DhX-MF-CSv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
