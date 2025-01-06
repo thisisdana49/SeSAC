@@ -57,6 +57,7 @@ class FourTableViewController: UITableViewController, UITextFieldDelegate {
                 withIdentifier: FourTableViewCell.identifier, for: indexPath)
             as! FourTableViewCell
         let city: City
+        let searchText = searchTextField.text ?? ""
 
         if isSearching {
             city = filteredCities[indexPath.row]
@@ -73,7 +74,7 @@ class FourTableViewController: UITableViewController, UITextFieldDelegate {
             }
         }
 
-        cell.configureData(row: city)
+        cell.configureData(row: city, searchText: searchText)
 
         return cell
     }
@@ -114,9 +115,9 @@ class FourTableViewController: UITableViewController, UITextFieldDelegate {
         }
 
         filteredCities = currentCities.filter {
-            $0.city_name.contains(searchText)
-                || $0.city_english_name.contains(searchText)
-                || $0.city_explain.contains(searchText)
+            $0.city_name.contains(searchText.capitalized)
+                || $0.city_english_name.contains(searchText.capitalized)
+                || $0.city_explain.contains(searchText.capitalized)
         }
 
         tableView.reloadData()
