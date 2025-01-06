@@ -14,28 +14,24 @@ class SecondTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        tableView.allowsSelection = false
     }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return travels.count
     }
 
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let travel = travels[indexPath.row]
         
         if let grade = travel.grade, let save = travel.save, let img = travel.travel_image {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "SecondTableViewCell", for: indexPath) as? SecondTableViewCell else { return SecondTableViewCell() }
             tableView.rowHeight = 160
-//            tableView.separatorColor = .red
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
             
             cell.gradeLabel.tag = indexPath.row
             cell.saveLabel.tag = indexPath.row
@@ -46,13 +42,11 @@ class SecondTableViewController: UITableViewController {
             cell.titleLabel.textColor = .darkGray
             
             cell.descLabel.text = travel.description
-            cell.descLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-            cell.descLabel.textColor = .systemGray2
+            cell.descLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+            cell.descLabel.textColor = .systemGray
             setStarsLabel(from: grade, to: cell.gradeLabel)
             setFormattedNumberLabel(from: save, to: cell.saveLabel)
-
-            cell.saveLabel.font = UIFont.systemFont(ofSize: 13)
-            cell.saveLabel.textColor = .systemGray3
+            
             if let imgURL = URL(string: img) {
                 cell.travelImageView.kf.setImage(with: imgURL)
                 cell.travelImageView.contentMode = .scaleAspectFill
@@ -67,8 +61,8 @@ class SecondTableViewController: UITableViewController {
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "SecondAdTableViewCell", for: indexPath) as? SecondAdTableViewCell else { return SecondTableViewCell() }
             tableView.rowHeight = 90
-//            tableView.separatorColor = .white
-            
+            cell.separatorInset = UIEdgeInsets(top: 0, left: UIScreen.main.bounds.width, bottom: 0, right: 0)
+
             let colors: [UIColor] = [.pointPink, .pointGreen]
             let color = colors.randomElement()
             cell.baseView.backgroundColor = color
@@ -97,15 +91,20 @@ class SecondTableViewController: UITableViewController {
     }
     
     func setStarsLabel(from doubleValue: Double, to label: UILabel) {
+        let randomNum = String(Int.random(in: 1...2000))
         let starCount = Int(round(doubleValue))
         let yellowStars = NSAttributedString(string: String(repeating: "★", count: starCount), attributes: [.foregroundColor: UIColor.pointYellow])
         
         let remaingCount = max(5 - starCount, 0)
-        let grayStarts = NSAttributedString(string: String(repeating: "★", count: remaingCount), attributes: [.foregroundColor: UIColor.systemGray6])
+        let grayStarts = NSAttributedString(string: String(repeating: "★", count: remaingCount), attributes: [.foregroundColor: UIColor.systemGray6, .font: UIFont.systemFont(ofSize: 15)])
+        
+        let reviewCount = " (\(randomNum))"
+        let reviewString = NSAttributedString(string: reviewCount, attributes: [.foregroundColor: UIColor.systemGray3, .font: UIFont.systemFont(ofSize: 15)])
         
         let combinedStars = NSMutableAttributedString()
         combinedStars.append(yellowStars)
         combinedStars.append(grayStarts)
+        combinedStars.append(reviewString)
         
         label.attributedText = combinedStars
     }
@@ -113,8 +112,10 @@ class SecondTableViewController: UITableViewController {
     func setFormattedNumberLabel(from intValue: Int, to label: UILabel) {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        let formattedSave = numberFormatter.string(for: intValue)
+        let formattedSave = numberFormatter.string(for: intValue) ?? ""
         
-        label.text = "· 저장 \(formattedSave!)"
+        let saveString = NSAttributedString(string: "· 저장 \(formattedSave)", attributes: [.foregroundColor: UIColor.systemGray3, .font: UIFont.systemFont(ofSize: 15)])
+        
+        label.attributedText = saveString
     }
 }
