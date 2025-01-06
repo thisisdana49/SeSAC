@@ -8,7 +8,6 @@
 import UIKit
 
 class ThirdTableViewController: UITableViewController {
-
     @IBOutlet var shopListTextField: UITextField!
     @IBOutlet var addButton: UIButton!
     
@@ -26,24 +25,12 @@ class ThirdTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ThirdTableViewCell", for: indexPath) as! ThirdTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ThirdTableViewCell.identifier, for: indexPath) as! ThirdTableViewCell
         
         let item = shoppingLists[indexPath.row]
-        
-        cell.baseView.backgroundColor = .systemGray6
-        cell.baseView.layer.cornerRadius = 10
-        
-        cell.doneButton.isUserInteractionEnabled = true
-        cell.doneButton.tag = indexPath.row
-        cell.doneButton.setImage(UIImage(systemName: item.done ? "checkmark.square" : "square")?.withTintColor(.black).withRenderingMode(.alwaysOriginal), for: .normal)
+        cell.configureData(row: item, index: indexPath.row)
+
         cell.doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
-        
-        cell.titleLabel?.text = item.title
-        cell.titleLabel.textColor = .black
-        
-        cell.bookmarkButton.isUserInteractionEnabled = true
-        cell.bookmarkButton.tag = indexPath.row
-        cell.bookmarkButton.setImage(UIImage(systemName: item.bookmark ? "star.fill" : "star")?.withTintColor(.black).withRenderingMode(.alwaysOriginal), for: .normal)
         cell.bookmarkButton.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
 
         return cell

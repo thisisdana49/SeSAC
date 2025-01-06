@@ -28,12 +28,8 @@ class SecondTableViewController: UITableViewController {
         if !travel.ad {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SecondTableViewCell.identifier, for: indexPath) as? SecondTableViewCell else { return SecondTableViewCell() }
             tableView.rowHeight = 160
-            
-            cell.gradeLabel.tag = indexPath.row
-            cell.saveLabel.tag = indexPath.row
-            cell.likeButton.tag = indexPath.row
 
-            cell.configureData(row: travel)
+            cell.configureData(row: travel, index: indexPath.row)
             cell.likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
             
             return cell

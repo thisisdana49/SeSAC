@@ -10,12 +10,14 @@ import UIKit
 class SecondTableViewCell: UITableViewCell {
     static var identifier = "SecondTableViewCell"
     
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var descLabel: UILabel!
-    @IBOutlet var gradeLabel: UILabel!
-    @IBOutlet var saveLabel: UILabel!
-    @IBOutlet var travelImageView: UIImageView!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var descLabel: UILabel!
+    @IBOutlet private var gradeLabel: UILabel!
+    @IBOutlet private var saveLabel: UILabel!
+    @IBOutlet private var travelImageView: UIImageView!
     @IBOutlet var likeButton: UIButton!
+    
+    private let reviewNum = String(Int.random(in: 1...1000))
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,7 +42,11 @@ class SecondTableViewCell: UITableViewCell {
         travelImageView.layer.cornerRadius = 8
     }
     
-    func configureData(row: Travel) {
+    func configureData(row: Travel, index: Int) {
+        gradeLabel.tag = index
+        saveLabel.tag = index
+        likeButton.tag = index
+        
         titleLabel.text = row.title
             
         descLabel.text = row.description
@@ -57,14 +63,13 @@ class SecondTableViewCell: UITableViewCell {
     }
                 
     func setStarsLabel(from doubleValue: Double, to label: UILabel) {
-        let randomNum = String(Int.random(in: 1...2000))
         let starCount = Int(round(doubleValue))
         let yellowStars = NSAttributedString(string: String(repeating: "★", count: starCount), attributes: [.foregroundColor: UIColor.pointYellow])
         
         let remaingCount = max(5 - starCount, 0)
         let grayStarts = NSAttributedString(string: String(repeating: "★", count: remaingCount), attributes: [.foregroundColor: UIColor.systemGray6, .font: UIFont.systemFont(ofSize: 15)])
         
-        let reviewCount = " (\(randomNum))"
+        let reviewCount = " (\(reviewNum))"
         let reviewString = NSAttributedString(string: reviewCount, attributes: [.foregroundColor: UIColor.systemGray3, .font: UIFont.systemFont(ofSize: 15)])
         
         let combinedStars = NSMutableAttributedString()
