@@ -24,10 +24,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 "HOME"
                 
                 items[1].image = UIImage(systemName: "text.page.badge.magnifyingglass")
-                items[1].title = "SEARCH"
+                items[1].title = "List"
                 
                 items[2].image = UIImage(systemName: "list.bullet")
                 items[2].title = "TODO"
+                
+                items[3].image = UIImage(systemName: "magnifyingglass")
+                items[3].title = "SEARCH"
             }
         }
         
