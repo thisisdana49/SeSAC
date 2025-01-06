@@ -37,6 +37,10 @@ class UserTableViewController: UITableViewController {
         // -> cell 파일 내부에 configureData 추가
         let friend = friends[indexPath.row]
         cell.configureData(row: friend)
+
+        // cell. 아래에 자동완성으로 나오는 메서드, 프로퍼티들은 tableView가 이미 알고 있다고 보면 됨
+        // 이미 연결고리로 서로 연결되어 있기 때문에 파일을 구분하는 것 -> 우리(개발자)의 편의
+        
         
         // IBAction 대신에 코드로 연결
         // Function Types

@@ -44,9 +44,9 @@ class FirstTabViewController: UIViewController {
             
             switch randomInt {
             case 1:
-                badgeViewArray[index].subviews[0].isHidden = false
-                badgeViewArray[index].subviews[1].isHidden = true
-                badgeViewArray[index].subviews[2].isHidden = true
+                badgeViewArray[index].subviews.forEach() {
+                    $0.isHidden.toggle()
+                }
             case 2:
                 badgeViewArray[index].subviews[0].isHidden = true
                 badgeViewArray[index].subviews[1].isHidden = false

@@ -72,6 +72,8 @@ class ThirdViewController: UIViewController {
         for index in 0...2 {
             let randomInt = Int.random(in: 1...4)
             
+            
+            
             switch randomInt {
             case 1:
                 badgeViewArray[index].subviews[0].isHidden = false
