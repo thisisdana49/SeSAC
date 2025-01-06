@@ -36,9 +36,12 @@ class UserTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "NoProfileTableViewCell", for: indexPath) as! NoProfileTableViewCell
+        //        let cell = tableView.dequeueReusableCell(withIdentifier: "NoProfileTableViewCell", for: indexPath) as! NoProfileTableViewCell
         
+        // ⬇️ UserTableViewCell의 인스턴스를 만듦
+        // 그래서 각각의 인스턴스(김민준, 이서연...)들이 생겨나고 접근할 수 있는 것
+        // 그런데 profile, alias 이런 건 달라도 identifier는 다 같지 않나? 한 공간에 두고 시용할 수 있지 않나?
+        let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.identifier, for: indexPath) as! UserTableViewCell
         
         // cell의 identifier 이름과 UITableViewCell을 클래스 이름을 같게 하는게 좋음.
         // 어떻게하면 cellForRowAt의 코드 분량을 줄일 수 있을까?🤫

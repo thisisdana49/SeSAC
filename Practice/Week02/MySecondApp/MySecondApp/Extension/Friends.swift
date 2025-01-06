@@ -13,6 +13,14 @@ struct Friends {
     let profile_image: String?
     let phone: Int?
     var like: Bool
+    
+    // 등호가 없는데, 그 값을 직접 '저장'하고 있는 것이 아니라 불러줄 때 '연산' 하기 때문
+    // 그래서 연산 프로퍼티
+    var nameDescription: String {
+        get {
+            return "이름 : \(name) \(message?.count ?? 0)글자 작성"
+        }
+    }
 }
 
 struct FriendsInfo {

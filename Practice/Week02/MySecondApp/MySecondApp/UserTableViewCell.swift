@@ -9,6 +9,9 @@ import UIKit
 import Kingfisher
 
 class UserTableViewCell: UITableViewCell {
+    
+    static let identifier = "UserTableViewCell"
+    
     // 프로퍼티도 다른 곳에서 쓰이지 않도록 최적화
     @IBOutlet private var profileImageView: UIImageView!
     @IBOutlet private var aliasLabel: UILabel!
@@ -48,9 +51,10 @@ class UserTableViewCell: UITableViewCell {
             let url = URL(string: imageUrl)
             profileImageView.kf.setImage(with: url)
         }
-//        else {ㅌ
-        
-        aliasLabel.text = friend.name
+
+        // 더 깔끔하게 쓰는 방법은 없을까? => 너꺼니가 너가 하자
+        // 정답은 연산 프로퍼티
+        aliasLabel.text = friend.nameDescription
         statusLabel.text = friend.message
         
         likeButton.setImage(UIImage(systemName: friend.like ? "heart.fill" : "heart"), for: .normal)
