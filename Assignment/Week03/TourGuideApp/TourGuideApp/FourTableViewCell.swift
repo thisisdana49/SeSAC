@@ -24,14 +24,25 @@ class FourTableViewCell: UITableViewCell {
     }
 
     func configure() {
-        entireView.clipsToBounds = true
         entireView.layer.cornerRadius = 25
         entireView.layer.maskedCorners = CACornerMask(
             arrayLiteral: .layerMinXMinYCorner, .layerMaxXMaxYCorner)
+        
+        entireView.layer.shadowColor = UIColor.black.cgColor
+        entireView.layer.shadowOpacity = 0.3
+        entireView.layer.shadowRadius = 5
+        entireView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        entireView.layer.shadowPath = nil
+        entireView.layer.masksToBounds = false
 
         bottomLineView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-
+        bottomLineView.layer.cornerRadius = 20
+        bottomLineView.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMaxXMaxYCorner)
+        
         cityImageView.contentMode = .scaleAspectFill
+        cityImageView.layer.cornerRadius = 25
+        cityImageView.layer.maskedCorners = CACornerMask(
+            arrayLiteral: .layerMinXMinYCorner, .layerMaxXMaxYCorner)
 
         cityNameLabel.textAlignment = .right
         cityNameLabel.textColor = .white
@@ -44,8 +55,10 @@ class FourTableViewCell: UITableViewCell {
 
     func configureData(row: City, searchText: String) {
         print(searchText)
-        cityNameLabel.attributedText = highlightSearchText(in: row.city_full_name, searchText: searchText)
-        cityExplainLabel.attributedText = highlightSearchText(in: row.city_explain, searchText: searchText)
+        cityNameLabel.attributedText = highlightSearchText(
+            in: row.city_full_name, searchText: searchText)
+        cityExplainLabel.attributedText = highlightSearchText(
+            in: row.city_explain, searchText: searchText)
 
         if let imgURL = URL(string: row.city_image) {
             cityImageView.kf.setImage(with: imgURL)
@@ -54,13 +67,20 @@ class FourTableViewCell: UITableViewCell {
         }
     }
 
-    private func highlightSearchText(in text: String, searchText: String) -> NSAttributedString {
+    private func highlightSearchText(in text: String, searchText: String)
+        -> NSAttributedString
+    {
         let attributedString = NSMutableAttributedString(string: text)
-        let range = (text as NSString).range(of: searchText, options: .caseInsensitive)
+        let range = (text as NSString).range(
+            of: searchText, options: .caseInsensitive)
 
         if range.location != NSNotFound {
-            attributedString.addAttribute(.foregroundColor, value: UIColor.systemYellow, range: range)
-            attributedString.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: cityNameLabel.font.pointSize), range: range)
+            attributedString.addAttribute(
+                .foregroundColor, value: UIColor.systemYellow, range: range)
+            attributedString.addAttribute(
+                .font,
+                value: UIFont.boldSystemFont(
+                    ofSize: cityNameLabel.font.pointSize), range: range)
         }
 
         return attributedString
