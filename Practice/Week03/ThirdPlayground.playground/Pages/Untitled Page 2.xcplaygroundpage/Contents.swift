@@ -1,6 +1,44 @@
 //: [Previous](@previous)
 
-import Foundation
+import UIKit
+
+
+// 연산 프로퍼티
+class BMI {
+    var weight: Double
+    var height: Double
+    
+    // class: 그래 내가 할게... 내 문제니까.
+    var bmiResult: String {
+        // 다른 저장 프로퍼티의 값을 통해 연산을 함
+//        get {
+            let bmiValue = height / (weight * weight)
+            let bmiResult = bmiValue < 18.5 ? "저체중" : "정상 이상"
+            let result = "BMI 지수는 \(bmiValue)는 \(bmiResult)입니도."
+            return result
+//        } get만 쓴다면 생략이 가능한.
+    }
+    
+    init(weight: Double, height: Double) {
+        self.weight = weight
+        self.height = height
+    }
+}
+
+let bmi = BMI(weight: 40, height: 1.5)
+
+// BMI 지수 계싼
+let bmiValue = bmi.height / (bmi.weight * bmi.weight)
+
+// BMI 결과
+let bmiResult = bmiValue < 18.5 ? "저체중" : "정상 이상"
+
+let result = "BMI 지수는 \(bmiValue)는 \(bmiResult)입니도."
+
+// If self == VC라면?
+// VC: "왜 내가 계산해야해? 니꺼잖아?
+// class: ㅇㅋ
+bmi.bmiResult
 
 
 // 선언과 초기화를 따로 할 수 있다.
@@ -9,6 +47,33 @@ var greeting: String
 // 그러나 초기화(초기값)을 해야 변수르 쓸 수 있다!
 greeting = "Hello"
 greeting.append(contentsOf: "World!")
+
+
+class Movie {
+    let title: String
+    let runtime: Int
+    lazy var video = Video() //지연 저장 프로퍼티
+    
+    init(title: String, runtime: Int) {
+        self.title = title
+        self.runtime = runtime
+        print("Movie init")
+    }
+}
+
+class Video {
+    var file = UIImage(systemName: "star") // 2gb
+    
+    init() {
+        print("Video Init")
+    }
+}
+
+var media = Movie(title: "그해, 우리는", runtime: 134)
+media.video
+// 초기화 시점을 미뤄준다.
+// lazy는 let으로 같이 쓰지 못함(컴파일 오류). var로 써야한다. Why?
+// static은 lazy하게 동작한다? WhY? 지연 저장이 된다?... 더 공부해보기 :3
 
 // class도 동일하다.
 class Monster {
