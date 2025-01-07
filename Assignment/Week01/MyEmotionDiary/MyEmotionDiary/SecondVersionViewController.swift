@@ -13,7 +13,7 @@ class SecondVersionViewController: UIViewController {
     
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var hamburgerMenuImage: UIImageView!
-    
+    @IBOutlet var resetButton: UIButton!
     @IBOutlet var buttonArray: [UIButton]!
     @IBOutlet var labelArray: [UILabel]!
     
@@ -32,9 +32,17 @@ class SecondVersionViewController: UIViewController {
         saveEmotionData()
     }
 
-    func saveEmotionData() {
+    @IBAction func resetButtonTapped(_ sender: UIButton) {
+        saveEmotionData(isReset: true)
+        setEmotionButtonUI()
+    }
+    
+    func saveEmotionData(isReset: Bool = false) {
         let encoder = JSONEncoder()
         
+        if isReset {
+            self.emotions = EmotionInfo().emotions
+        }
         if let encodeData = try? encoder.encode(emotions) {
             UserDefaults.standard.set(encodeData, forKey: keyIdentifier)
             print(#function, encodeData)
@@ -61,6 +69,13 @@ class SecondVersionViewController: UIViewController {
         let image = UIImage(systemName: "line.horizontal.3")
         hamburgerMenuImage.image = image
         hamburgerMenuImage.tintColor = .black
+        
+        // reset button
+        resetButton.isUserInteractionEnabled = true
+        resetButton.setTitleColor(.white, for: .normal)
+        resetButton.backgroundColor = .black
+        resetButton.layer.cornerRadius = 5
+        resetButton.setTitle("Reset Data", for: .normal)
     }
     
     fileprivate func setEmotionButtonUI() {

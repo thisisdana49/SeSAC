@@ -13,11 +13,10 @@ class FirstVersionViewController: UIViewController {
 
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var hamburgerMenuImage: UIImageView!
-    
+    @IBOutlet var resetButton: UIButton!
     @IBOutlet var buttonArray: [UIButton]!
     @IBOutlet var labelArray: [UILabel]!
-    
-    @IBOutlet var versioinTwoButton: UIButton!
+    @IBOutlet var versionButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,10 +33,18 @@ class FirstVersionViewController: UIViewController {
         
         saveEmotionData()
     }
+
+    @IBAction func resetButtonTapped(_ sender: UIButton) {
+        saveEmotionData(isReset: true)
+        setEmotionButtonUI()
+    }
     
-    func saveEmotionData() {
+    func saveEmotionData(isReset: Bool = false) {
         let encoder = JSONEncoder()
         
+        if isReset {
+            self.emotions = EmotionInfo().emotions
+        }
         if let encodeData = try? encoder.encode(emotions) {
             UserDefaults.standard.set(encodeData, forKey: keyIdentifier)
             print(#function, encodeData)
@@ -64,6 +71,13 @@ class FirstVersionViewController: UIViewController {
         let image = UIImage(systemName: "line.horizontal.3")
         hamburgerMenuImage.image = image
         hamburgerMenuImage.tintColor = .black
+        
+        // reset button
+        resetButton.isUserInteractionEnabled = true
+        resetButton.setTitleColor(.white, for: .normal)
+        resetButton.backgroundColor = .black
+        resetButton.layer.cornerRadius = 5
+        resetButton.setTitle("Reset Data", for: .normal)
     }
     
     fileprivate func setEmotionButtonUI() {
@@ -83,9 +97,9 @@ class FirstVersionViewController: UIViewController {
         
         view.backgroundColor = .primary
         
-        versioinTwoButton.setTitle("Go to version 2", for: UIControl.State.normal)
-        versioinTwoButton.setTitleColor(.white, for: .normal)
-        versioinTwoButton.backgroundColor = .black
-        versioinTwoButton.layer.cornerRadius = 5
+        versionButton.setTitle("Go to version 2", for: .normal)
+        versionButton.setTitleColor(.white, for: .normal)
+        versionButton.backgroundColor = .black
+        versionButton.layer.cornerRadius = 5
     }
 }

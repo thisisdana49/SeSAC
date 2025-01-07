@@ -27,13 +27,13 @@
                                 <rect key="frame" x="16" y="59" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r15-xH-A6O">
-                                <rect key="frame" x="119" y="786" width="166" height="54"/>
+                            <button opaque="NO" contentMode="scaleAspectFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cc-gp-CEr">
+                                <rect key="frame" x="231" y="786" width="146" height="54"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <connections>
-                                    <segue destination="Gfk-5F-nXM" kind="show" id="rGX-SS-7Yo"/>
+                                    <action selector="resetButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7tu-TC-9jW"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rf5-JE-dwm">
@@ -180,6 +180,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r15-xH-A6O">
+                                <rect key="frame" x="27" y="786" width="166" height="54"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <segue destination="Gfk-5F-nXM" kind="show" id="rGX-SS-7Yo"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -187,8 +196,9 @@
                     <navigationItem key="navigationItem" id="VcA-Mg-D2x"/>
                     <connections>
                         <outlet property="hamburgerMenuImage" destination="4sU-bK-1YO" id="YzV-g8-C9k"/>
+                        <outlet property="resetButton" destination="5cc-gp-CEr" id="LWE-VN-ySb"/>
                         <outlet property="titleLabel" destination="vcx-Tj-wZ8" id="oUx-hC-CA7"/>
-                        <outlet property="versioinTwoButton" destination="r15-xH-A6O" id="LZa-R9-hhQ"/>
+                        <outlet property="versionButton" destination="r15-xH-A6O" id="LZa-R9-hhQ"/>
                         <outletCollection property="buttonArray" destination="fu9-HP-6CG" collectionClass="NSMutableArray" id="gcG-gh-r8H"/>
                         <outletCollection property="buttonArray" destination="pRv-EP-T63" collectionClass="NSMutableArray" id="Mpy-mE-IiR"/>
                         <outletCollection property="buttonArray" destination="KW7-9K-7vy" collectionClass="NSMutableArray" id="mlm-OO-wdB"/>
@@ -394,6 +404,16 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleAspectFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NNG-P5-3uc">
+                                <rect key="frame" x="128" y="786" width="146" height="54"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <connections>
+                                    <action selector="resetButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HqZ-Fz-CZm"/>
+                                    <action selector="resetButtonTapped:" destination="Gfk-5F-nXM" eventType="touchUpInside" id="JTI-Wj-foz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="mxp-K3-xvX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -401,6 +421,7 @@
                     <navigationItem key="navigationItem" id="3kv-T2-Dcq"/>
                     <connections>
                         <outlet property="hamburgerMenuImage" destination="5Lz-qk-YKb" id="plG-8P-hub"/>
+                        <outlet property="resetButton" destination="NNG-P5-3uc" id="PWg-jw-BGj"/>
                         <outlet property="titleLabel" destination="SaY-Ks-zcY" id="Soo-9f-oII"/>
                         <outletCollection property="buttonArray" destination="ueN-Gh-k08" collectionClass="NSMutableArray" id="Xu1-WE-eUs"/>
                         <outletCollection property="buttonArray" destination="Psx-0F-Eeo" collectionClass="NSMutableArray" id="Dpv-F9-aCX"/>
