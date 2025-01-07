@@ -8,6 +8,8 @@
 import UIKit
 
 class FirstVersionViewController: UIViewController {
+    let keyIdentifier = "emotionVer1"
+    var emotions = EmotionInfo().emotions
 
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var hamburgerMenuImage: UIImageView!
@@ -17,15 +19,42 @@ class FirstVersionViewController: UIViewController {
     
     @IBOutlet var versioinTwoButton: UIButton!
     
-    var emotionNameArray: [String] = ["행복해", "사랑해", "좋아해", "화가나", "꿀꿀해", "지루해", "무서워", "속상해", "눈물나"]
-    var emotioDegreeArray: [Int] = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        loadEmotionData()
         setUI()
     }
-
+    
+    @IBAction func emotionButtonTapped(_ sender: UIButton) {
+        let index = sender.tag
+        let randomNumber = Int.random(in: 1...100)
+        emotions[index].degree = randomNumber
+        labelArray[index].text = emotions[index].info
+        
+        saveEmotionData()
+    }
+    
+    func saveEmotionData() {
+        let encoder = JSONEncoder()
+        
+        if let encodeData = try? encoder.encode(emotions) {
+            UserDefaults.standard.set(encodeData, forKey: keyIdentifier)
+            print(#function, encodeData)
+        }
+    }
+    
+    func loadEmotionData() {
+        let decoder = JSONDecoder()
+        
+        if let data = UserDefaults.standard.data(forKey: keyIdentifier) {
+            if let decodeData = try? decoder.decode([Emotion].self, from: data) {
+                emotions = decodeData
+                print(#function, emotions)
+            }
+        }
+    }
+    
     fileprivate func setTopBarUI() {
         // title label
         titleLabel.text = "My Emotion Diary"
@@ -43,7 +72,7 @@ class FirstVersionViewController: UIViewController {
             let label = labelArray[index]
             
             button.setImage(UIImage(named: "mono_slime\(index+1)"), for: .normal)
-            label.text = "\(emotionNameArray[index]) \(emotioDegreeArray[index])"
+            label.text = emotions[index].info
             label.textAlignment = .center
         }
     }
@@ -58,12 +87,5 @@ class FirstVersionViewController: UIViewController {
         versioinTwoButton.setTitleColor(.white, for: .normal)
         versioinTwoButton.backgroundColor = .black
         versioinTwoButton.layer.cornerRadius = 5
-    }
-    
-    @IBAction func emotionButtonTapped(_ sender: UIButton) {
-        let index = sender.tag
-        let randomNumber = Int.random(in: 1...100)
-        emotioDegreeArray[index] = randomNumber
-        labelArray[index].text = "\(emotionNameArray[index]) \(emotioDegreeArray[index])"
     }
 }
