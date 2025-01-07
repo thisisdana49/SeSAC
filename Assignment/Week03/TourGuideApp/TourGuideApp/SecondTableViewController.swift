@@ -13,8 +13,6 @@ class SecondTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.allowsSelection = false
     }
 
     // MARK: - Table view data source
@@ -45,6 +43,15 @@ class SecondTableViewController: UITableViewController {
             
             return cell
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let travel = travels[indexPath.row]
+        
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "SecondDetailViewController") as! SecondDetailViewController
+        vc.travel = travel
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
