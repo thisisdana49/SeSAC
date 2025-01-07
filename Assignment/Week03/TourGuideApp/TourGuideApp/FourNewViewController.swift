@@ -21,21 +21,12 @@ class FourNewViewController: UIViewController, UICollectionViewDelegate, UIColle
     @IBOutlet var searchTextField: UITextField!
     @IBOutlet var searchButton: UIButton!
     @IBOutlet var segmentedControl: UISegmentedControl!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        searchTextField.delegate = self
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: 140, height: 200)
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-//        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        collectionView.collectionViewLayout = layout
+        setCollectionViewLayout()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -120,6 +111,7 @@ class FourNewViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     private func setUI() {
+        navigationItem.title = "인기 도시"
         // XIB cell set up
         let nib = UINib(nibName: FourNewCollectionViewCell.identifier, bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: FourNewCollectionViewCell.identifier)
@@ -130,6 +122,20 @@ class FourNewViewController: UIViewController, UICollectionViewDelegate, UIColle
         segmentedControl.setTitle("모두", forSegmentAt: 0)
         segmentedControl.setTitle("국내", forSegmentAt: 1)
         segmentedControl.insertSegment(withTitle: "해외", at: 2, animated: false)
+    }
+    
+    func setCollectionViewLayout() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        searchTextField.delegate = self
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: 180, height: 220)
+        layout.minimumLineSpacing = 25
+        layout.minimumInteritemSpacing = 0
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 20)
+        collectionView.collectionViewLayout = layout
     }
 }
 
