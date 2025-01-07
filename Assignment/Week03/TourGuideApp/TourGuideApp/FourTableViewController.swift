@@ -8,7 +8,7 @@
 import UIKit
 
 class FourTableViewController: UITableViewController, UITextFieldDelegate {
-    let cityInfo = CityInfo()  // CityInfo의 인스턴스 생성
+    let cityInfo = CityInfo()
 
     let allCities = CityInfo().city
     let domesticCities = CityInfo().city.filter { $0.domestic_travel }

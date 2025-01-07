@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FourNewCollectionViewCell" id="gTV-IL-0wX" customClass="FourNewCollectionViewCell" customModule="TourGuideApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dancing-banana.gif" translatesAutoresizingMaskIntoConstraints="NO" id="oE6-gH-tvE">
+                        <rect key="frame" x="-17.666666666666671" y="0.0" width="135.33333333333334" height="135"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="135" id="cwX-6y-BOB"/>
+                            <constraint firstAttribute="height" constant="135" id="dHJ-dz-dAE"/>
+                        </constraints>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ArO-vs-Kaj">
+                        <rect key="frame" x="0.0" y="143" width="100" height="40.666666666666657"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Pe-uM-kHA">
+                                <rect key="frame" x="0.0" y="0.0" width="100" height="20.333333333333332"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QcM-z3-xQS">
+                                <rect key="frame" x="0.0" y="20.333333333333343" width="100" height="20.333333333333329"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="oE6-gH-tvE" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Gdr-hH-SSl"/>
+                <constraint firstAttribute="trailing" secondItem="ArO-vs-Kaj" secondAttribute="trailing" id="Id8-j5-CWN"/>
+                <constraint firstItem="ArO-vs-Kaj" firstAttribute="top" secondItem="oE6-gH-tvE" secondAttribute="bottom" constant="8" id="QRS-fe-ExT"/>
+                <constraint firstItem="oE6-gH-tvE" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="XKg-hP-UPN"/>
+                <constraint firstItem="ArO-vs-Kaj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="rMm-2P-sgb"/>
+            </constraints>
+            <connections>
+                <outlet property="cityImageView" destination="oE6-gH-tvE" id="ilz-Nd-t23"/>
+                <outlet property="explainLabel" destination="QcM-z3-xQS" id="m3Z-72-Asa"/>
+                <outlet property="nameLabel" destination="6Pe-uM-kHA" id="wSm-9g-Wsk"/>
+            </connections>
+            <point key="canvasLocation" x="2" y="21"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="dancing-banana.gif" width="365" height="360"/>
+    </resources>
+</document>
