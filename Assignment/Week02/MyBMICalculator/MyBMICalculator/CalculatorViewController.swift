@@ -50,27 +50,16 @@ class CalculatorViewController: UIViewController {
     
     @IBAction func calculateButtonTapped(_ sender: UIButton) {
         let height = (Double(heightTextField.text ?? "") ?? 0) * 0.01
-        UserDefaults.standard.set(height * 100, forKey: "\(nickname)Height")
-        print(UserDefaults.standard.string(forKey: "\(nickname)Height")!)
+        let weight = Double(weightTextField.text ?? "") ?? 0
+        
         if height < 0 || height > 250 {
-            let alert = UIAlertController(title: "⚠️ 입력 오류", message: "입력한 키를 다시 한 번 확인해 주세요.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "확인", style: .default)
-            alert.addAction(okAction)
-            present(alert, animated: true)
-            return
+            presentAlertController(isHeight: true)
+        } else if weight < 0 || weight > 200 { presentAlertController(isHeight: false)
         }
         
-        let weight = Double(weightTextField.text ?? "") ?? 0
+        UserDefaults.standard.set(height * 100, forKey: "\(nickname)Height")
         UserDefaults.standard.set(weight, forKey: "\(nickname)Weight")
-        print(UserDefaults.standard.string(forKey: "\(nickname)Weight")!)
-        if weight < 0 || weight > 200 {
-            let alert = UIAlertController(title: "⚠️ 입력 오류", message: "입력한 체중을 다시 한 번 확인해 주세요.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "확인", style: .default)
-            alert.addAction(okAction)
-            present(alert, animated: true)
-            return
-        }
-            
+        
         calculateBMI(h: height, w: weight)
     }
 
@@ -103,15 +92,22 @@ class CalculatorViewController: UIViewController {
     }
     
     func getObesity(bmi: Double) -> String {
-        if bmi < 18.5 {
-            return "저체중"
-        } else if bmi < 23.0 {
-            return "정상"
-        } else if bmi < 25.0 {
-            return "과체중"
-        } else {
-            return "비만"
+        switch bmi {
+        case ..<18.5: return "저체중"
+        case 18.5..<23.0: return "정상"
+        case 23..<25.0: return "과체중"
+        case 25...: return "비만"
+        default: return "오류"
         }
+    }
+    
+    func presentAlertController(isHeight: Bool) {
+        let message = isHeight ? "키" : "몸무게"
+        let alert = UIAlertController(title: "⚠️ 입력 오류", message: "입력한 \(message)를 다시 한 번 확인해 주세요.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+        return
     }
     
     fileprivate func setUI() {
