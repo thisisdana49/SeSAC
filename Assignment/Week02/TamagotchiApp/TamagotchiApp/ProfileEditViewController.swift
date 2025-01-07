@@ -38,7 +38,7 @@ class ProfileEditViewController: UIViewController {
     }
 
     @objc func saveNickname() {
-        UserDefaults.standard.setValue(nicknameTextField.text!, forKey: "userNickname")
+        UserDefaults.standard.set(nicknameTextField.text!, forKey: "userNickname")
         print("\(UserDefaults.standard.string(forKey: "userNickname"))이 닉네임에 저장되었습니다")
         self.navigationController?.popToRootViewController(animated: true)
     }
