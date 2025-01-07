@@ -20,8 +20,9 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUI()
+        
+        codeTextfield.delegate = self
     }
     
     func setUI() {
@@ -76,6 +77,7 @@ class SignUpViewController: UIViewController {
         
         // code textfield
         codeTextfield.textContentType = .oneTimeCode
+        codeTextfield.keyboardType = .numberPad
         codeTextfield.textAlignment = .center
         codeTextfield.attributedPlaceholder = NSAttributedString(string: "추천 코드 입력", attributes: [.foregroundColor: UIColor.white])
         codeTextfield.textColor = .white
@@ -100,5 +102,32 @@ class SignUpViewController: UIViewController {
 
     @IBAction func signUpButtonTapped(_ sender: UIButton) {
         view.endEditing(true)
+        
+        checkUserInformValid()
+    }
+    
+    func checkUserInformValid() {
+        var isEmailValid = idTextfield.text!.count >= 6
+        var isPasswordValid = !pwTextfield.text!.isEmpty
+        
+        if isEmailValid && isPasswordValid {
+            let sb = UIStoryboard(name: "Main", bundle: nil)
+            let vc = sb.instantiateViewController(withIdentifier: "MainTabBarViewController") as! MainTabBarViewController
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+        } else {
+            let alert = UIAlertController(title: "로그인 오류", message: "입력 정보가 올바르지 않습니다. 아이디와 비밀번호를 다시 확인해 주세요.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(okAction)
+            present(alert, animated: true)
+        }
+    }
+}
+
+extension SignUpViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // 숫자가 아니면(문자, 공백 등) false 반환
+        guard Int(string) != nil || string == "" else { return false}
+        return true
     }
 }
