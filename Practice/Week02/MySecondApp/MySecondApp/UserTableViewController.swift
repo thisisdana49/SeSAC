@@ -20,10 +20,30 @@ class UserTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // UIBarButton도 UIControl을 상속 받고 있음.
+        let rightBarButton = UIBarButtonItem(image: UIImage(systemName: "bubble.fill"), style: .plain, target: self, action: #selector(rightBarButtonItemTapped))
+        navigationItem.rightBarButtonItem = rightBarButton
+        
         // xib cell
         // bundle에 관련해서는 언젠가 다음 시간에.
-        let nib = UINib(nibName: "NoProfileTableViewCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "NoProfileTableViewCell")
+//        let nib = UINib(nibName: "NoProfileTableViewCell", bundle: nil)
+//        tableView.register(nib, forCellReuseIdentifier: "NoProfileTableViewCell")
+    }
+    
+    @objc func rightBarButtonItemTapped() {
+        print(#function)
+        // 1. 스토리보드를 특정 Practice
+        let sb = UIStoryboard(name: "User", bundle: nil)
+        
+//        self.storyboard // 나 스토리보드 있지? -> 있음 아무래도
+//        storyboard
+        
+        // 2. 전환할 뷰컨트롤러 가져오기
+        //        let vc = BrownTableViewController() 코드 베이스로 작성할 경우
+        let vc = sb.instantiateViewController(withIdentifier: "YellowViewController") as! YellowViewController
+        
+        // 3. 화면을 전한할 방법 선택하기 - Show Present
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     // MARK: - Table view data source
@@ -64,6 +84,38 @@ class UserTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    // cell 클릭 시
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(#function, indexPath)
+        let friend = friends[indexPath.row]
+        
+        // 1. 스토리보드를 특정 Practice
+        let sb = UIStoryboard(name: "User", bundle: nil)
+//        let brownVC = BrownViewController()
+        
+        // 2. 전환할 뷰컨트롤러 가져오기
+        //        let vc = BrownTableViewController() 코드 베이스로 작성할 경우
+        let vc = sb.instantiateViewController(withIdentifier: "BrownViewController") as! BrownViewController
+//        값을 전달할 때 Outlet은 사용할 수 없다.
+//        vc.testLabel.text = "다우니"
+        // 2. Pass Data - vc가 갖고 있는 프로퍼티에 데이터 추가
+        vc.contents = friend.name
+        
+//        vc.modalTransitionStyle = .crossDissolve
+//        vc.modalPresentationStyle = .fullScreen
+        
+        // (Option) present이지만 navigation title도 쓰고 싶다면,
+        // 다시 네비게이션 컨트롤러를 임베드해서 네비게이션 컨트롤러를 present
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        
+        // 3. 화면을 전한할 방법 선택하기 - Modal
+        present(nav, animated: true)
+//        navigationController?.pushViewController(vc, animated: true)
+//        Optioinal Chaining으로 인해, navigagtionController 다음 구문을 시행하지 않는 것.
+        tableView.reloadData()
     }
     
     @objc func likeButtonTapped(_ sender: UIButton) {

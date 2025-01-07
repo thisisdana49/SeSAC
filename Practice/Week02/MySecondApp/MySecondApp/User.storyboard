@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4Az-Ra-8UF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ODj-Yl-usq">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -82,8 +83,118 @@
                             <outlet property="delegate" destination="4Az-Ra-8UF" id="eRj-Lv-4Qj"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="pIG-dk-kGz"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eP6-bG-ADa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1700" y="16.901408450704228"/>
+        </scene>
+        <!--Brown View Controller-->
+        <scene sceneID="cxk-SS-9H0">
+            <objects>
+                <viewController storyboardIdentifier="BrownViewController" id="FTF-6Z-0mO" customClass="BrownViewController" customModule="MySecondApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="H1Z-qH-PbT">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yn7-v3-V5F">
+                                <rect key="frame" x="16" y="415.66666666666669" width="361" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rud-9b-Vcn">
+                                <rect key="frame" x="96" y="475" width="58" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="POP"/>
+                                <connections>
+                                    <action selector="popButtonTapped:" destination="FTF-6Z-0mO" eventType="touchUpInside" id="DaM-zE-Ocu"/>
+                                    <action selector="popButtonTapped:" destination="M0w-6V-BI0" eventType="touchUpInside" id="l5d-yw-T92"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="51f-oK-CrB">
+                                <rect key="frame" x="247" y="475" width="68" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="BACK"/>
+                                <connections>
+                                    <action selector="backButtonTapped:" destination="M0w-6V-BI0" eventType="touchUpInside" id="7Z3-RD-LiT"/>
+                                    <action selector="backButtonTapped:" destination="FTF-6Z-0mO" eventType="touchUpInside" id="GmE-0c-5DH"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hr8-vk-xxK"/>
+                        <color key="backgroundColor" systemColor="systemBrownColor"/>
+                        <constraints>
+                            <constraint firstItem="Yn7-v3-V5F" firstAttribute="leading" secondItem="hr8-vk-xxK" secondAttribute="leading" constant="16" id="2gq-LO-JfC"/>
+                            <constraint firstItem="hr8-vk-xxK" firstAttribute="trailing" secondItem="Yn7-v3-V5F" secondAttribute="trailing" constant="16" id="GS0-U6-BQB"/>
+                            <constraint firstItem="Yn7-v3-V5F" firstAttribute="centerX" secondItem="H1Z-qH-PbT" secondAttribute="centerX" id="Pda-k5-Hdr"/>
+                            <constraint firstItem="Yn7-v3-V5F" firstAttribute="centerY" secondItem="H1Z-qH-PbT" secondAttribute="centerY" id="WPo-Fn-SXv"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="testLabel" destination="Yn7-v3-V5F" id="zHb-Oh-qba"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4bH-De-4ds" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2486.2595419847326" y="16.901408450704228"/>
+        </scene>
+        <!--Yellow View Controller-->
+        <scene sceneID="ZIw-km-oL3">
+            <objects>
+                <viewController storyboardIdentifier="YellowViewController" id="M0w-6V-BI0" customClass="YellowViewController" customModule="MySecondApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="grj-3c-RR0">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jfs-NQ-kq5">
+                                <rect key="frame" x="167.66666666666666" y="408.66666666666669" width="58" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="POP"/>
+                                <connections>
+                                    <action selector="popButtonTapped:" destination="M0w-6V-BI0" eventType="touchUpInside" id="C4e-zA-Rvh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I00-Ar-XAi">
+                                <rect key="frame" x="162.66666666666666" y="467.66666666666669" width="68" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="BACK"/>
+                                <connections>
+                                    <action selector="backButtonTapped:" destination="M0w-6V-BI0" eventType="touchUpInside" id="8Yt-OU-Blz"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="aS1-0Q-RYw"/>
+                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                        <constraints>
+                            <constraint firstItem="I00-Ar-XAi" firstAttribute="top" secondItem="Jfs-NQ-kq5" secondAttribute="bottom" constant="24" id="1n6-C1-tVl"/>
+                            <constraint firstItem="I00-Ar-XAi" firstAttribute="centerX" secondItem="grj-3c-RR0" secondAttribute="centerX" id="DBb-D2-g2c"/>
+                            <constraint firstItem="Jfs-NQ-kq5" firstAttribute="centerY" secondItem="grj-3c-RR0" secondAttribute="centerY" id="eBi-lX-2rb"/>
+                            <constraint firstItem="Jfs-NQ-kq5" firstAttribute="centerX" secondItem="grj-3c-RR0" secondAttribute="centerX" id="oH8-F1-jLg"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z5I-6v-Hyk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3278.6259541984732" y="16.901408450704228"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="h6K-hK-s9b">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ODj-Yl-usq" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vw5-8S-6Yq">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4Az-Ra-8UF" kind="relationship" relationship="rootViewController" id="TfQ-fb-y2N"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j5X-Du-oBt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="773.28244274809163" y="16.901408450704228"/>
         </scene>
@@ -91,6 +202,12 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBrownColor">
+            <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
