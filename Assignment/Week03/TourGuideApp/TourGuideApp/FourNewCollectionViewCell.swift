@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class FourNewCollectionViewCell: UICollectionViewCell {
     static let identifier = "FourNewCollectionViewCell"
@@ -17,20 +18,30 @@ class FourNewCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-    
+//        print(#function, city)
+        configure()
     }
 
     private func configure() {
-        print(#function)
+        cityImageView.contentMode = .scaleAspectFill
         cityImageView.layer.cornerRadius = cityImageView.frame.height / 2
         
         nameLabel.textAlignment = .center
         nameLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-        nameLabel.text = city?.city_full_name
         
+        explainLabel.numberOfLines = 0
         explainLabel.textAlignment = .center
         explainLabel.textColor = .darkGray
         explainLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        explainLabel.text = city?.city_explain
+    }
+    
+    func configureData(in row: City) {
+        if let imgURL = URL(string: row.city_image) {
+            cityImageView.kf.setImage(with: imgURL)
+        } else {
+            cityImageView.image = .no
+        }
+        nameLabel.text = row.city_full_name
+        explainLabel.text = row.city_explain
     }
 }

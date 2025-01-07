@@ -27,24 +27,96 @@ class FourNewViewController: UIViewController, UICollectionViewDelegate, UIColle
         setUI()
         collectionView.delegate = self
         collectionView.dataSource = self
+        searchTextField.delegate = self
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: 140, height: 200)
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 0)
+//        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         collectionView.collectionViewLayout = layout
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        if isSearching {
+            return filteredCities.count
+        } else {
+            switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                return allCities.count
+            case 1:
+                return domesticCities.count
+            case 2:
+                return foreignCities.count
+            default:
+                return allCities.count
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FourNewCollectionViewCell.identifier, for: indexPath) as! FourNewCollectionViewCell
+        let city: City
+        let searchText = searchTextField.text ?? ""
+        
+        if isSearching {
+            city = filteredCities[indexPath.row]
+        } else {
+            switch segmentedControl.selectedSegmentIndex {
+            case 0:
+                city = allCities[indexPath.row]
+            case 1:
+                city = domesticCities[indexPath.row]
+            case 2:
+                city = foreignCities[indexPath.row]
+            default:
+                city = allCities[indexPath.row]
+            }
+        }
+        
+        cell.configureData(in: city)
         
         return cell
+    }
+    
+    @IBAction func segmentedControlSelected(_ sender: UISegmentedControl) {
+        isSearching = false
+        searchTextField.text = ""
+        collectionView.reloadData()
+    }
+    
+    @objc
+    private func textFieldDidChange(_ textField: UITextField) {
+        guard let searchText = textField.text, !searchText.isEmpty else {
+            isSearching = false
+            filteredCities = []
+            collectionView.reloadData()
+            return
+        }
+        
+        isSearching = true
+        let trimmedText = searchText.capitalized.trimmingCharacters(in: .whitespaces)
+        
+        let currentCitis: [City]
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            currentCitis = allCities
+        case 1:
+            currentCitis = domesticCities
+        case 2:
+            currentCitis = foreignCities
+        default:
+            currentCitis = allCities
+        }
+        
+        filteredCities = currentCitis.filter {
+            $0.city_name.contains(trimmedText)
+            || $0.city_english_name.contains(trimmedText)
+            || $0.city_explain.contains(trimmedText)
+        }
+        
+        collectionView.reloadData()
     }
     
     private func setUI() {
@@ -53,10 +125,17 @@ class FourNewViewController: UIViewController, UICollectionViewDelegate, UIColle
         collectionView.register(nib, forCellWithReuseIdentifier: FourNewCollectionViewCell.identifier)
         
         searchTextField.placeholder = "어디로 떠나볼까요? 😎"
-//        searchTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        searchTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         searchButton.setImage(UIImage(systemName: "magnifyingglass")?.withTintColor(.systemGray3).withRenderingMode(.alwaysOriginal), for: .normal)
         segmentedControl.setTitle("모두", forSegmentAt: 0)
         segmentedControl.setTitle("국내", forSegmentAt: 1)
         segmentedControl.insertSegment(withTitle: "해외", at: 2, animated: false)
+    }
+}
+
+extension FourNewViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return true
     }
 }
