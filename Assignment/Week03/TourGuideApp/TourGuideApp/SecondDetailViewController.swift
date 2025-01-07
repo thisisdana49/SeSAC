@@ -22,7 +22,7 @@ class SecondDetailViewController: UIViewController {
         setUI()
     }
     
-    @objc func rightButtonTapped(_ sender: UIButton) {
+    @objc func leftButtonTapped(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
     
@@ -33,7 +33,7 @@ class SecondDetailViewController: UIViewController {
     
     private func setUI() {
         navigationItem.title = "관광지 화면"
-        let leftBarButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward")?.withTintColor(.black).withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(rightButtonTapped))
+        let leftBarButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward")?.withTintColor(.black).withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(leftButtonTapped))
         navigationItem.leftBarButtonItem = leftBarButton
         
         travelImageView.contentMode = .scaleAspectFill

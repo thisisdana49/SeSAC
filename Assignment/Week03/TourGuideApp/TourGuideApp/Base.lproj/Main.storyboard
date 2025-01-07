@@ -370,6 +370,38 @@
             </objects>
             <point key="canvasLocation" x="2673.1343283582087" y="1641.4187643020593"/>
         </scene>
+        <!--Second Ad Detail View Controller-->
+        <scene sceneID="Y4l-xT-Gh3">
+            <objects>
+                <viewController storyboardIdentifier="SecondAdDetailViewController" id="iyM-s0-xZk" customClass="SecondAdDetailViewController" customModule="TourGuideApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4zC-tp-TkH">
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kz4-rB-NoP">
+                                <rect key="frame" x="80" y="427" width="242" height="20.333333333333314"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="wVW-QV-saM"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="kz4-rB-NoP" firstAttribute="leading" secondItem="wVW-QV-saM" secondAttribute="leading" constant="80" id="KLo-E1-XV8"/>
+                            <constraint firstItem="kz4-rB-NoP" firstAttribute="centerY" secondItem="4zC-tp-TkH" secondAttribute="centerY" id="KYx-Gc-C4a"/>
+                            <constraint firstItem="kz4-rB-NoP" firstAttribute="centerX" secondItem="4zC-tp-TkH" secondAttribute="centerX" id="Pul-py-HPN"/>
+                            <constraint firstItem="wVW-QV-saM" firstAttribute="trailing" secondItem="kz4-rB-NoP" secondAttribute="trailing" constant="80" id="xhz-e2-fRd"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="titleLabel" destination="kz4-rB-NoP" id="Nsf-t3-FFb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uwl-fF-uuV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3554" y="1263"/>
+        </scene>
         <!--Second Detail View Controller-->
         <scene sceneID="RZp-fz-EDz">
             <objects>
@@ -442,7 +474,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BDw-JK-pJV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3600" y="878.71853546910745"/>
+            <point key="canvasLocation" x="3555" y="616"/>
         </scene>
         <!--Third Table View Controller-->
         <scene sceneID="euN-5P-bqs">

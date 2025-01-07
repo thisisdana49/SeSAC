@@ -47,11 +47,20 @@ class SecondTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let travel = travels[indexPath.row]
-        
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "SecondDetailViewController") as! SecondDetailViewController
-        vc.travel = travel
-        navigationController?.pushViewController(vc, animated: true)
+        
+        if !travel.ad {
+            let vc = sb.instantiateViewController(withIdentifier: "SecondDetailViewController") as! SecondDetailViewController
+            vc.travel = travel
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = sb.instantiateViewController(withIdentifier: "SecondAdDetailViewController") as! SecondAdDetailViewController
+            vc.adTitle = travel.title
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            
+            present(nav, animated: true)
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
