@@ -12,6 +12,11 @@ class SecondTableViewController: UITableViewController {
     var travels = TravelInfo().travel
     var reviewNumArray: [String] = []
     
+    // Should never be called directly.
+//    override func loadView() {
+//        <#code#>
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
