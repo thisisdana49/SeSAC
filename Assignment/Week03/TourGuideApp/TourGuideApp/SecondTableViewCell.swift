@@ -18,7 +18,8 @@ class SecondTableViewCell: UITableViewCell {
     @IBOutlet var likeButton: UIButton!
     
     // Q. 왜 하트를 누를 때마다 값이 변경 되는 걸까... 대체 why?
-    private let reviewNum = String(Int.random(in: 1...1000))
+    // -> Data를 cell이 가지고 있어서.
+//    private let reviewNum: String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,7 +43,7 @@ class SecondTableViewCell: UITableViewCell {
         travelImageView.layer.cornerRadius = 8
     }
     
-    func configureData(row: Travel, index: Int) {
+    func configureData(row: Travel, index: Int, reviewNum: String) {
         gradeLabel.tag = index
         saveLabel.tag = index
         likeButton.tag = index
@@ -50,7 +51,7 @@ class SecondTableViewCell: UITableViewCell {
         titleLabel.text = row.title
             
         descLabel.text = row.description
-        setStarsLabel(from: row.grade!, to: gradeLabel)
+        setStarsLabel(from: row.grade!, to: gradeLabel, reviewNum: reviewNum)
         setFormattedNumberLabel(from: row.save!, to: saveLabel)
         
         if let imgURL = URL(string: row.travel_image!) {
@@ -62,7 +63,7 @@ class SecondTableViewCell: UITableViewCell {
         likeButton.setImage(UIImage(systemName: row.like! ?  "heart" : "heart.fill")?.withTintColor(.white).withRenderingMode(.alwaysOriginal), for: .normal)
     }
                 
-    func setStarsLabel(from doubleValue: Double, to label: UILabel) {
+    func setStarsLabel(from doubleValue: Double, to label: UILabel, reviewNum: String) {
         let starCount = Int(round(doubleValue))
         let yellowStars = NSAttributedString(string: String(repeating: "★", count: starCount), attributes: [.foregroundColor: UIColor.pointYellow])
         
@@ -81,11 +82,7 @@ class SecondTableViewCell: UITableViewCell {
     }
 
     func setFormattedNumberLabel(from intValue: Int, to label: UILabel) {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        let formattedSave = numberFormatter.string(for: intValue) ?? ""
-        
-        let saveString = NSAttributedString(string: "· 저장 \(formattedSave)", attributes: [.foregroundColor: UIColor.systemGray3, .font: UIFont.systemFont(ofSize: 15)])
+        let saveString = NSAttributedString(string: "· 저장 \(intValue.formatted(.number))", attributes: [.foregroundColor: UIColor.systemGray3, .font: UIFont.systemFont(ofSize: 15)])
         
         label.attributedText = saveString
     }

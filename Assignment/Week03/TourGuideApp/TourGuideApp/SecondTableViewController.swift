@@ -10,9 +10,15 @@ import Kingfisher
 
 class SecondTableViewController: UITableViewController {
     var travels = TravelInfo().travel
+    var reviewNumArray: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        for _ in 1...travels.count {
+            let randomNum = String(Int.random(in: 1...1000))
+            reviewNumArray.append(randomNum)
+        }
     }
 
     // MARK: - Table view data source
@@ -32,7 +38,7 @@ class SecondTableViewController: UITableViewController {
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
             }
 
-            cell.configureData(row: travel, index: indexPath.row)
+            cell.configureData(row: travel, index: indexPath.row, reviewNum: reviewNumArray[indexPath.row])
             cell.likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
             
             return cell
