@@ -7,8 +7,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+    var numbers: [Int] = []
+    let pickerView = UIPickerView()
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var numberTextField: UITextField!
     @IBOutlet var resultTextView: UITextView!
@@ -17,6 +18,40 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
+        
+        for i in 1...100 {
+            numbers.append(i)
+        }
+        numbers.reverse()
+        
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        numberTextField.delegate = self
+        
+        numberTextField.inputView = pickerView
+    }
+    
+    // UIPickerView Delegate
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return numbers.count
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return String(numbers[row])
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        numberTextField.text = String(numbers[row])
+    }
+    
+    // TextField Delegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return true
     }
     
     private func setUI() {
