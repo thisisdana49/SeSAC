@@ -24,7 +24,7 @@ struct RestaurantList {
         Restaurant(
             image: "https://search.pstatic.net/common/placeholder.jpg",
             latitude: 37.6533675,
-            longitude: 127.0477088,
+            longitude: 127.051088,
             name: "리얼파스타 창동점",
             address: "서울 도봉구 마들로11길 71 신한빌딩 203호",
             phoneNumber: "0507-1405-7722",
@@ -34,8 +34,8 @@ struct RestaurantList {
         ),
         Restaurant(
             image: "https://search.pstatic.net/common/placeholder.jpg",
-            latitude: 37.6533675,
-            longitude: 127.0477088,
+            latitude: 37.6490490,
+            longitude: 127.0496282,
             name: "박보영김밥",
             address: "서울 도봉구 마들로11길 71 1층",
             phoneNumber: "0507-1385-2002",
@@ -45,8 +45,8 @@ struct RestaurantList {
         ),
         Restaurant(
             image: "https://search.pstatic.net/common/placeholder.jpg",
-            latitude: 37.6535259,
-            longitude: 127.0476973,
+            latitude: 37.6522157,
+            longitude: 127.0487265,
             name: "꽈백최선생 본점",
             address: "서울 도봉구 마들로11길 65 1층",
             phoneNumber: "0507-1333-5445",
@@ -68,7 +68,7 @@ struct RestaurantList {
         Restaurant(
             image: "https://search.pstatic.net/common/placeholder.jpg",
             latitude: 37.6551649,
-            longitude: 127.0480795,
+            longitude: 127.0470795,
             name: "애슐리퀸즈 창동씨드큐브점",
             address: "서울 도봉구 마들로13길 61 씨드큐브 창동 3층",
             phoneNumber: "02-994-0472",
@@ -79,7 +79,7 @@ struct RestaurantList {
         Restaurant(
             image: "https://search.pstatic.net/common/placeholder.jpg",
             latitude: 37.6551649,
-            longitude: 127.0480795,
+            longitude: 127.0460795,
             name: "청담동샤브 씨드큐브창동점",
             address: "서울 도봉구 마들로13길 61 2층 201-4호",
             phoneNumber: "02-991-5559",
@@ -89,8 +89,8 @@ struct RestaurantList {
         ),
         Restaurant(
             image: "https://search.pstatic.net/common/placeholder.jpg",
-            latitude: 37.6551649,
-            longitude: 127.0480795,
+            latitude: 37.6527862,
+            longitude: 127.0491815,
             name: "송추가마골 인어반 창동점",
             address: "서울 도봉구 마들로13길 61 2층 201-7, 8호",
             phoneNumber: "02-999-2789",
@@ -100,8 +100,8 @@ struct RestaurantList {
         ),
         Restaurant(
             image: "https://search.pstatic.net/common/placeholder.jpg",
-            latitude: 37.6543873,
-            longitude: 127.0474787,
+            latitude: 37.6537943,
+            longitude: 127.0480527,
             name: "샐러디 창동역점",
             address: "서울 도봉구 노해로69길 26",
             phoneNumber: "02-999-2123",
@@ -122,8 +122,8 @@ struct RestaurantList {
         ),
         Restaurant(
             image: "https://search.pstatic.net/common/placeholder.jpg",
-            latitude: 37.6543095,
-            longitude: 127.0473553,
+            latitude: 37.6522157,
+            longitude: 127.0477265,
             name: "큰집한식뷔페",
             address: "서울 도봉구 노해로69길 21 지하1층",
             phoneNumber: "02-990-1100",
@@ -133,8 +133,8 @@ struct RestaurantList {
         ),
         Restaurant(
             image: "https://search.pstatic.net/common/placeholder.jpg",
-            latitude: 37.6539443,
-            longitude: 127.0474457,
+            latitude: 37.6546199,
+            longitude: 127.0487781,
             name: "마쯔무라돈까스 본점",
             address: "서울 도봉구 노해로63길 84 지하1층",
             phoneNumber: "02-995-3575",
@@ -144,8 +144,8 @@ struct RestaurantList {
         ),
         Restaurant(
             image: "https://search.pstatic.net/common/placeholder.jpg",
-            latitude: 37.6539443,
-            longitude: 127.0474457,
+            latitude: 37.6535004,
+            longitude: 127.0446295,
             name: "창동짬뽕",
             address: "서울 도봉구 노해로63길 84",
             phoneNumber: "02-994-8892",
@@ -155,7 +155,7 @@ struct RestaurantList {
         ),
         Restaurant(
             image: "https://search.pstatic.net/common/placeholder.jpg",
-            latitude: 37.6532157,
+            latitude: 37.6510157,
             longitude: 127.0477265,
             name: "빽다방 창동역점",
             address: "서울 도봉구 마들로11길 57",

@@ -35,8 +35,8 @@ class MainViewController: UIViewController, MKMapViewDelegate {
 
     private func configurationMapView() {
         for restaurant in restaurants {
-            let center = CLLocationCoordinate2D(latitude: 37.65370, longitude: 127.04740)
-            mapView.region = MKCoordinateRegion(center: center, latitudinalMeters: 1000, longitudinalMeters: 1000)
+            let center = CLLocationCoordinate2D(latitude: 37.6537943, longitude: 127.0480527)
+            mapView.region = MKCoordinateRegion(center: center, latitudinalMeters: 700, longitudinalMeters: 700)
             
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: restaurant.latitude, longitude: restaurant.longitude)
