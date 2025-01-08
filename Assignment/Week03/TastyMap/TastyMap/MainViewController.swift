@@ -98,6 +98,12 @@ class MainViewController: UIViewController, MKMapViewDelegate {
             button.layer.cornerRadius = 15
             button.heightAnchor.constraint(equalToConstant: 30).isActive = true
             button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+            button.layer.shadowColor = UIColor.black.cgColor
+            button.layer.shadowOpacity = 0.3
+            button.layer.shadowRadius = 5
+            button.layer.shadowOffset = CGSize(width: 1, height: 1)
+            button.layer.shadowPath = nil
+            button.layer.masksToBounds = false
             
             button.tag = index
             button.addTarget(self, action: #selector(categoryButtonTapped), for: .touchUpInside)
