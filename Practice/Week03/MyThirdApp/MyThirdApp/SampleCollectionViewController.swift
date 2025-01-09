@@ -10,12 +10,26 @@ import UIKit
 class SampleCollectionViewController: UIViewController {
     @IBOutlet var bannerCollectionView: UICollectionView!
     
+    @IBOutlet var listCollectionView: UICollectionView!
     var array = Array(1...1000)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
         configureCollectionViewLayout()
+        configureListCollectionViewLayout()
+        
+        DispatchQueue.main.async {
+            print(1)
+        }
+        
+        print(2)
+        print(3)
+        print(4)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print(#function)
     }
     
     func configureCollectionView() {
@@ -24,6 +38,24 @@ class SampleCollectionViewController: UIViewController {
         let id = SampleCollectionViewCell.identifier
         let xib = UINib(nibName: id, bundle: nil)
         bannerCollectionView.register(xib, forCellWithReuseIdentifier: id)
+        
+        listCollectionView.delegate = self
+        listCollectionView.dataSource = self
+        listCollectionView.register(xib, forCellWithReuseIdentifier: id)
+    }
+    
+    func configureListCollectionViewLayout() {
+        let sectionInset: CGFloat = 16
+        let cellSpacing: CGFloat = 16
+        
+        let deviceWidth = UIScreen.main.bounds.width
+        let cellWidth = (deviceWidth - (sectionInset * 2) - (cellSpacing * 3))
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSizeMake(cellWidth/4, (cellWidth/4) * 1.2)
+        layout.sectionInset = UIEdgeInsets(top: sectionInset, left: sectionInset, bottom: sectionInset, right: sectionInset)
+        listCollectionView.collectionViewLayout = layout
     }
     
     func configureCollectionViewLayout() {

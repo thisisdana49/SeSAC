@@ -80,17 +80,52 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Vmt-Eh-UeH">
+                                <rect key="frame" x="0.0" y="309" width="393" height="509"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="181-ui-i6q">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="1nC-ra-wKZ">
+                                        <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Wxw-sf-18Q">
+                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="UnX-ZA-WRD">
+                                <rect key="frame" x="0.0" y="259" width="393" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="bV5-tk-xFE" id="fA4-2e-aqn"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="H3H-9c-MGf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Vmt-Eh-UeH" firstAttribute="leading" secondItem="H3H-9c-MGf" secondAttribute="leading" id="Dk5-pF-oZf"/>
+                            <constraint firstItem="H3H-9c-MGf" firstAttribute="bottom" secondItem="Vmt-Eh-UeH" secondAttribute="bottom" id="Mhv-ia-BbG"/>
                             <constraint firstItem="zpy-MO-ebd" firstAttribute="leading" secondItem="H3H-9c-MGf" secondAttribute="leading" id="PBT-OB-Qf7"/>
+                            <constraint firstItem="UnX-ZA-WRD" firstAttribute="leading" secondItem="H3H-9c-MGf" secondAttribute="leading" id="QmX-bM-C6u"/>
+                            <constraint firstItem="Vmt-Eh-UeH" firstAttribute="trailing" secondItem="H3H-9c-MGf" secondAttribute="trailing" id="bbV-wV-j65"/>
+                            <constraint firstItem="UnX-ZA-WRD" firstAttribute="trailing" secondItem="H3H-9c-MGf" secondAttribute="trailing" id="dEe-fh-nWw"/>
                             <constraint firstItem="zpy-MO-ebd" firstAttribute="top" secondItem="H3H-9c-MGf" secondAttribute="top" id="lx0-ay-b5z"/>
+                            <constraint firstItem="Vmt-Eh-UeH" firstAttribute="top" secondItem="zpy-MO-ebd" secondAttribute="bottom" constant="50" id="oRL-P6-dpf"/>
                             <constraint firstItem="H3H-9c-MGf" firstAttribute="trailing" secondItem="zpy-MO-ebd" secondAttribute="trailing" id="wpp-p3-iuY"/>
+                            <constraint firstItem="UnX-ZA-WRD" firstAttribute="top" secondItem="zpy-MO-ebd" secondAttribute="bottom" id="zNM-n6-DGt"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="bannerCollectionView" destination="zpy-MO-ebd" id="jR9-tF-YaA"/>
+                        <outlet property="listCollectionView" destination="Vmt-Eh-UeH" id="6JF-6u-Ghb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1R4-iC-FnS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
