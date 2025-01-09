@@ -16,5 +16,14 @@ class SampleCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    // layoutIfNeeded
+//    override func layoutIfNeeded() {
+//        <#code#>
+//    }
     
+    // layoutSubviews
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        descImageView.layer.cornerRadius = descImageView.frame.width / 2
+//    }
 }

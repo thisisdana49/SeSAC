@@ -9,7 +9,11 @@ import UIKit
 import MapKit
 
 struct User {
-    var name: String
+    var name: String = "다우니맛"
+    static let nickname = "다우니향"
+    
+    func sample() {}
+    static func test() {}
 }
 
 class ViewController: UIViewController, MKMapViewDelegate {
@@ -22,17 +26,20 @@ class ViewController: UIViewController, MKMapViewDelegate {
     let list = ["가", "나", "다"]
     let array = [1, 2, 3, 4]
     
-    // 특정 객체를 초기화하는 방법은 여러가지
-    let users: [User] = [
-        User(name: "Kim"),
-        User(name: "Choi")
-    ]
+//    var user = User()
+    let nickname = User.nickname
     
-    // 이 방법은 시간이 많이 걸림
-    let users2: [User] = [
-        .init(name: "kim"),
-        .init(name: "choi")
-    ]
+    // 특정 객체를 초기화하는 방법은 여러가지
+//    let users: [User] = [
+//        User(name: "Kim"),
+//        User(name: "Choi")
+//    ]
+//    
+//    // 이 방법은 시간이 많이 걸림
+//    let users2: [User] = [
+//        .init(name: "kim"),
+//        .init(name: "choi")
+//    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -27,17 +27,8 @@ class SampleCollectionViewController: UIViewController {
     }
     
     func configureCollectionViewLayout() {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-//        layout.itemSize = CGSize(width: 100, height: 50)
-//        layout.itemSize = CGSize(width: view.window?.windowScene?.screen.bounds.width, height: 50)
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 120)
-        layout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 0)
-        
         bannerCollectionView.isPagingEnabled = true
-        bannerCollectionView.collectionViewLayout = layout
+        bannerCollectionView.collectionViewLayout = collectionViewLayout()
     }
 }
 
@@ -52,6 +43,11 @@ extension SampleCollectionViewController: UICollectionViewDelegate, UICollection
         cell.backgroundColor = .blue
         cell.descImageView.backgroundColor = .white
         cell.titleLabel.text = "\(indexPath.item)"
+//        cell.descImageView.layer.cornerRadius = cell.descImageView.frame.width / 2
+
+        DispatchQueue.main.async {
+            cell.descImageView.layer.cornerRadius = cell.descImageView.frame.width / 2
+        }
         
         return cell
     }
