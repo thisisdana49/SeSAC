@@ -8,7 +8,11 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, MKMapViewDelegate {
+struct User {
+    var name: String
+}
+
+class ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet var userTextField: UITextField!
     @IBOutlet var secondTextField: UITextField!
     @IBOutlet var mapView: MKMapView!
@@ -17,6 +21,18 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     let list = ["가", "나", "다"]
     let array = [1, 2, 3, 4]
+    
+    // 특정 객체를 초기화하는 방법은 여러가지
+    let users: [User] = [
+        User(name: "Kim"),
+        User(name: "Choi")
+    ]
+    
+    // 이 방법은 시간이 많이 걸림
+    let users2: [User] = [
+        .init(name: "kim"),
+        .init(name: "choi")
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +57,14 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         annotation.title = "씨드큐브"
         mapView.addAnnotation(annotation)
     }
+    
+    //MapView Delegate
+    // 기능이 굉장히 많다...는 것.
+}
 
+// MARK: UIPickerViewDelegate
+extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return component == 0 ? list.count : array.count
     }
@@ -63,6 +86,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
     
+}
+
+// MARK: UITextFieldDelegate
+extension ViewController: UITextFieldDelegate {
+    
     // TextField Delegate
     // Enabled Return(Enter key) Action
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -71,8 +99,4 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
         return true
     }
-    
-    //MapView Delegate
-    // 기능이 굉장히 많다...
 }
-
