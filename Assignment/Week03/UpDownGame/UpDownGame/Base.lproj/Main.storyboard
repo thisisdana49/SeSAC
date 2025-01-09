@@ -145,7 +145,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ePa-p7-Mat">
                                 <rect key="frame" x="20" y="774" width="353" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="GbA-8s-OX8"/>
+                                    <constraint firstAttribute="height" constant="44" id="e1B-BW-Y4o"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
