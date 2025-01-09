@@ -11,7 +11,8 @@ class SampleCollectionViewController: UIViewController {
     @IBOutlet var bannerCollectionView: UICollectionView!
     @IBOutlet var listCollectionView: UICollectionView!
     @IBOutlet var searchBar: UISearchBar!
-    var array = Array(1...1000)
+    var totalList = Array(1...1000)
+    lazy var filteredList = totalList
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +70,7 @@ class SampleCollectionViewController: UIViewController {
 
 extension SampleCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return array.count
+        return filteredList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -83,6 +84,8 @@ extension SampleCollectionViewController: UICollectionViewDelegate, UICollection
         DispatchQueue.main.async {
             cell.descImageView.layer.cornerRadius = cell.descImageView.frame.width / 2
         }
+        
+        cell.titleLabel.text = "\(filteredList[indexPath.item])"
         
         return cell
     }
@@ -103,4 +106,20 @@ extension SampleCollectionViewController: UISearchBarDelegate {
         searchBar.showsCancelButton = true
     }
     // cancel button에도 애니메이션을 적용할 수 있다!
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        var result: [Int] = []
+        
+        if searchText == "" {
+            filteredList = totalList
+        } else {
+            for item in filteredList {
+                if item == Int(searchText) {
+                    result.append(item)
+                }
+            }
+            filteredList = result
+        }
+        listCollectionView.reloadData()
+    }
 }
