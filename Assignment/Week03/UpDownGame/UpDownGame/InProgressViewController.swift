@@ -16,6 +16,9 @@ class InProgressViewController: UIViewController {
     @IBOutlet var resetButton: UILabel!
     @IBOutlet var confirmButton: UIButton!
     
+    var isFirstTapped = false
+    var triggeredCell: Int = -1
+    
     var countTrialNum: Int = 0
     var maxNumber: Int = 0 {
         didSet {
@@ -75,6 +78,7 @@ class InProgressViewController: UIViewController {
         resetButton.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         resetButton.textColor = .darkGray
         resetButton.textAlignment = .center
+        resetButton.isHidden = true
 
         confirmButton.setTitle("결과 확인하기", for: .normal)
         confirmButton.backgroundColor = .black
@@ -101,4 +105,18 @@ extension InProgressViewController: UICollectionViewDelegate, UICollectionViewDa
         return cell
     }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? InProgressCollectionViewCell else { return }
+        if triggeredCell == -1 {
+            DispatchQueue.main.async {
+                cell.isTriggered(isSelected: false)
+            }
+            triggeredCell = indexPath.item
+        } else if triggeredCell == indexPath.item {
+            cell.isTriggered(isSelected: true)
+            triggeredCell = -1
+        } else {
+            print("please unselect cell first", indexPath, triggeredCell)
+        }
+    }
 }

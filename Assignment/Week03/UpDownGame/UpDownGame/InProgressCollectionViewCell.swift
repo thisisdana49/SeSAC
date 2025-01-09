@@ -19,4 +19,8 @@ class InProgressCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
 
+    func isTriggered(isSelected: Bool) {
+        baseView.backgroundColor = isSelected ? .white : .black
+        contentLabel.textColor = isSelected ? .black : .white
+    }
 }

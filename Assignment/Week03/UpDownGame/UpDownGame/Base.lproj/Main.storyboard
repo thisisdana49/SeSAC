@@ -154,7 +154,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZw-oh-vdk">
-                                <rect key="frame" x="20" y="703" width="353" height="21"/>
+                                <rect key="frame" x="20" y="725" width="353" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7V-0a-dCy">
+                                <rect key="frame" x="20" y="664" width="353" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -163,6 +169,7 @@
                         <viewLayoutGuide key="safeArea" id="1om-AV-7g0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="P7V-0a-dCy" firstAttribute="leading" secondItem="1om-AV-7g0" secondAttribute="leading" constant="20" id="17H-bH-wb9"/>
                             <constraint firstItem="gOl-xp-Pkk" firstAttribute="leading" secondItem="1om-AV-7g0" secondAttribute="leading" id="20F-Fb-peC"/>
                             <constraint firstItem="46L-hr-Vgx" firstAttribute="top" secondItem="eBK-Ys-wKi" secondAttribute="bottom" constant="4" id="5v7-Td-OQW"/>
                             <constraint firstItem="gOl-xp-Pkk" firstAttribute="top" secondItem="46L-hr-Vgx" secondAttribute="bottom" constant="64" id="8dJ-4i-lhX"/>
@@ -173,11 +180,13 @@
                             <constraint firstItem="YZw-oh-vdk" firstAttribute="leading" secondItem="1om-AV-7g0" secondAttribute="leading" constant="20" id="hVm-Hx-uwQ"/>
                             <constraint firstItem="eBK-Ys-wKi" firstAttribute="top" secondItem="1om-AV-7g0" secondAttribute="top" constant="32" id="hjg-kq-PN3"/>
                             <constraint firstItem="1om-AV-7g0" firstAttribute="trailing" secondItem="ePa-p7-Mat" secondAttribute="trailing" constant="20" id="kWQ-Ad-Skt"/>
-                            <constraint firstItem="ePa-p7-Mat" firstAttribute="top" secondItem="YZw-oh-vdk" secondAttribute="bottom" constant="50" id="mh1-hC-wmS"/>
+                            <constraint firstItem="ePa-p7-Mat" firstAttribute="top" secondItem="YZw-oh-vdk" secondAttribute="bottom" constant="28" id="mh1-hC-wmS"/>
                             <constraint firstItem="1om-AV-7g0" firstAttribute="trailing" secondItem="eBK-Ys-wKi" secondAttribute="trailing" constant="20" id="mtk-EI-s8y"/>
                             <constraint firstItem="1om-AV-7g0" firstAttribute="trailing" secondItem="gOl-xp-Pkk" secondAttribute="trailing" id="rTX-bw-l8x"/>
                             <constraint firstItem="46L-hr-Vgx" firstAttribute="leading" secondItem="1om-AV-7g0" secondAttribute="leading" constant="20" id="vTb-gB-grO"/>
+                            <constraint firstItem="YZw-oh-vdk" firstAttribute="top" secondItem="P7V-0a-dCy" secondAttribute="bottom" constant="40" id="y7a-Sm-Qsu"/>
                             <constraint firstItem="ePa-p7-Mat" firstAttribute="leading" secondItem="1om-AV-7g0" secondAttribute="leading" constant="20" id="yRc-Ye-Rda"/>
+                            <constraint firstItem="1om-AV-7g0" firstAttribute="trailing" secondItem="P7V-0a-dCy" secondAttribute="trailing" constant="20" id="zRh-Jk-IlK"/>
                         </constraints>
                     </view>
                     <connections>
