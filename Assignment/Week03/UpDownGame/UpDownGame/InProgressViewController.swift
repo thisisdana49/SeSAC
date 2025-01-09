@@ -13,19 +13,25 @@ class InProgressViewController: UIViewController {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var countTrialLabel: UILabel!
     @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var resultLabel: UILabel!
     @IBOutlet var resetButton: UILabel!
     @IBOutlet var confirmButton: UIButton!
-    
-    var isFirstTapped = false
-    var triggeredCell: Int = -1
-    
-    var countTrialNum: Int = 0
-    var maxNumber: Int = 0 {
+
+    var selectedNum: Int = -1 {
         didSet {
-            answerNumber = Int.random(in: 1...maxNumber)
+            confirmButton.isEnabled = selectedNum != -1 ? true : false
+            confirmButton.backgroundColor = selectedNum != -1 ? .black : .darkGray
         }
     }
-    var answerNumber: Int = 0
+    
+    var countTrialNum: Int = 0 {
+        didSet {
+            countTrialLabel.text = "시도 횟수: \(countTrialNum)"
+        }
+    }
+    var minNumber: Int = 1
+    var maxNumber: Int = 0
+    lazy var answerNumber = Int.random(in: 1...maxNumber)
     lazy var arrangeNumbers: [Int] = Array(1...maxNumber)
 
     override func viewDidLoad() {
@@ -33,9 +39,42 @@ class InProgressViewController: UIViewController {
         configureCollectionView()
         configureListCollectionViewLayout()
         setUI()
+        
+        print(answerNumber)
     }
-
     
+    // MARK: Actions
+    
+    @IBAction func confirmButtonTapped(_ sender: UIButton) {
+        print(#function, arrangeNumbers[selectedNum], answerNumber)
+        if arrangeNumbers[selectedNum] != answerNumber {
+            if arrangeNumbers[selectedNum] > answerNumber {
+                maxNumber = arrangeNumbers[selectedNum-1]
+                arrangeNumbers.removeAll()
+                arrangeNumbers = Array(minNumber...maxNumber)
+                resultLabel.text = "DOWN!"
+            } else {
+                minNumber = arrangeNumbers[selectedNum+1]
+                arrangeNumbers.removeAll()
+                arrangeNumbers = Array(minNumber...maxNumber)
+                resultLabel.text = "UP!"
+            }
+            countTrialNum += 1
+            selectedNum = -1
+            collectionView.reloadData()
+        } else {
+            resultLabel.text = "정답입니다!🎉\n한 번 더 도전하실래요?🥳"
+            resetButton.isHidden = false
+            collectionView.isUserInteractionEnabled = false
+        }
+    }
+    
+    @objc
+    func resetButtonTapped(_ sender: UILabel) {
+        
+    }
+    
+    // MARK: configure vc
     private func configureCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -74,19 +113,25 @@ class InProgressViewController: UIViewController {
         countTrialLabel.font = UIFont.systemFont(ofSize: 22, weight: .regular)
         countTrialLabel.textAlignment = .center
         
+        resetButton.isHidden = true
+        resultLabel.text = ""
+        resultLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        resultLabel.textAlignment = .center
+        
         resetButton.text = "다시 시작하기"
         resetButton.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         resetButton.textColor = .darkGray
         resetButton.textAlignment = .center
-        resetButton.isHidden = true
-
+        resetButton.isUserInteractionEnabled = true
+        
+        confirmButton.isEnabled = false
         confirmButton.setTitle("결과 확인하기", for: .normal)
-        confirmButton.backgroundColor = .black
+        confirmButton.backgroundColor = .darkGray
         confirmButton.setTitleColor(.white, for: .normal)
     }
 }
 
-// MARK:UICollectionView Protocol
+// MARK: UICollectionView Protocol
 extension InProgressViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -107,16 +152,16 @@ extension InProgressViewController: UICollectionViewDelegate, UICollectionViewDa
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? InProgressCollectionViewCell else { return }
-        if triggeredCell == -1 {
+        if selectedNum == -1 {
             DispatchQueue.main.async {
                 cell.isTriggered(isSelected: false)
             }
-            triggeredCell = indexPath.item
-        } else if triggeredCell == indexPath.item {
+            selectedNum = indexPath.item
+        } else if selectedNum == indexPath.item {
             cell.isTriggered(isSelected: true)
-            triggeredCell = -1
+            selectedNum = -1
         } else {
-            print("please unselect cell first", indexPath, triggeredCell)
+            print("please unselect cell first", indexPath, selectedNum)
         }
     }
 }

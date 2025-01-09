@@ -147,9 +147,10 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="e1B-BW-Y4o"/>
                                 </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                 <connections>
+                                    <action selector="confirmButtonTapped:" destination="hcm-Uz-Xao" eventType="touchUpInside" id="QPL-yq-jr2"/>
                                     <action selector="startButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pdp-GQ-duc"/>
                                 </connections>
                             </button>
@@ -194,6 +195,7 @@
                         <outlet property="confirmButton" destination="ePa-p7-Mat" id="y2N-ew-4la"/>
                         <outlet property="countTrialLabel" destination="46L-hr-Vgx" id="4hZ-p2-AHZ"/>
                         <outlet property="resetButton" destination="YZw-oh-vdk" id="Jgc-yj-ISs"/>
+                        <outlet property="resultLabel" destination="P7V-0a-dCy" id="Ncc-ei-J6z"/>
                         <outlet property="titleLabel" destination="eBK-Ys-wKi" id="4rx-7d-ceI"/>
                     </connections>
                 </viewController>

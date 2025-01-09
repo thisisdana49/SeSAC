@@ -19,6 +19,11 @@ class InProgressCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
 
+    override func prepareForReuse() {
+        baseView.backgroundColor = .white
+        contentLabel.textColor = .black
+    }
+    
     func isTriggered(isSelected: Bool) {
         baseView.backgroundColor = isSelected ? .white : .black
         contentLabel.textColor = isSelected ? .black : .white
