@@ -14,7 +14,7 @@ class InProgressViewController: UIViewController {
     @IBOutlet var countTrialLabel: UILabel!
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var resultLabel: UILabel!
-    @IBOutlet var resetButton: UILabel!
+    @IBOutlet var resetLabel: UILabel!
     @IBOutlet var confirmButton: UIButton!
 
     var selectedNum: Int = -1 {
@@ -39,6 +39,7 @@ class InProgressViewController: UIViewController {
         configureCollectionView()
         configureListCollectionViewLayout()
         setUI()
+        setupGestureRecognizer()
         
         print(answerNumber)
     }
@@ -64,14 +65,20 @@ class InProgressViewController: UIViewController {
             collectionView.reloadData()
         } else {
             resultLabel.text = "정답입니다!🎉\n한 번 더 도전하실래요?🥳"
-            resetButton.isHidden = false
+            resetLabel.isHidden = false
             collectionView.isUserInteractionEnabled = false
         }
     }
     
-    @objc
-    func resetButtonTapped(_ sender: UILabel) {
-        
+    @objc private func resetLabelClicked(_ tapRecognizer: UITapGestureRecognizer) {
+        dismiss(animated: true)
+        print(#function)
+    }
+    
+    private func setupGestureRecognizer() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(resetLabelClicked))
+        resetLabel.addGestureRecognizer(tapGestureRecognizer)
+        resetLabel.isUserInteractionEnabled = true
     }
     
     // MARK: configure vc
@@ -102,7 +109,6 @@ class InProgressViewController: UIViewController {
     }
     
     private func setUI() {
-        navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .baseBlue
 
         titleLabel.text = "UP DOWN"
@@ -113,16 +119,15 @@ class InProgressViewController: UIViewController {
         countTrialLabel.font = UIFont.systemFont(ofSize: 22, weight: .regular)
         countTrialLabel.textAlignment = .center
         
-        resetButton.isHidden = true
         resultLabel.text = ""
         resultLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         resultLabel.textAlignment = .center
         
-        resetButton.text = "다시 시작하기"
-        resetButton.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        resetButton.textColor = .darkGray
-        resetButton.textAlignment = .center
-        resetButton.isUserInteractionEnabled = true
+        resetLabel.text = "다시 도전 해보기😙"
+        resetLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        resetLabel.textColor = .darkGray
+        resetLabel.textAlignment = .center
+        resetLabel.isHidden = true
         
         confirmButton.isEnabled = false
         confirmButton.setTitle("결과 확인하기", for: .normal)

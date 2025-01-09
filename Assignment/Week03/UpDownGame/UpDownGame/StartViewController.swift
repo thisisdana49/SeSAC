@@ -26,6 +26,10 @@ class StartViewController: UIViewController {
         setUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        startNumberTextField.text = ""
+    }
+    
     @IBAction func startButtonTapped(_ sender: UIButton) {
         guard let inputValue = startNumberTextField.text, let startNum = Int(inputValue) else {
             print("숫자 입력 요망")
@@ -35,8 +39,10 @@ class StartViewController: UIViewController {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(identifier: InProgressViewController.identifier) as! InProgressViewController
         vc.maxNumber = startNum
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
         
-        navigationController?.pushViewController(vc, animated: true)
+        present(vc, animated: true)
     }
     
     @IBAction func gestureRecognizerTapped(_ sender: UITapGestureRecognizer) {
@@ -44,7 +50,6 @@ class StartViewController: UIViewController {
     }
 
     private func setUI() {
-        navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .baseBlue
         
         titleLabel.text = "UP DOWN"
