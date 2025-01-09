@@ -20,10 +20,16 @@ class StartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         startNumberTextField.delegate = self
         
         setUI()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,6 +55,23 @@ class StartViewController: UIViewController {
         view.endEditing(true)
     }
 
+    @objc func keyboardWillShow (_ notification: NSNotification) {
+        print("키보드가 올라왔다!")
+        
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+            var safeAreaInsetbottom: CGFloat = 0
+            
+            if let window = UIApplication.shared.windows.first {
+                safeAreaInsetbottom = window.safeAreaInsets.bottom
+            }
+            
+//            viewBottomAnchor.constant = keyboardHeight - safeAreaInsetbottom
+            labelTopMargin.constant -= keyboardHeight
+            buttonBottomMargin.constant = keyboardHeight
+        }
+    }
+
     private func setUI() {
         view.backgroundColor = .baseBlue
         
@@ -70,11 +93,11 @@ class StartViewController: UIViewController {
 }
 
 extension StartViewController: UITextFieldDelegate {
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        labelTopMargin.constant -= 320
-        buttonBottomMargin.constant = 320
-        return true
-    }
+//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+//        labelTopMargin.constant -= 320
+//        buttonBottomMargin.constant = 320
+//        return true
+//    }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         labelTopMargin.constant = 32
