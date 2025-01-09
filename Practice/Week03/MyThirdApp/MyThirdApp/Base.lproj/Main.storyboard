@@ -126,6 +126,7 @@
                     <connections>
                         <outlet property="bannerCollectionView" destination="zpy-MO-ebd" id="jR9-tF-YaA"/>
                         <outlet property="listCollectionView" destination="Vmt-Eh-UeH" id="6JF-6u-Ghb"/>
+                        <outlet property="searchBar" destination="UnX-ZA-WRD" id="VxT-w0-r8Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1R4-iC-FnS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

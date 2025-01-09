@@ -9,12 +9,15 @@ import UIKit
 
 class SampleCollectionViewController: UIViewController {
     @IBOutlet var bannerCollectionView: UICollectionView!
-    
     @IBOutlet var listCollectionView: UICollectionView!
+    @IBOutlet var searchBar: UISearchBar!
     var array = Array(1...1000)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchBar.delegate = self
+        
         configureCollectionView()
         configureCollectionViewLayout()
         configureListCollectionViewLayout()
@@ -83,4 +86,21 @@ extension SampleCollectionViewController: UICollectionViewDelegate, UICollection
         
         return cell
     }
+}
+
+extension SampleCollectionViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print(#function)
+        searchBar.showsCancelButton = false
+        view.endEditing(true)
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        print(#function)
+        searchBar.showsCancelButton = false
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print(#function)
+        searchBar.showsCancelButton = true
+    }
+    // cancel button에도 애니메이션을 적용할 수 있다!
 }
