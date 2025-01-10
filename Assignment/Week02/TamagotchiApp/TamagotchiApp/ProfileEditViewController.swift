@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileEditViewController: UIViewController {
     var bossName: String?
+    let userDefaultManager = UserDefaultsManager()
+    
     @IBOutlet var saveNicknameButton: UIBarButtonItem!
     @IBOutlet var nicknameTextField: UITextField!
     @IBOutlet var guideLabel: UILabel!
@@ -43,13 +45,7 @@ class ProfileEditViewController: UIViewController {
     }
 
     func loadUserInformation() {
-        let decoder = JSONDecoder()
-        
-        if let data = UserDefaults.standard.data(forKey: Tamagotchi.identifier) {
-            if let decodeData = try? decoder.decode(Tamagotchi.self, from: data) {
-                bossName = decodeData.bossName
-            }
-        }
+        bossName = userDefaultManager.bossName
     }
     
     func setUI() {

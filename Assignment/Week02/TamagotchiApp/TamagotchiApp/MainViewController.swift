@@ -11,6 +11,7 @@ class MainViewController: UIViewController {
     var myGotchi = Tamagotchi() {
         didSet { setData() }
     }
+    let userDefaultManager = UserDefaultsManager()
 
     @IBOutlet var profileEditButton: UIBarButtonItem!
     @IBOutlet var speechBubbleImageView: UIImageView!
@@ -33,10 +34,8 @@ class MainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        if let editedNickname = UserDefaults.standard.string(forKey: "userNickname") {
         speechBubbleLabel.text = "앞으로 \(myGotchi.bossName)님으로 부르면 되죠?"
-//        }
-        
+
         let randomNumber = Int.random(in: 1...10)
         switch randomNumber {
         case 1:
@@ -60,23 +59,11 @@ class MainViewController: UIViewController {
     }
     
     func saveUserInformation() {
-        let enconder = JSONEncoder()
-
-        if let encodeData = try? enconder.encode(myGotchi) {
-            UserDefaults.standard.set(encodeData, forKey: Tamagotchi.identifier)
-        }
-        print(#function, myGotchi.mealCount)
+        userDefaultManager.tamagotchi = myGotchi
     }
     
     func loadUserInformation() {
-        let decoder = JSONDecoder()
-        
-        if let data = UserDefaults.standard.data(forKey: Tamagotchi.identifier) {
-            if let decodeData = try? decoder.decode(Tamagotchi.self, from: data) {
-                myGotchi = decodeData
-            }
-        }
-        print(#function, myGotchi.mealCount)
+        myGotchi = userDefaultManager.tamagotchi ?? myGotchi
     }
     
     @IBAction func feedButtonTapped(_ sender: UIButton) {
