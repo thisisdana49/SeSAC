@@ -133,10 +133,61 @@
             </objects>
             <point key="canvasLocation" x="937" y="5"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="7AK-hO-bzz">
+            <objects>
+                <viewController id="Sxk-yD-z0P" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vAJ-XV-d6X">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="나의 닉네임 닉네임 다우니우니" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PTi-p1-FFF">
+                                <rect key="frame" x="20" y="79" width="286" height="40"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="lz2-u0-tyt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="^^" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VqK-Sg-g6F">
+                                <rect key="frame" x="326" y="79" width="47" height="40"/>
+                                <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="OFa-MF-P9n"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="pHs-Jr-6ob"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="YFZ-96-lTV"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="PTi-p1-FFF" firstAttribute="top" secondItem="YFZ-96-lTV" secondAttribute="top" constant="20" id="C7f-Ez-Out"/>
+                            <constraint firstItem="YFZ-96-lTV" firstAttribute="trailing" secondItem="VqK-Sg-g6F" secondAttribute="trailing" constant="20" id="NzM-09-Yz6"/>
+                            <constraint firstItem="VqK-Sg-g6F" firstAttribute="leading" secondItem="PTi-p1-FFF" secondAttribute="trailing" constant="20" id="YCA-sB-0hG"/>
+                            <constraint firstItem="VqK-Sg-g6F" firstAttribute="top" secondItem="YFZ-96-lTV" secondAttribute="top" constant="20" id="YoV-dC-lxM"/>
+                            <constraint firstItem="PTi-p1-FFF" firstAttribute="leading" secondItem="YFZ-96-lTV" secondAttribute="leading" constant="20" id="mLM-r6-E2D"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hab-Ug-9rd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1677" y="5"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
