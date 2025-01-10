@@ -81,6 +81,9 @@
                                         <rect key="frame" x="148" y="0.0" width="75" height="34"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                        <connections>
+                                            <action selector="feedButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1Rf-9I-Dea"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -186,7 +189,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mgu-p4-7wE">
-                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="hNu-Qg-bxx"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="hNu-Qg-bxx">
+                            <connections>
+                                <segue destination="zti-AH-FDx" kind="unwind" identifier="UnwindSegue" unwindAction="unwindToMainViewController:" id="WbO-9t-C3L"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="guideLabel" destination="73e-Fy-KrI" id="2b3-92-nhj"/>
@@ -195,6 +202,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hFk-Xs-9IU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="zti-AH-FDx" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1840" y="5"/>
         </scene>

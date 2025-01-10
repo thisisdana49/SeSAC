@@ -23,6 +23,15 @@ struct Tamagotchi: Codable {
     }
     var image: String = "2-1"
     
+    mutating func performAcion(_ action: Action, count: Int = 1) {
+        switch action {
+        case .giveMeal:
+            mealCount += count
+        case .giveWater:
+            waterCount += count
+        }
+    }
+    
     mutating func computedLevel() {
         let mealRatio = Double(mealCount / 5)
         let waterRatio = Double(waterCount / 2)
@@ -60,4 +69,7 @@ struct Tamagotchi: Codable {
     }
 }
 
-
+enum Action {
+    case giveMeal
+    case giveWater
+}

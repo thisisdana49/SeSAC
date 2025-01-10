@@ -28,6 +28,7 @@ class MainViewController: UIViewController {
         
         loadUserInformation()
         setUI()
+        setData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -49,8 +50,14 @@ class MainViewController: UIViewController {
         }
     }
 
-    // 왜 Right Bar Button Item이랑은 연결할 수 없을까? 아니면 나의 문제인가..? 🧐
-    @IBAction func unwindToMainViewController(_ sender: UIStoryboardSegue) { }
+    // 왜 Right Bar Button Item이랑은 연결할 수 없을까? 아니면 나의 문제인가..? 🧐 => 해결!
+    @IBAction func unwindToMainViewController(_ sender: UIStoryboardSegue) {
+        print(#function, sender.identifier)
+        if let sourceVC = sender.source as? ProfileEditViewController, let newName = sourceVC.bossName {
+            myGotchi.bossName = newName
+            saveUserInformation()
+        }
+    }
     
     func saveUserInformation() {
         let enconder = JSONEncoder()
@@ -72,20 +79,29 @@ class MainViewController: UIViewController {
         print(#function, myGotchi.mealCount)
     }
     
-    // enum 활용해서 하나로!!
     @IBAction func feedButtonTapped(_ sender: UIButton) {
-        speechBubbleLabel.text = "\(myGotchi.bossName)님이 줘서 더 맛있는 밥이에용😋"
-//        speechBubbleLabel.text = "물을 마셨더니 건강해졌어요.\n고마워요 \(userNickname)님!"
-
-        var givenMealCount = Int(mealTextField.text != "" ? mealTextField.text! : "1")!
-        if givenMealCount > 99 {
-            speechBubbleLabel.text = "\(myGotchi.bossName)님, \(givenMealCount)개는 너무 많은 걸요?😵‍💫\n99개가 최대예요!"
-            mealTextField.text = ""
-        } else {
-            myGotchi.mealCount += givenMealCount
-            saveUserInformation()
-            mealTextField.text = ""
+        switch sender {
+        case mealButton:
+            let mealCount = Int(mealTextField.text ?? "1") ?? 1
+            if mealCount < 100 {
+                myGotchi.performAcion(.giveMeal, count: mealCount)
+                speechBubbleLabel.text = "\(myGotchi.bossName)님이 줘서 더 맛있는 밥이에용😋"
+            } else {
+                speechBubbleLabel.text = "\(myGotchi.bossName)님, \(mealCount)개는 너무 많은 걸요?😵‍💫\n99개가 최대예요!"
+            }
+        case waterButton:
+            let waterCount = Int(waterTextField.text ?? "1") ?? 1
+            if waterCount < 50 {
+                myGotchi.performAcion(.giveWater, count: waterCount)
+                speechBubbleLabel.text = "물을 마셨더니 건강해졌어요.\n고마워요 \(myGotchi.bossName)님!"
+            } else {
+                speechBubbleLabel.text = "\(myGotchi.bossName)님, \(waterCount)개는 너무 많은 걸요?😵‍💫\n49개가 최대예요!"
+            }
+        default: break
         }
+        saveUserInformation()
+        mealTextField.text = ""
+        waterTextField.text = ""
     }
     
     func setUI() {
@@ -125,6 +141,7 @@ class MainViewController: UIViewController {
         tamagotchiImageView.image = UIImage(named: myGotchi.image)
         levelBadgeLabel.text = myGotchi.level.badge
         detailStateLabel.text = "LV\(myGotchi.level.rawValue) · 밥알 \(myGotchi.mealCount)개 · 물방울 \(myGotchi.waterCount)개"
+        navigationItem.title = "\(myGotchi.bossName)님의 다마고치"
     }
 }
 
