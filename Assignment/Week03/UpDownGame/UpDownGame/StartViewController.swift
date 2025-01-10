@@ -36,6 +36,7 @@ class StartViewController: UIViewController {
         startNumberTextField.text = ""
     }
     
+    // MARK: Actions
     @IBAction func startButtonTapped(_ sender: UIButton) {
         guard let inputValue = startNumberTextField.text, let startNum = Int(inputValue) else {
             print("숫자 입력 요망")
@@ -56,8 +57,6 @@ class StartViewController: UIViewController {
     }
 
     @objc func keyboardWillShow (_ notification: NSNotification) {
-        print("키보드가 올라왔다!")
-        
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardHeight = keyboardFrame.cgRectValue.height
             var safeAreaInsetbottom: CGFloat = 0
@@ -66,7 +65,6 @@ class StartViewController: UIViewController {
                 safeAreaInsetbottom = window.safeAreaInsets.bottom
             }
             
-//            viewBottomAnchor.constant = keyboardHeight - safeAreaInsetbottom
             labelTopMargin.constant -= keyboardHeight
             buttonBottomMargin.constant = keyboardHeight
         }
@@ -92,13 +90,8 @@ class StartViewController: UIViewController {
     }
 }
 
+// MARK: UITextFieldDelegate
 extension StartViewController: UITextFieldDelegate {
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        labelTopMargin.constant -= 320
-//        buttonBottomMargin.constant = 320
-//        return true
-//    }
-    
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         labelTopMargin.constant = 32
         buttonBottomMargin.constant = 0

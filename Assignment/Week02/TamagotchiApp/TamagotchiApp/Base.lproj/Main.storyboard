@@ -61,7 +61,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                         <connections>
-                                            <action selector="mealButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Uqo-C5-OoR"/>
+                                            <action selector="feedButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZSt-wa-o46"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -81,9 +81,6 @@
                                         <rect key="frame" x="148" y="0.0" width="75" height="34"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                                        <connections>
-                                            <action selector="waterButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PT7-oF-ag9"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>

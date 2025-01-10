@@ -8,6 +8,9 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    var myGotchi = Tamagotchi() {
+        didSet { setData() }
+    }
 
     @IBOutlet var profileEditButton: UIBarButtonItem!
     @IBOutlet var speechBubbleImageView: UIImageView!
@@ -20,154 +23,73 @@ class MainViewController: UIViewController {
     @IBOutlet var waterButton: UIButton!
     @IBOutlet var waterTextField: UITextField!
     
-    var userNickname: String = ""
-    var level: Int = 1 {
-        didSet {
-            detailStateLabel.text = "LV\(level) · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
-        }
-    }
-    var mealCount: Int = 0 {
-        didSet {
-            detailStateLabel.text = "LV\(level) · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
-            computeLevel()
-        }
-    }
-    var waterCount: Int = 0 {
-        didSet {
-            detailStateLabel.text = "LV1\(level) · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
-            computeLevel()
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUserInformation()
+        loadUserInformation()
         setUI()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let editedNickname = UserDefaults.standard.string(forKey: "userNickname") {
-            if userNickname != editedNickname {
-                self.userNickname = editedNickname
-                speechBubbleLabel.text = "앞으로 \(userNickname)님으로 부르면 되죠?"
-            }
-        }
+//        if let editedNickname = UserDefaults.standard.string(forKey: "userNickname") {
+        speechBubbleLabel.text = "앞으로 \(myGotchi.bossName)님으로 부르면 되죠?"
+//        }
         
         let randomNumber = Int.random(in: 1...10)
         switch randomNumber {
         case 1:
-            speechBubbleLabel.text = "보고 싶었다구요 \(userNickname)님~"
+            speechBubbleLabel.text = "보고 싶었다구요 \(myGotchi.bossName)님~"
+        case 2...4:
+            speechBubbleLabel.text = "\(myGotchi.bossName)님 만나서 반가워요!"
         case 5:
-            speechBubbleLabel.text = "오늘 뭔가 \(userNickname)님을 만날 수 있을 것 같았어요😏"
+            speechBubbleLabel.text = "오늘 뭔가 \(myGotchi.bossName)님을 만날 수 있을 것 같았어요😏"
         default:
-            speechBubbleLabel.text = "\(userNickname)님 만나서 반가워요!"
+            speechBubbleLabel.text = "\(myGotchi.bossName)님 만나서 반가워요!"
         }
     }
 
     // 왜 Right Bar Button Item이랑은 연결할 수 없을까? 아니면 나의 문제인가..? 🧐
     @IBAction func unwindToMainViewController(_ sender: UIStoryboardSegue) { }
     
-    func setUserInformation() {
-        guard let userNickname = UserDefaults.standard.string(forKey: "userNickname") else {
-            UserDefaults.standard.set("대장", forKey: "userNickname")
-            userNickname = "대장"
-            return
+    func saveUserInformation() {
+        let enconder = JSONEncoder()
+
+        if let encodeData = try? enconder.encode(myGotchi) {
+            UserDefaults.standard.set(encodeData, forKey: Tamagotchi.identifier)
         }
-        self.userNickname = userNickname
+        print(#function, myGotchi.mealCount)
+    }
+    
+    func loadUserInformation() {
+        let decoder = JSONDecoder()
         
-        guard let mealCount = UserDefaults.standard.value(forKey: "mealCount") as? Int else {
-            self.mealCount = 0
-            return
+        if let data = UserDefaults.standard.data(forKey: Tamagotchi.identifier) {
+            if let decodeData = try? decoder.decode(Tamagotchi.self, from: data) {
+                myGotchi = decodeData
+            }
         }
-        self.mealCount = mealCount
-        
-        guard let waterCount = UserDefaults.standard.value(forKey: "waterCount") as? Int else {
-            self.waterCount = 0
-            return
-        }
-        self.waterCount = waterCount
-        
-        guard let level = UserDefaults.standard.value(forKey: "level") as? Int else {
-            self.level = 1
-            return
-        }
-        self.level = level
+        print(#function, myGotchi.mealCount)
     }
     
     // enum 활용해서 하나로!!
-    @IBAction func mealButtonTapped(_ sender: UIButton) {
-        speechBubbleLabel.text = "\(userNickname)님이 줘서 더 맛있는 밥이에용😋"
+    @IBAction func feedButtonTapped(_ sender: UIButton) {
+        speechBubbleLabel.text = "\(myGotchi.bossName)님이 줘서 더 맛있는 밥이에용😋"
+//        speechBubbleLabel.text = "물을 마셨더니 건강해졌어요.\n고마워요 \(userNickname)님!"
+
         var givenMealCount = Int(mealTextField.text != "" ? mealTextField.text! : "1")!
         if givenMealCount > 99 {
-            speechBubbleLabel.text = "\(userNickname)님, \(givenMealCount)개는 너무 많은 걸요?😵‍💫\n99개가 최대예요!"
+            speechBubbleLabel.text = "\(myGotchi.bossName)님, \(givenMealCount)개는 너무 많은 걸요?😵‍💫\n99개가 최대예요!"
             mealTextField.text = ""
         } else {
-            mealCount += givenMealCount
-            UserDefaults.standard.set(mealCount, forKey: "mealCount")
+            myGotchi.mealCount += givenMealCount
+            saveUserInformation()
             mealTextField.text = ""
-        }
-    }
-    
-    @IBAction func waterButtonTapped(_ sender: UIButton) {
-        speechBubbleLabel.text = "물을 마셨더니 건강해졌어요.\n고마워요 \(userNickname)님!"
-        var givenWaterCount = Int(waterTextField.text != "" ? waterTextField.text! : "1")!
-        if givenWaterCount > 49 {
-            speechBubbleLabel.text = "\(userNickname)님, \(givenWaterCount)개는 너무 많은 걸요?😵‍💫\n49개가 최대예요!"
-            waterTextField.text = ""
-        } else {
-            waterCount += givenWaterCount
-            UserDefaults.standard.set(waterCount, forKey: "waterCount")
-            waterTextField.text = ""
-        }
-    }
-    
-    func computeLevel() {
-        let mealRatio = Double(mealCount / 5)
-        let waterRatio = Double(waterCount / 2)
-        let levelRatio = Int(floor((mealRatio + waterRatio) * 0.1))
-        
-        level = levelRatio <= 10 ? levelRatio : 10
-        UserDefaults.standard.set(level, forKey: "level")
-        
-        // 활용해서 고민해보기
-        switch level {
-        case 1:
-            tamagotchiImageView.image = ._2_1
-            levelBadgeLabel.text = "아직 새싹 다마고치"
-        case 2:
-            tamagotchiImageView.image = ._2_2
-            levelBadgeLabel.text = "떡잎이 남다른 다마고치"
-        case 3:
-            tamagotchiImageView.image = ._2_3
-            levelBadgeLabel.text = "장래유망 다마고치"
-        case 4:
-            tamagotchiImageView.image = ._2_4
-            levelBadgeLabel.text = "무럭무럭 다마고치"
-        case 5:
-            tamagotchiImageView.image = ._2_5
-            levelBadgeLabel.text = "까꿍 다마고치"
-        case 6:
-            tamagotchiImageView.image = ._2_6
-            levelBadgeLabel.text = "무르익은 다마고치"
-        case 7:
-            tamagotchiImageView.image = ._2_7
-            levelBadgeLabel.text = "예쁘게 자란 다마고치"
-        case 8:
-            tamagotchiImageView.image = ._2_8
-            levelBadgeLabel.text = "곧 피어날 다마고치"
-        case 9...10:
-            tamagotchiImageView.image = ._2_9
-            levelBadgeLabel.text = "활짝 핀 다마고치"
-        default:
-            tamagotchiImageView.image = ._2_1
-            levelBadgeLabel.text = "아직 새싹 다마고치"
         }
     }
     
     func setUI() {
-        navigationItem.title = "\(userNickname)님의 다마고치"
+        navigationItem.title = "\(myGotchi.bossName)님의 다마고치"
         view.backgroundColor = .base
         
         profileEditButton.image = UIImage(systemName: "person.crop.circle")
@@ -177,14 +99,9 @@ class MainViewController: UIViewController {
         speechBubbleImageView.contentMode = .scaleAspectFill
         speechBubbleLabel.numberOfLines = 0
         speechBubbleLabel.textAlignment = .center
-        speechBubbleLabel.text = "\(userNickname)님 만나서 반가워요!"
-        
-        tamagotchiImageView.image = ._2_1
-        
-        levelBadgeLabel.text = "아직 새싹 다마고치"
+
         levelBadgeLabel.textColor = .primary
-        
-        detailStateLabel.text = "LV\(level) · 밥알 \(mealCount)개 · 물방울 \(waterCount)개"
+
         detailStateLabel.textColor = .primary
         detailStateLabel.font = UIFont.boldSystemFont(ofSize: 14)
         
@@ -202,6 +119,12 @@ class MainViewController: UIViewController {
         waterButton.layer.borderWidth = 1
         waterButton.layer.cornerRadius = 10
         waterButton.layer.masksToBounds = true
+    }
+    
+    func setData() {
+        tamagotchiImageView.image = UIImage(named: myGotchi.image)
+        levelBadgeLabel.text = myGotchi.level.badge
+        detailStateLabel.text = "LV\(myGotchi.level.rawValue) · 밥알 \(myGotchi.mealCount)개 · 물방울 \(myGotchi.waterCount)개"
     }
 }
 

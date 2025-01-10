@@ -23,15 +23,38 @@ struct Settings {
 
 // ** 멤버와 값을 분리 => rawValue
 // CaseIterable => case를 배열로 표현해줄 수 있음
-enum SettingOptions: String, CaseIterable {
-    static let hello = "다우니"
-    func introduce() {
-        print("안녕하세요")
+enum SettingOptions: Int, CaseIterable {
+//    static let hello = "다우니"
+//    func introduce() {
+//        print("안녕하세요")
+//    }
+    
+    case total = 0
+    case personal = 100
+    case others = 101
+    
+    var mainOption: String {
+//        if self == .total {
+//            return "전체 설정"
+//        } else if self == .personal {
+//            return "개인 설정"
+//        } else {
+//            return "고객센터"
+//        }
+        switch self {
+        case .total: return "전체 설정"
+        case .personal: return "개인 설정"
+        case .others: return "고객센터"
+        }
     }
     
-    case total = "전체 설정"
-    case personal = "개인 설정"
-    case others = "기타"
+    var subOption: [String] {
+        switch self {
+        case .total: return ["공지사항", "실험실", "버전 정보"]
+        case .personal: return ["개인/보안", "알림", "채팅", "멀티프로필"]
+        case .others: return  ["고객센터/도움말"]
+        }
+    }
 }
 
 class SettingViewController: UIViewController {
@@ -54,6 +77,9 @@ class SettingViewController: UIViewController {
         print(Settings.personal)
         
         print(SettingOptions.allCases)
+        print(SettingOptions.total.mainOption)
+        print(SettingOptions.personal.mainOption)
+        print(SettingOptions.others.mainOption)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -66,16 +92,17 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return SettingOptions.allCases[section].subOption.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BasicCell")!
-        cell.textLabel?.text = "테스트"
+        let row = SettingOptions.allCases[indexPath.section].subOption[indexPath.row]
+        cell.textLabel?.text = row
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return SettingOptions.allCases[section].rawValue
+        return SettingOptions.allCases[section].mainOption
     }
 }
