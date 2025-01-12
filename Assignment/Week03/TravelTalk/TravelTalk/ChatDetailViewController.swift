@@ -42,7 +42,9 @@ class ChatDetailViewController: UIViewController {
     private func setUI() {
         navigationItem.title = chatRoom?.chatroomName
         navigationController?.navigationItem.backButtonTitle = "뒤로"
-
+        
+        let index = IndexPath(row: (chatRoom?.chatList.count ?? 1) - 1, section: 0)
+        tableView.scrollToRow(at: index, at: .bottom, animated: false)
     }
 }
 
