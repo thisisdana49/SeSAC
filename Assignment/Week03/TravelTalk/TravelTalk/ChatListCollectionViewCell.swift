@@ -22,7 +22,7 @@ class ChatListCollectionViewCell: UICollectionViewCell {
     }
     
     private func configure() {
-        roomImageView.contentMode = .scaleAspectFill
+        roomImageView.contentMode = .scaleAspectFit
         
         roomNameLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
         

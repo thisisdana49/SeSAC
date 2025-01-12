@@ -23,11 +23,17 @@ class ChatDetailTableViewCell: UITableViewCell {
     }
     
     private func configure() {
+        profileImageView.contentMode = .scaleAspectFit
+        
         nameLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         
+        messageBackgroundView.layer.cornerRadius = 15
         messageBackgroundView.backgroundColor = .white
         messageBackgroundView.layer.borderWidth = 1
         messageBackgroundView.layer.borderColor = UIColor.systemGray.cgColor
+        
+        messageLabel.numberOfLines = 0
+        messageLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         
         dateLabel.font = UIFont.systemFont(ofSize: 13)
         dateLabel.textColor = .systemGray3

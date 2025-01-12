@@ -18,8 +18,7 @@ class ChatListViewController: UIViewController {
         
         configureCollectionView()
         configureListCollectionViewLayout()
-        
-        navigationController?.navigationItem.backButtonTitle = "뒤로"
+        setUI()
     }
     
     private func configureCollectionView() {
@@ -39,9 +38,16 @@ class ChatListViewController: UIViewController {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = CGSizeMake(cellWidth, 100)
+        layout.itemSize = CGSizeMake(cellWidth, 80)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         collectionView.collectionViewLayout = layout
+    }
+    
+    private func setUI() {
+        navigationItem.title = "TRAVEL TALK"
+        navigationController?.navigationItem.backButtonTitle = "뒤로"
+        
+        searchBar.placeholder = "친구 이름을 검색해 보세요"
     }
 }
 
@@ -58,6 +64,12 @@ extension ChatListViewController: UICollectionViewDelegate, UICollectionViewData
         cell.configureData(
             image: item.chatroomImage.first ?? "", name: item.chatroomName, date: item.chatList.last?.date ?? "", message: item.chatList.last?.message ?? "")
         
+        DispatchQueue.main.async {
+            cell.roomImageView.layer.cornerRadius = cell.roomImageView.frame.height / 2
+            cell.roomImageView.layer.borderColor = UIColor.systemGray5.cgColor
+            cell.roomImageView.layer.borderWidth = 1
+        }
+        
         return cell
     }
     
@@ -70,4 +82,6 @@ extension ChatListViewController: UICollectionViewDelegate, UICollectionViewData
         
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    
 }

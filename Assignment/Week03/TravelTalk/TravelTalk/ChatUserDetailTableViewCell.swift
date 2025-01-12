@@ -20,9 +20,13 @@ class ChatUserDetailTableViewCell: UITableViewCell {
     }
     
     private func configure() {
+        messageBackgroundView.layer.cornerRadius = 15
         messageBackgroundView.backgroundColor = .systemGray6
         messageBackgroundView.layer.borderWidth = 1
         messageBackgroundView.layer.borderColor = UIColor.systemGray.cgColor
+        
+        messageLabel.numberOfLines = 0
+        messageLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         
         dateLabel.font = UIFont.systemFont(ofSize: 13)
         dateLabel.textColor = .systemGray3

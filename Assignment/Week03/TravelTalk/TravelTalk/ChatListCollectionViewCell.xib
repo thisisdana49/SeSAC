@@ -17,13 +17,13 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hm3-qp-qT7">
-                        <rect key="frame" x="8" y="8" width="80" height="83"/>
+                        <rect key="frame" x="8" y="8" width="83" height="83"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="80" id="Kae-MN-R6a"/>
+                            <constraint firstAttribute="width" secondItem="Hm3-qp-qT7" secondAttribute="height" multiplier="1:1" id="4t2-zR-uRh"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label Label Label Label Label Label " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tvZ-kR-4og">
-                        <rect key="frame" x="100" y="16" width="215" height="24"/>
+                        <rect key="frame" x="103" y="16" width="212" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="8ea-py-NTm"/>
                         </constraints>
@@ -32,7 +32,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfQ-nH-ZZX">
-                        <rect key="frame" x="100" y="62" width="315" height="21"/>
+                        <rect key="frame" x="103" y="62" width="312" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>

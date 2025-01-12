@@ -18,6 +18,7 @@ class ChatDetailViewController: UIViewController {
         super.viewDidLoad()
 
         configureTableView()
+        configureTableViewUI()
         
         setUI()
     }
@@ -32,6 +33,10 @@ class ChatDetailViewController: UIViewController {
         let xibUser = UINib(nibName: idForUser, bundle: nil)
         tableView.register(xibOthers, forCellReuseIdentifier: idForOthers)
         tableView.register(xibUser, forCellReuseIdentifier: idForUser)
+    }
+    
+    private func configureTableViewUI() {
+        tableView.separatorStyle = .none
     }
     
     private func setUI() {
@@ -60,6 +65,12 @@ extension ChatDetailViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatDetailTableViewCell.identifier) as? ChatDetailTableViewCell else { return UITableViewCell()}
             
             cell.configureData(image: row?.user.profileImage ?? "", name: row?.user.rawValue ?? "", date: row?.date ?? "", message: row?.message ?? "")
+            
+            DispatchQueue.main.async {
+                cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.height / 2
+                cell.profileImageView.layer.borderColor = UIColor.systemGray5.cgColor
+                cell.profileImageView.layer.borderWidth = 1
+            }
             
             return cell
         }
