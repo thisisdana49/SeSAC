@@ -48,10 +48,10 @@ class ChatDetailViewController: UIViewController {
         textView.textColor = UIColor.black
         textView.backgroundColor = .systemGray6
         textView.isEditable = true
-        textView.isScrollEnabled = false
-        textView.contentInset.top = 16
+        textView.isScrollEnabled = true
+        textView.contentInset.top = 8
         textView.contentInset.left = 16
-        textView.contentInset.right = -24
+        textView.textContainerInset.right = 20
     }
     
     private func setUI() {
@@ -116,7 +116,7 @@ extension ChatDetailViewController: UITextViewDelegate {
             textViewHeight.constant = 50
         case 2:
             textViewHeight.constant = 70
-        case 3:
+        case 3...:
             textViewHeight.constant = 90
         default:
             textViewHeight.constant = 50
