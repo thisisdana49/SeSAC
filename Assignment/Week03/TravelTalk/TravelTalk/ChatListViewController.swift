@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ChatListViewController: UIViewController {
     let chatLists: [ChatRoom] = mockChatList
     
     @IBOutlet var searchBar: UISearchBar!
@@ -18,6 +18,8 @@ class ViewController: UIViewController {
         
         configureCollectionView()
         configureListCollectionViewLayout()
+        
+        navigationController?.navigationItem.backButtonTitle = "뒤로"
     }
     
     private func configureCollectionView() {
@@ -44,7 +46,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: CollectionView Delegate, DataSource
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ChatListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return chatLists.count
     }
@@ -59,5 +61,13 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
         return cell
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = chatLists[indexPath.item]
+        let sb = UIStoryboard(name: "Chat", bundle: nil)
+        guard let vc = sb.instantiateViewController(withIdentifier: ChatDetailViewController.identifier) as? ChatDetailViewController else { return }
+        
+        vc.chatRoom = item
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }

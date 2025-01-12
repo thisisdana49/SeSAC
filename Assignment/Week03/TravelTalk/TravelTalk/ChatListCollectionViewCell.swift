@@ -35,7 +35,6 @@ class ChatListCollectionViewCell: UICollectionViewCell {
     }
     
     func configureData(image: String, name: String, date: String, message: String) {
-        print(image)
         roomImageView.image = UIImage(named: image)
         roomNameLabel.text = name
         roomDateLabel.text = date
