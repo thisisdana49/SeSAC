@@ -55,16 +55,26 @@ extension ChatDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = chatRoom?.chatList[indexPath.row]
         
+        let dateFromString = Date.fromString(row?.date ?? "", format: "yyyy-MM-dd HH:mm")
+        let dateString = dateFromString?.toFormattedString("hh:mm") ?? ""
+        
         if row?.user == .user {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatUserDetailTableViewCell.identifier) as? ChatUserDetailTableViewCell else { return UITableViewCell()}
             
-            cell.configureData(date: row?.date ?? "", message: row?.message ?? "")
+            cell.configureData(
+                date: dateString,
+                message: row?.message ?? "")
             
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatDetailTableViewCell.identifier) as? ChatDetailTableViewCell else { return UITableViewCell()}
             
-            cell.configureData(image: row?.user.profileImage ?? "", name: row?.user.rawValue ?? "", date: row?.date ?? "", message: row?.message ?? "")
+            cell.configureData(
+                image: row?.user.profileImage ?? "",
+                name: row?.user.rawValue ?? "",
+                date: dateString,
+                message: row?.message ?? ""
+            )
             
             DispatchQueue.main.async {
                 cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.height / 2

@@ -64,11 +64,13 @@ extension ChatListViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatListCollectionViewCell.identifier, for: indexPath) as? ChatListCollectionViewCell else { return UICollectionViewCell() }
         let item = isSearching ? filteredChatLists[indexPath.item] : chatLists[indexPath.item]
+        let dateFromString = Date.fromString(item.chatList.last?.date ?? "", format: "yyyy-MM-dd HH:mm")
+        let dateString = dateFromString?.toFormattedString("yyyy.MM.dd") ?? ""
         
         cell.configureData(
             image: item.chatroomImage.first ?? "",
             name: item.chatroomName,
-            date: item.chatList.last?.date ?? "",
+            date: dateString,
             message: item.chatList.last?.message ?? ""
         )
         
