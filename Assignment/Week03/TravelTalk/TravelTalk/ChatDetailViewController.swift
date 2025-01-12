@@ -26,9 +26,12 @@ class ChatDetailViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        let id = ChatDetailTableViewCell.identifier
-        let xib = UINib(nibName: id, bundle: nil)
-        tableView.register(xib, forCellReuseIdentifier: id)
+        let idForOthers = ChatDetailTableViewCell.identifier
+        let idForUser = ChatUserDetailTableViewCell.identifier
+        let xibOthers = UINib(nibName: idForOthers, bundle: nil)
+        let xibUser = UINib(nibName: idForUser, bundle: nil)
+        tableView.register(xibOthers, forCellReuseIdentifier: idForOthers)
+        tableView.register(xibUser, forCellReuseIdentifier: idForUser)
     }
     
     private func setUI() {
@@ -45,12 +48,21 @@ extension ChatDetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatDetailTableViewCell.identifier) as? ChatDetailTableViewCell else { return UITableViewCell()}
         let row = chatRoom?.chatList[indexPath.row]
         
-        cell.configureData(image: row?.user.profileImage ?? "", name: row?.user.rawValue ?? "", date: row?.date ?? "", message: row?.message ?? "")
-        
-        return cell
+        if row?.user == .user {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatUserDetailTableViewCell.identifier) as? ChatUserDetailTableViewCell else { return UITableViewCell()}
+            
+            cell.configureData(date: row?.date ?? "", message: row?.message ?? "")
+            
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatDetailTableViewCell.identifier) as? ChatDetailTableViewCell else { return UITableViewCell()}
+            
+            cell.configureData(image: row?.user.profileImage ?? "", name: row?.user.rawValue ?? "", date: row?.date ?? "", message: row?.message ?? "")
+            
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
