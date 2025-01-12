@@ -32,9 +32,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1w-lc-hKr">
-                        <rect key="frame" x="242.66666666666663" y="64" width="42" height="17"/>
+                        <rect key="frame" x="243.33333333333334" y="64" width="41.333333333333343" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="iiV-lP-2KM"/>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="68" id="oyl-K3-I7l"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>

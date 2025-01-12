@@ -12,13 +12,14 @@ class ChatDetailViewController: UIViewController {
     var chatRoom: ChatRoom?
     
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var textField: UITextField!
-    
+    @IBOutlet var textViewHeight: NSLayoutConstraint!
+    @IBOutlet var textView: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureTableView()
         configureTableViewUI()
+        configureTextView()
         
         setUI()
     }
@@ -37,6 +38,20 @@ class ChatDetailViewController: UIViewController {
     
     private func configureTableViewUI() {
         tableView.separatorStyle = .none
+    }
+    
+    private func configureTextView() {
+        textView.delegate = self
+        textView.layer.masksToBounds = true
+        textView.layer.cornerRadius = 20.0
+        textView.font = UIFont.systemFont(ofSize: 16.0)
+        textView.textColor = UIColor.black
+        textView.backgroundColor = .systemGray6
+        textView.isEditable = true
+        textView.isScrollEnabled = false
+        textView.contentInset.top = 16
+        textView.contentInset.left = 16
+        textView.contentInset.right = -24
     }
     
     private func setUI() {
@@ -90,5 +105,36 @@ extension ChatDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+}
+
+// MARK: TextView Delegate
+extension ChatDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        switch textView.numberOfLines() {
+        case 1:
+            textViewHeight.constant = 50
+        case 2:
+            textViewHeight.constant = 70
+        case 3:
+            textViewHeight.constant = 90
+        default:
+            textViewHeight.constant = 50
+        }
+    }
+}
+
+extension UITextView {
+    func numberOfLines() -> Int {
+        let size = CGSize(width: frame.width, height: .infinity)
+        let estimatedSize = sizeThatFits(size)
+        
+        return Int(estimatedSize.height / (self.font!.lineHeight))
+    }
+    
+    func alignTextVerticallyInContainer() {
+        var topCorrect = (self.bounds.height - self.contentSize.height * self.zoomScale) / 2
+        topCorrect = topCorrect < 0.0 ? 0.0 : topCorrect
+        self.contentInset.top = topCorrect
     }
 }
