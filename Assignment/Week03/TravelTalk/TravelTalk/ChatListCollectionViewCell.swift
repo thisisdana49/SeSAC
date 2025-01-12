@@ -10,10 +10,11 @@ import UIKit
 class ChatListCollectionViewCell: UICollectionViewCell {
     static let identifier = "ChatListCollectionViewCell"
     
-    @IBOutlet var roomImageView: UIImageView!
-    @IBOutlet var roomNameLabel: UILabel!
-    @IBOutlet var roomDateLabel: UILabel!
-    @IBOutlet var roomMessageLabel: UILabel!
+    @IBOutlet var groupChatImageView: UIView!
+    @IBOutlet var normalChatImageView: UIImageView!
+    @IBOutlet var chatNameLabel: UILabel!
+    @IBOutlet var chatDateLabel: UILabel!
+    @IBOutlet var chatMessageLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,22 +23,47 @@ class ChatListCollectionViewCell: UICollectionViewCell {
     }
     
     private func configure() {
-        roomImageView.contentMode = .scaleAspectFit
+        normalChatImageView.contentMode = .scaleAspectFit
         
-        roomNameLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+//        for (index, subView) in groupChatImageView.subviews.enumerated() {
+//            guard let imageView = subView as? UIImageView else { continue }
+//            
+//            imageView.layer.cornerRadius = imageView.frame.height / 2
+//            imageView.layer.borderColor = UIColor.systemGray5.cgColor
+//            imageView.layer.borderWidth = 1
+//        }
         
-        roomDateLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        roomDateLabel.textColor = .systemGray4
-        roomDateLabel.textAlignment = .right
+        chatNameLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
         
-        roomMessageLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        roomMessageLabel.textColor = .systemGray2
+        chatDateLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        chatDateLabel.textColor = .systemGray4
+        chatDateLabel.textAlignment = .right
+        
+        chatMessageLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        chatMessageLabel.textColor = .systemGray2
     }
     
-    func configureData(image: String, name: String, date: String, message: String) {
-        roomImageView.image = UIImage(named: image)
-        roomNameLabel.text = name
-        roomDateLabel.text = date
-        roomMessageLabel.text = message
+    func configureData(image: [String], name: String, date: String, message: String) {
+        if image.count == 1 {
+            normalChatImageView.isHidden = false
+            groupChatImageView.isHidden = true
+            normalChatImageView.image = UIImage(named: image[0])
+        } else {
+            normalChatImageView.isHidden = true
+            groupChatImageView.isHidden = false
+            for (index, subView) in groupChatImageView.subviews.enumerated() {
+                guard let imageView = subView as? UIImageView else { continue }
+                
+                if index < image.count {
+                    imageView.image = UIImage(named: image[index])
+                    imageView.isHidden = false
+                } else {
+                    imageView.isHidden = true
+                }
+            }
+        }
+        chatNameLabel.text = name
+        chatDateLabel.text = date
+        chatMessageLabel.text = message
     }
 }

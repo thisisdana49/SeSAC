@@ -68,16 +68,24 @@ extension ChatListViewController: UICollectionViewDelegate, UICollectionViewData
         let dateString = dateFromString?.toFormattedString("yyyy.MM.dd") ?? ""
         
         cell.configureData(
-            image: item.chatroomImage.first ?? "",
+            image: item.chatroomImage,
             name: item.chatroomName,
             date: dateString,
             message: item.chatList.last?.message ?? ""
         )
         
         DispatchQueue.main.async {
-            cell.roomImageView.layer.cornerRadius = cell.roomImageView.frame.height / 2
-            cell.roomImageView.layer.borderColor = UIColor.systemGray5.cgColor
-            cell.roomImageView.layer.borderWidth = 1
+            cell.normalChatImageView.layer.cornerRadius = cell.normalChatImageView.frame.height / 2
+            cell.normalChatImageView.layer.borderColor = UIColor.systemGray5.cgColor
+            cell.normalChatImageView.layer.borderWidth = 1
+            
+            for (index, subView) in cell.groupChatImageView.subviews.enumerated() {
+                guard let imageView = subView as? UIImageView else { continue }
+                
+                imageView.layer.cornerRadius = imageView.frame.height / 2
+                imageView.layer.borderColor = UIColor.systemGray5.cgColor
+                imageView.layer.borderWidth = 1
+            }
         }
         
         return cell
