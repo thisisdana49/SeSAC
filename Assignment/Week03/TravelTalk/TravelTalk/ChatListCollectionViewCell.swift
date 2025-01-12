@@ -17,7 +17,28 @@ class ChatListCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        configure()
     }
-
+    
+    private func configure() {
+        roomImageView.contentMode = .scaleAspectFill
+        
+        roomNameLabel.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        
+        roomDateLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        roomDateLabel.textColor = .systemGray4
+        roomDateLabel.textAlignment = .right
+        
+        roomMessageLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        roomMessageLabel.textColor = .systemGray2
+    }
+    
+    func configureData(image: String, name: String, date: String, message: String) {
+        print(image)
+        roomImageView.image = UIImage(named: image)
+        roomNameLabel.text = name
+        roomDateLabel.text = date
+        roomMessageLabel.text = message
+    }
 }
