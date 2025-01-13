@@ -10,36 +10,58 @@ import SnapKit
 
 class ViewController: UIViewController {
 
-    let buttonOne = {
+    lazy var buttonOne = {
         let button = UIButton()
         button.setTitle("Scene 1", for: .normal)
         button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 20
+        button.addTarget(self, action: #selector(buttonOneTapped), for: .touchUpInside)
+        
         return button
     }()
     
-    let buttonTwo = {
+    lazy var buttonTwo = {
         let button = UIButton()
         button.setTitle("Scene 2", for: .normal)
         button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 20
+        button.addTarget(self, action: #selector(buttonTwoTapped), for: .touchUpInside)
         return button
     }()
     
-    let buttonThree = {
+    lazy var buttonThree = {
         let button = UIButton()
         button.setTitle("Scene 3", for: .normal)
         button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 20
+        button.addTarget(self, action: #selector(buttonThreeTapped), for: .touchUpInside)
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureButtons()
+    }
+    
+    @objc
+    func buttonOneTapped() {
+        let vc = FirstViewController()
+        present(vc, animated: true)
+    }
+    
+    @objc
+    func buttonTwoTapped() {
+        let vc = SecondViewController()
+        present(vc, animated: true)
+    }
+    
+    @objc
+    func buttonThreeTapped() {
+        let vc = ThirdViewController()
+        present(vc, animated: true)
     }
 
 
