@@ -22,7 +22,7 @@ class FirstViewController: UIViewController {
     
     let idTextField = {
         let textField = UITextField()
-        textField.placeholder = "이메일 주소 또는 전화번호"
+        textField.attributedPlaceholder = NSAttributedString(string: "이메일 주소 또는 전화번호", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
         textField.textAlignment = .center
         textField.textColor = .white
         textField.backgroundColor = .darkGray
@@ -34,7 +34,7 @@ class FirstViewController: UIViewController {
     
     let pwTextField = {
         let textField = UITextField()
-        textField.placeholder = "비밀번호"
+        textField.attributedPlaceholder = NSAttributedString(string: "비밀번호", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
         textField.textAlignment = .center
         textField.textColor = .white
         textField.backgroundColor = .darkGray
@@ -46,7 +46,9 @@ class FirstViewController: UIViewController {
 
     let nickNameTextField = {
         let textField = UITextField()
-        textField.placeholder = "닉네임"
+        textField.attributedPlaceholder = NSAttributedString(string: "닉네임", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white]);
+        textField.textAlignment = .center
+        textField.textAlignment = .center
         textField.textAlignment = .center
         textField.textColor = .white
         textField.backgroundColor = .darkGray
@@ -58,7 +60,7 @@ class FirstViewController: UIViewController {
 
     let locationTextField = {
         let textField = UITextField()
-        textField.placeholder = "위치"
+        textField.attributedPlaceholder = NSAttributedString(string: "위치", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
         textField.textAlignment = .center
         textField.textColor = .white
         textField.backgroundColor = .darkGray
@@ -70,7 +72,8 @@ class FirstViewController: UIViewController {
     
     let codeTextField = {
         let textField = UITextField()
-        textField.placeholder = "추천 코드 입력"
+        textField.attributedPlaceholder = NSAttributedString(string: "추천 코드 입력", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
+        textField.textAlignment = .center
         textField.textAlignment = .center
         textField.textColor = .white
         textField.backgroundColor = .darkGray
@@ -105,6 +108,7 @@ class FirstViewController: UIViewController {
         informSwitch.isOn = true
         informSwitch.thumbTintColor = .white
         informSwitch.onTintColor = .red
+        informSwitch.subviews.first?.subviews.first?.backgroundColor = .systemGray4
         
         return informSwitch
     }()

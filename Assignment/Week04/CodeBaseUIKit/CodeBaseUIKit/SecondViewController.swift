@@ -82,6 +82,16 @@ class SecondViewController: UIViewController {
         return label
     }()
     
+    let checkLabel = {
+        let label = UILabel()
+        label.text = "바로 결제 사용하기"
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        
+        return label
+    }()
+    
     let confirmButton = {
         let button = UIButton()
         button.setTitle("확인", for: .normal)
@@ -134,7 +144,7 @@ class SecondViewController: UIViewController {
     func configurePayView() {
         view.addSubview(payView)
         payView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
             make.top.equalTo(tabButtonTwo).offset(60)
             make.centerX.equalToSuperview()
             make.height.equalTo(460)
@@ -144,6 +154,7 @@ class SecondViewController: UIViewController {
         payView.addSubview(closeButton)
         payView.addSubview(contentImageView)
         payView.addSubview(contentLabel)
+        payView.addSubview(checkLabel)
         payView.addSubview(confirmButton)
         
         logoImageView.snp.makeConstraints { make in
@@ -165,9 +176,13 @@ class SecondViewController: UIViewController {
             make.centerX.equalTo(payView)
             make.centerY.equalTo(payView).offset(20)
         }
+        checkLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(payView)
+            make.bottom.equalTo(confirmButton.snp.top).offset(-40)
+        }
         confirmButton.snp.makeConstraints { make in
             make.centerX.equalTo(payView)
-            make.bottom.equalTo(payView).offset(-16)
+            make.bottom.equalTo(payView).inset(16)
             make.horizontalEdges.equalTo(payView).inset(16)
             make.height.equalTo(50)
         }
