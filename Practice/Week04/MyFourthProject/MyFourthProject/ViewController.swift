@@ -25,14 +25,61 @@ class ViewController: UIViewController {
     let greenView = UIView()
     let grayView = UIView()
     
+//    let button = UIButton()
+    lazy var button = {
+        print("button button button")
+        let btn = UIButton()
+        btn.setTitle("다음", for: .normal)
+        btn.backgroundColor = .brown
+        btn.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+        
+        return btn
+    }()
+    
+    func test() -> UIButton {
+        print("button button button")
+        let btn = UIButton()
+        btn.setTitle("다음", for: .normal)
+        btn.backgroundColor = .brown
+        return btn
+    }
+    
+    @objc
+    func nextButtonTapped() {
+        print(#function)
+        let vc = BookViewController()
+        present(vc, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(#function)
         
         frameBasedLayout()
         autoLayoutConstraints()
         autoLayoutAnchor()
         autoLayoutSnapKit2()
 //        autoLayoutSnapKit()
+        configureButton()
+    }
+    
+    func configureButton() {
+        view.addSubview(button)
+           
+        button.snp.makeConstraints { make in
+            make.height.equalTo(50)
+            make.width.equalTo(300)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(200)
+            make.centerX.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+    
+    func makeMyButton() -> UIButton {
+        let btn = UIButton()
+        btn.setTitle("다음", for: .normal)
+        btn.backgroundColor = .brown
+        
+        return btn
     }
     
     func autoLayoutSnapKit2() {
@@ -173,3 +220,6 @@ class ViewController: UIViewController {
     
 }
 
+#Preview {
+    ViewController()
+}
