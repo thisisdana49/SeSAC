@@ -30,6 +30,7 @@ class ChatUserDetailTableViewCell: UITableViewCell {
         
         dateLabel.font = UIFont.systemFont(ofSize: 13)
         dateLabel.textColor = .systemGray3
+        dateLabel.textAlignment = .right
     }
 
     func configureData(date: String, message: String) {

@@ -73,7 +73,7 @@ extension ChatDetailViewController: UITableViewDelegate, UITableViewDataSource {
         let row = chatRoom?.chatList[indexPath.row]
         
         let dateFromString = Date.fromString(row?.date ?? "", format: "yyyy-MM-dd HH:mm")
-        let dateString = dateFromString?.toFormattedString("hh:mm") ?? ""
+        let dateString = dateFromString?.toFormattedString("hh:mm a") ?? ""
         
         if row?.user == .user {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatUserDetailTableViewCell.identifier) as? ChatUserDetailTableViewCell else { return UITableViewCell()}
