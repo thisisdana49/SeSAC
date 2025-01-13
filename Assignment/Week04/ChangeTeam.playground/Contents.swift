@@ -20,12 +20,14 @@ func 돌려돌려돌림판() {
      */
     
     var 새팀좌석 = 팀좌석
+    var 사용된자리 = Set<Int>()
     for i in 0..<팀좌석.count {
         var 새로운자리: Int
         repeat {
-            새로운자리 = Int.random(in: 0..<팀좌석.count)
-        } while 새로운자리 == i || 새팀좌석[새로운자리] == 팀좌석[i]
-        새팀좌석.swapAt(i, 새로운자리)
+            새로운자리 = Int.random(in: 1...5)
+        } while 새로운자리 == 팀좌석[i] || 사용된자리.contains(새로운자리)
+        새팀좌석[i] = 새로운자리
+        사용된자리.insert(새로운자리)
     }
     
     print("---------------------------------------")
