@@ -8,65 +8,82 @@
 import UIKit
 
 /*
-1. 스토리보드에서 객체 얹기
-2. 객체 레이아웃 잡기
-3. 아웃렉 연결하기
-4. 객체 속성 코드로 조절하기
-*/
+ 1. 스토리보드에서 객체 얹기
+ 2. 객체 레이아웃 잡기
+ 3. 아웃렉 연결하기
+ 4. 객체 속성 코드로 조절하기
+ */
 
 class ViewController: UIViewController {
     // 1. Outlet 연결 대신 클래스 인스턴스를 생성해서 담아줌 - 뷰 객체 프로퍼티 ㅅ너언
     let emailTextField = UITextField()
     let passwordTextField = UITextField()
+    let nameTextField = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         frameBasedLayout()
+        autoLayoutConstraints()
+        autoLayoutAnchor()
+    }
+    
+    func autoLayoutAnchor() {
+        view.addSubview(nameTextField)
+        nameTextField.translatesAutoresizingMaskIntoConstraints = false
         
+        NSLayoutConstraint.activate([
+            nameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nameTextField.widthAnchor.constraint(equalToConstant: 300),
+            nameTextField.heightAnchor.constraint(equalToConstant: 50),
+            nameTextField.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        nameTextField.backgroundColor = .orange
+    }
+    
+    func autoLayoutConstraints() {
         view.addSubview(passwordTextField)
         // Convert From Auto resizing to Constraints
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         
         let top = NSLayoutConstraint(item: passwordTextField,
-                           attribute: .top,
-                           relatedBy: .equal,
-                           toItem: view.safeAreaLayoutGuide,
-                           attribute: .top,
-                           multiplier: 1,
-                           constant: 50
+                                     attribute: .top,
+                                     relatedBy: .equal,
+                                     toItem: view.safeAreaLayoutGuide,
+                                     attribute: .top,
+                                     multiplier: 1,
+                                     constant: 50
         )
-        top.isActive = true
         
         let leading = NSLayoutConstraint(item: passwordTextField,
-                           attribute: .leading,
-                           relatedBy: .equal,
-                           toItem: view.safeAreaLayoutGuide,
-                           attribute: .leading,
-                           multiplier: 1,
-                           constant: 40
+                                         attribute: .leading,
+                                         relatedBy: .equal,
+                                         toItem: view.safeAreaLayoutGuide,
+                                         attribute: .leading,
+                                         multiplier: 1,
+                                         constant: 40
         )
-        leading.isActive = true
         
         let trailing = NSLayoutConstraint(item: passwordTextField,
                                           attribute: .trailing,
-                           relatedBy: .equal,
-                           toItem: view.safeAreaLayoutGuide,
-                           attribute: .trailing,
-                           multiplier: 1,
-                           constant: -40
+                                          relatedBy: .equal,
+                                          toItem: view.safeAreaLayoutGuide,
+                                          attribute: .trailing,
+                                          multiplier: 1,
+                                          constant: -40
         )
-        trailing.isActive = true
         
         let height = NSLayoutConstraint(item: passwordTextField,
                                         attribute: .height,
-                           relatedBy: .equal,
-                                        toItem: view.safeAreaLayoutGuide,
-                           attribute: .height,
-                           multiplier: 1,
-                           constant: 50
+                                        relatedBy: .equal,
+                                        toItem: nil,
+                                        attribute: .height,
+                                        multiplier: 1,
+                                        constant: 50
         )
-        height.isActive = true
+        view.addConstraints( [top, leading, trailing, height])
+        
         passwordTextField.backgroundColor = .yellow
     }
     
@@ -78,6 +95,6 @@ class ViewController: UIViewController {
         emailTextField.frame = CGRect(x: 50, y: 100, width: 293, height: 50)
         emailTextField.backgroundColor = .lightGray
     }
-
+    
 }
 
