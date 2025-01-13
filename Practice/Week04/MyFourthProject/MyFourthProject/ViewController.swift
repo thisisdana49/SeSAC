@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 /*
  1. 스토리보드에서 객체 얹기
@@ -20,12 +21,86 @@ class ViewController: UIViewController {
     let passwordTextField = UITextField()
     let nameTextField = UITextField()
     
+    let redView = UIView()
+    let greenView = UIView()
+    let grayView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         frameBasedLayout()
         autoLayoutConstraints()
         autoLayoutAnchor()
+        autoLayoutSnapKit2()
+//        autoLayoutSnapKit()
+    }
+    
+    func autoLayoutSnapKit2() {
+        view.addSubview(redView)
+        view.addSubview(grayView)
+        redView.addSubview(greenView)
+        
+        redView.backgroundColor = .red
+        grayView.backgroundColor = .gray
+        greenView.backgroundColor = .green
+        
+         redView.snp.makeConstraints { make in
+            make.size.equalTo(200)
+            make.center.equalToSuperview()
+        }
+        
+        greenView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        grayView.snp.makeConstraints { make in
+            make.edges.equalTo(redView).inset(50)
+        }
+    }
+    
+    func autoLayoutSnapKit() {
+        view.addSubview(redView)
+        view.addSubview(greenView)
+        view.addSubview(grayView)
+//        nameTextField.addSubview() 불가능! 다른 view를 포함할 수 없기 때문
+        
+        // 이미 SnapKit 내부에서 설정해주고 있기 때문에 사용하지 않는 쪽이 맞음.
+//        redView.translatesAutoresizingMaskIntoConstraints = false
+//        greenView.translatesAutoresizingMaskIntoConstraints = false
+        
+        redView.backgroundColor = .red
+        greenView.backgroundColor = .green
+        grayView.backgroundColor = .gray
+                      
+        redView.snp.makeConstraints { make in
+//            make.top.equalTo(view.safeAreaLayoutGuide)
+//            make.leading.equalTo(view)
+//            make.trailing.equalTo(view)
+//            make.bottom.equalTo(view.safeAreaLayoutGuide)
+//            make.horizontalEdges.equalTo(view)
+//            make.verticalEdges.equalTo(view.safeAreaLayoutGuide)
+//            make.horizontalEdges.verticalEdges.equalTo(view.safeAreaLayoutGuide)
+//            make.edges.equalTo(view.safeAreaLayoutGuide)
+//            make.top.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
+//            make.bottom.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
+            make.edges.equalTo(view.safeAreaLayoutGuide).inset(50)
+        }
+        
+        greenView.snp.makeConstraints { make in
+//            make.centerX.equalTo(view.safeAreaLayoutGuide)
+//            make.centerY.equalTo(view.safeAreaLayoutGuide)
+//            make.width.height.equalTo(300)
+//            make.width.equalTo(300)
+//            make.height.equalTo(300)
+            make.center.equalTo(view.safeAreaLayoutGuide)
+            make.size.equalTo(200)
+        }
+        
+        grayView.snp.makeConstraints { make in
+            make.top.equalTo(greenView.snp.bottom).offset(50)
+            make.centerX.equalTo(greenView.snp.centerX).offset(-100)
+            make.size.equalTo(200)
+        }
     }
     
     func autoLayoutAnchor() {
