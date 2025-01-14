@@ -10,7 +10,7 @@ import SnapKit
 import Alamofire
 
 class ViewController: UIViewController, ViewConfiguration {
-    var dummyRounds: [Int] = Array(1145...1154)
+    var roundLists: [Int] = Array(1...1154).reversed()
     var selectedRound: Int = 1154
     var resultLotto: Lotto?
     
@@ -32,6 +32,8 @@ class ViewController: UIViewController, ViewConfiguration {
         configureHierarchy()
         configureLayout()
         configureView()
+        
+        pickerReturnTapped()
     }
     
     func configureHierarchy() {
@@ -75,14 +77,13 @@ class ViewController: UIViewController, ViewConfiguration {
         resultView.snp.makeConstraints { make in
             make.top.equalTo(roundTitlelabel.snp.bottom).offset(24)
             make.centerX.equalToSuperview()
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview().inset(16)
             make.height.equalTo(44)
         }
         
         for (index, label) in resultView.subviews.enumerated() {
             label.snp.makeConstraints { make in
                 make.centerY.equalToSuperview()
-                make.size.equalTo(44)
             }
         }
     }
@@ -104,10 +105,10 @@ class ViewController: UIViewController, ViewConfiguration {
         roundTitlelabel.textAlignment = .center
         roundTitlelabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
         
-        resultView.backgroundColor = .cyan
         resultView.axis = .horizontal
-        resultView.distribution = .equalSpacing
+        resultView.distribution = .fillEqually
         resultView.spacing = 4
+        resultView.alignment = .fill
         
         for (index, currentLabel) in resultView.subviews.enumerated() {
             let label = currentLabel as! UILabel
@@ -120,7 +121,7 @@ class ViewController: UIViewController, ViewConfiguration {
                 label.textAlignment = .center
                 label.backgroundColor = .black
                 label.textColor = .white
-                label.layer.cornerRadius = 22
+//                label.layer.cornerRadius = label.layer.frame.height / 2
                 label.layer.masksToBounds = true
             }
         }
@@ -145,22 +146,23 @@ class ViewController: UIViewController, ViewConfiguration {
                         } else {
                             label.text = "\(nums[index])"
                         }
+                        label.layer.cornerRadius = label.frame.width / 2
                     }
                 }
                 
             case .failure(let error):
                 print("Error fetching lotto results: \(error)")
+                // Alert present
             }
         }
     }
-    
     
 }
 
 // MARK: UIPickerView Delegate, DataSource
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 10
+        return roundLists.count
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -168,13 +170,14 @@ extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return String(dummyRounds[row])
+        return String(roundLists[row])
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        pickerTextField.text = "\(dummyRounds[row])"
-        selectedRound = dummyRounds[row]
+        pickerTextField.text = "\(roundLists[row])"
+        selectedRound = roundLists[row]
     }
+    
 }
 
 // MARK: UITextField Delegate
@@ -187,6 +190,6 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
-//#Preview {
-//    ViewController()
-//}
+#Preview {
+    ViewController()
+}
