@@ -14,7 +14,7 @@ class ThirdViewController: UIViewController, ViewConfiguration {
     private let apiKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String
     var dailyBoxOfficeLists: [dailyBoxOfficeList]?
     
-    var currentDate = "20250113"
+    var searchDate = "20250113"
     
     lazy var searchTextField = UITextField()
     let backgroundImageView = UIImageView()
@@ -24,6 +24,8 @@ class ThirdViewController: UIViewController, ViewConfiguration {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchTextField.delegate = self
+        
         configureTableView()
         configureHierarchy()
         configureLayout()
@@ -93,13 +95,12 @@ class ThirdViewController: UIViewController, ViewConfiguration {
     // MARK: Action method
     @objc
     func searchButtonTapped() {
-        print(apiKey!)
-        let url = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(apiKey!)&targetDt=\(currentDate)"
+        let url = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(apiKey!)&targetDt=\(searchDate)"
         AF.request(url, method: .get).responseDecodable(of: Movies.self) { response in
             switch response.result {
             case .success(let movies):
                 self.dailyBoxOfficeLists = movies.boxOfficeResult.dailyBoxOfficeList
-                
+                print(self.dailyBoxOfficeLists?.first?.movieNm)
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -112,6 +113,7 @@ class ThirdViewController: UIViewController, ViewConfiguration {
     
 }
 
+// MARK: UITableView Delegate, UITableView DataSource
 extension ThirdViewController: UITableViewDelegate, UITableViewDataSource {
     func configureTableView() {
         tableView.delegate = self
@@ -139,6 +141,18 @@ extension ThirdViewController: UITableViewDelegate, UITableViewDataSource {
         return 40
     }
 }
+
+// MARK: UITextField Delegate
+extension ThirdViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let text = textField.text else { return false }
+   
+        searchDate = text
+        searchButtonTapped()
+        return true
+    }
+}
+
 
 #Preview {
     ThirdViewController()
