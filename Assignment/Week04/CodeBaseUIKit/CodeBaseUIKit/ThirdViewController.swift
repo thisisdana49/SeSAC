@@ -7,57 +7,48 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 
-class ThirdViewController: UIViewController {
-    let movies: [Movie] = mockMovieLists
-    lazy var searchTextField = {
-        let textField = UITextField()
-        textField.frame.size.width = 300
-        textField.frame.size.height = 40
-        textField.layer.addBorder([.bottom], color: .white, width: 2)
-        
-        return textField
-    }()
-    let backgroundImageView = {
-        let imageView = UIImageView()
-        imageView.image = .background
-        imageView.contentMode = .scaleAspectFill
-        
-        return imageView
-    }()
-    let backgroundView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(.black).withAlphaComponent(0.5)
-        
-        return view
-    }()
+class ThirdViewController: UIViewController, ViewConfiguration {
     
-    let searchButton = {
-        let button = UIButton()
-        button.setTitle("검색", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .white
-        
-        return button
-    }()
+    private let apiKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String
+    let movies: [Movie] = mockMovieLists
+    
+    var currentDate = "20250113"
+    
+    lazy var searchTextField = UITextField()
+    let backgroundImageView = UIImageView()
+    let backgroundView = UIView()
+    let searchButton = UIButton()
     lazy var tableView = UITableView(frame: .zero, style: .plain)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureTableView()
+        configureHierarchy()
+        configureLayout()
+        configureView()
+    }
+    
+    func configureHierarchy() {
         view.addSubview(backgroundImageView)
+        view.addSubview(backgroundView)
+        view.addSubview(searchTextField)
+        view.addSubview(searchButton)
+        view.addSubview(tableView)
+    }
+    
+    func configureLayout() {
         backgroundImageView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.verticalEdges.equalToSuperview()
         }
         
-        view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.verticalEdges.equalToSuperview()
         }
 
-        view.addSubview(searchTextField)
         searchTextField.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             make.leading.equalToSuperview().offset(16)
@@ -65,19 +56,12 @@ class ThirdViewController: UIViewController {
             make.height.equalTo(40)
         }
         
-        view.addSubview(searchButton)
         searchButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             make.leading.equalTo(searchTextField.snp.trailing).offset(8)
             make.trailing.equalToSuperview().offset(-16)
             make.height.equalTo(40)
         }
-        
-        view.addSubview(tableView)
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(ThirdTableViewCell.self, forCellReuseIdentifier: "ThirdTableViewCell")
         
         tableView.backgroundColor = .clear
         tableView.snp.makeConstraints { make in
@@ -87,9 +71,30 @@ class ThirdViewController: UIViewController {
         }
     }
     
+    func configureView() {
+        searchTextField.frame.size.width = 300
+        searchTextField.frame.size.height = 40
+        searchTextField.layer.addBorder([.bottom], color: .white, width: 2)
+        
+        backgroundImageView.image = .background
+        backgroundImageView.contentMode = .scaleAspectFill
+        
+        backgroundView.backgroundColor = UIColor(.black).withAlphaComponent(0.5)
+        
+        searchButton.setTitle("검색", for: .normal)
+        searchButton.setTitleColor(.black, for: .normal)
+        searchButton.backgroundColor = .white
+    }
+    
 }
 
 extension ThirdViewController: UITableViewDelegate, UITableViewDataSource {
+    func configureTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(ThirdTableViewCell.self, forCellReuseIdentifier: "ThirdTableViewCell")
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
