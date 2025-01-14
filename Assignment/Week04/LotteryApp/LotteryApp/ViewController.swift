@@ -147,6 +147,7 @@ class ViewController: UIViewController, ViewConfiguration {
                             label.text = "\(nums[index])"
                         }
                         label.layer.cornerRadius = label.frame.width / 2
+                        label.setOwnColor()
                     }
                 }
                 
