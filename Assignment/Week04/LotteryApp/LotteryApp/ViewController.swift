@@ -34,6 +34,7 @@ class ViewController: UIViewController, ViewConfiguration {
         configureView()
         
         pickerReturnTapped()
+        getLotteryResult()
     }
     
     func configureHierarchy() {
@@ -44,7 +45,6 @@ class ViewController: UIViewController, ViewConfiguration {
         view.addSubview(resultView)
         
         for i in 0...7 {
-            print(i)
             let label = UILabel()
             resultView.addArrangedSubview(label)
         }
@@ -134,7 +134,7 @@ class ViewController: UIViewController, ViewConfiguration {
             switch response.result {
             case .success(let value):
                 self.resultLotto = value
-                print("response is", self.resultLotto?.drwtNums)
+                print("response is", self.resultLotto?.drwNoDate)
                 
                 DispatchQueue.main.async {
                     for (index, subview) in self.resultView.subviews.enumerated() {
@@ -156,6 +156,13 @@ class ViewController: UIViewController, ViewConfiguration {
                 // Alert present
             }
         }
+    }
+    
+    func getLotteryResult() {
+        let standardDate = Date.fromString("2025-01-11", format: "yyyy-MM-dd")
+        let weeks = Calendar.current.dateComponents([.weekOfMonth], from: standardDate!, to: Date())
+        selectedRound += weeks.weekOfMonth ?? 0
+        pickerReturnTapped()
     }
     
 }
