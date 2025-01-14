@@ -125,6 +125,6 @@ class RandomViewController: UIViewController, Viewconfiguration {
     }
 }
 
-#Preview {
-    RandomViewController()
-}
+//#Preview {
+//    RandomViewController()
+//}
