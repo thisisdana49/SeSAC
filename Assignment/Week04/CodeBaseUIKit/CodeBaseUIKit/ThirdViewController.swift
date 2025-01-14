@@ -14,7 +14,7 @@ class ThirdViewController: UIViewController, ViewConfiguration {
     private let apiKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String
     var dailyBoxOfficeLists: [dailyBoxOfficeList]?
     
-    var searchDate = "20250113"
+    var searchDate = ""
     
     lazy var searchTextField = UITextField()
     let backgroundImageView = UIImageView()
@@ -24,6 +24,7 @@ class ThirdViewController: UIViewController, ViewConfiguration {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        computedDayBefore()
         searchTextField.delegate = self
         
         configureTableView()
@@ -32,6 +33,7 @@ class ThirdViewController: UIViewController, ViewConfiguration {
         configureView()
         
         searchButtonTapped()
+        
     }
     
     func configureHierarchy() {
@@ -111,6 +113,12 @@ class ThirdViewController: UIViewController, ViewConfiguration {
         }
     }
     
+    func computedDayBefore() {
+        let today = Date().toFormattedString("yyMMdd HH:mm")
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date.fromString(today, format: "yyMMdd") ?? Date())
+        
+        searchDate = yesterday?.toFormattedString("yyyyMMdd") ?? searchDate
+    }
 }
 
 // MARK: UITableView Delegate, UITableView DataSource
