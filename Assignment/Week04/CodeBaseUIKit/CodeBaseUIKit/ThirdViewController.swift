@@ -12,7 +12,7 @@ import Alamofire
 class ThirdViewController: UIViewController, ViewConfiguration {
     
     private let apiKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String
-    let movies: [Movie] = mockMovieLists
+    var dailyBoxOfficeLists: [dailyBoxOfficeList]?
     
     var currentDate = "20250113"
     
@@ -28,6 +28,8 @@ class ThirdViewController: UIViewController, ViewConfiguration {
         configureHierarchy()
         configureLayout()
         configureView()
+        
+        searchButtonTapped()
     }
     
     func configureHierarchy() {
@@ -75,6 +77,7 @@ class ThirdViewController: UIViewController, ViewConfiguration {
         searchTextField.frame.size.width = 300
         searchTextField.frame.size.height = 40
         searchTextField.layer.addBorder([.bottom], color: .white, width: 2)
+        searchTextField.attributedPlaceholder = NSAttributedString(string: "원하는 날짜를 검색해주세요. ex. 240412", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white, .font : UIFont.systemFont(ofSize: 16)])
         
         backgroundImageView.image = .background
         backgroundImageView.contentMode = .scaleAspectFill
@@ -84,6 +87,27 @@ class ThirdViewController: UIViewController, ViewConfiguration {
         searchButton.setTitle("검색", for: .normal)
         searchButton.setTitleColor(.black, for: .normal)
         searchButton.backgroundColor = .white
+        searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+    }
+    
+    // MARK: Action method
+    @objc
+    func searchButtonTapped() {
+        print(apiKey!)
+        let url = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(apiKey!)&targetDt=\(currentDate)"
+        AF.request(url, method: .get).responseDecodable(of: Movies.self) { response in
+            switch response.result {
+            case .success(let movies):
+                self.dailyBoxOfficeLists = movies.boxOfficeResult.dailyBoxOfficeList
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
 }
@@ -96,17 +120,17 @@ extension ThirdViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
+        return dailyBoxOfficeLists?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ThirdTableViewCell", for: indexPath) as? ThirdTableViewCell else { return UITableViewCell() }
-        let row = movies[indexPath.row]
+        let row = dailyBoxOfficeLists?[indexPath.row]
         
         cell.backgroundColor = .clear
-        cell.rankingLabel.text = row.ranking
-        cell.titleLabel.text = row.title
-        cell.dateLabel.text = row.date
+        cell.rankingLabel.text = row?.rank
+        cell.titleLabel.text = row?.movieNm
+        cell.dateLabel.text = row?.openDt
         
         return cell
     }

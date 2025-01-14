@@ -10,6 +10,15 @@ import SnapKit
 
 class ThirdTableViewCell: UITableViewCell {
 
+    let stackView = {
+        let stackView = UIStackView()
+        stackView.distribution = .fillProportionally
+        stackView.axis = .horizontal
+        stackView.spacing = 12
+        
+        return stackView
+    }()
+    
     let rankingLabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -23,6 +32,8 @@ class ThirdTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.textColor = .white
+        label.adjustsFontSizeToFitWidth = false
+        label.lineBreakMode = .byTruncatingTail
         
         return label
     }()
@@ -31,9 +42,14 @@ class ThirdTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.addSubview(rankingLabel)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(dateLabel)
+        contentView.addSubview(stackView)
+        stackView.addArrangedSubview(rankingLabel)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(dateLabel)
+        
+        stackView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+        }
         
         rankingLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -44,10 +60,12 @@ class ThirdTableViewCell: UITableViewCell {
         titleLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(rankingLabel.snp.trailing).offset(20)
+            make.width.equalTo(stackView.snp.width).dividedBy(2)
         }
         dateLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(16)
+            make.width.equalTo(stackView.snp.width).dividedBy(4)
         }
         
         configure()
