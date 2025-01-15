@@ -6,13 +6,18 @@
 //
 
 import UIKit
+import Alamofire
 import SnapKit
+
+/*
+ 서버에서 키를 바꾸면 앱이 터진다... 
+ */
 
 class MarketViewController: UIViewController {
  
     let tableView = UITableView()
     
-    let list = Array(1...100)
+    var markets: [Market] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +25,23 @@ class MarketViewController: UIViewController {
         configureView()
         configureTableView()
 
+        callRequest()
+    }
+    
+    func callRequest() {
+        let url = "https://api.upbit.com/v1/market/all"
+        AF.request(url, method: .get)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: [Market].self) { response in
+            switch response.result {
+            case .success(let markets):
+                dump(markets)
+                self.markets = markets
+                self.tableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     func configureTableView() {
@@ -45,16 +67,15 @@ class MarketViewController: UIViewController {
 extension MarketViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(#function, list.count)
-        return list.count
+        return markets.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MarketTableViewCell.id, for: indexPath) as? MarketTableViewCell else { return UITableViewCell() }
         
-        let data = list[indexPath.row]
+        let market = markets[indexPath.row]
         
-        cell.nameLabel.text = "마켓 레이블: \(data)"
+        cell.nameLabel.text = "\(market.koreanName)"
         
         return cell
     }
