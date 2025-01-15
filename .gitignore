@@ -2,6 +2,8 @@
 Document/
 Asset/
 
+APIKey.swift
+
 *.pdf
 *.xcconfig
 
