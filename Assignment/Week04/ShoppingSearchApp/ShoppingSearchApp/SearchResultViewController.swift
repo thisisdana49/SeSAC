@@ -49,7 +49,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.id)
-        collectionView.backgroundColor = .systemOrange
+        collectionView.backgroundColor = .black
     }
     
     func configureHierarchy() {
@@ -92,8 +92,8 @@ extension SearchResultViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCollectionViewCell.id, for: indexPath) as? ItemCollectionViewCell else { return UICollectionViewCell() }
         let item = itemDetails[indexPath.item]
-        print(item.title)
-        cell.titleLabel.text = item.title
+        
+        cell.configureData(item: item)
         
         return cell
     }
