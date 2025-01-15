@@ -36,7 +36,7 @@ class ItemCollectionViewCell: UICollectionViewCell, ViewConfiguration {
             thumbnailImageView.kf.setImage(with: image)
         }
         mallNameLabel.text = item.mallName
-        titleLabel.text = item.title
+        titleLabel.text = item.title.cleanedTag()
         priceLabel.text = Int(item.lprice)?.formatted(.number)
     }
 

@@ -107,7 +107,8 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
         
         stackView.snp.makeConstraints { make in
             make.top.equalTo(totalLabel.snp.bottom)
-            make.horizontalEdges.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.width.equalToSuperview()
             make.height.equalTo(52)
         }
         
@@ -134,9 +135,9 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
         
         stackView.backgroundColor = .black
         stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fillEqually
         stackView.spacing = 4
-        stackView.alignment = .center
+        stackView.alignment = .leading
         
         // TODO: CustomButton으로 구현
         for (index, view) in stackView.subviews.enumerated() {
