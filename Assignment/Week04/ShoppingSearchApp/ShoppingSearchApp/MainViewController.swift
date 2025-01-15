@@ -57,6 +57,8 @@ class MainViewController: UIViewController {
         self.navigationItem.searchController = searchController
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationItem.title = "쇼핑쇼핑"
+        
+        self.navigationController?.navigationBar.tintColor = .white
     }
 }
 

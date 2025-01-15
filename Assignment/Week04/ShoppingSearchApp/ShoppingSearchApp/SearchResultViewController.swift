@@ -10,11 +10,15 @@ import Alamofire
 import SnapKit
 
 class SearchResultViewController: UIViewController, ViewConfiguration {
-
+    let standardLists = ["정확도", "날짜순", "가격높은순", "가격낮은순"]
+    let sortStandards = ["sim", "date", "asc", "dsc"]
     var searchWord: String = ""
-    var itemDetails: [ItemDetail] = []
+    var sortStandard: String = "sim"
+    var item: Item?
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
+    let totalLabel = UILabel()
+    let stackView = UIStackView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +32,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     }
 
     func callRequest() {
-        let url = "https://openapi.naver.com/v1/search/shop.json?query=\(searchWord)"
+        let url = "https://openapi.naver.com/v1/search/shop.json?query=\(searchWord)&sort=\(sortStandard)"
         let header: HTTPHeaders = [
             "X-Naver-Client-Id": "7eZfrnA2JVpvhdjYn2_c",
             "X-Naver-Client-Secret": "Z36ZX63j8a"
@@ -36,13 +40,41 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
         AF.request(url, method: .get, headers: header).responseDecodable(of: Item.self) { response in
             switch response.result {
             case .success(let value):
-                self.itemDetails = value.items
+                self.item = value
                 self.collectionView.reloadData()
+                if let total = self.item?.total {
+                    self.totalLabel.text = "\(total.formatted(.number))개의 검색 결과"
+                }
+
 //                dump(self.itemDetails.first!)
             case .failure(let error):
                 print(error)
             }
         }
+    }
+    
+    @objc
+    func sortButtonTapped(_ button: UIButton) {
+        button.isSelected = true
+        sortStandard = sortStandards[button.tag]
+        print(#function, sortStandard, button.isSelected)
+        if button.isSelected {
+            button.backgroundColor = .white
+            button.setTitleColor(.black, for: .normal)
+            for (i, e) in stackView.subviews.enumerated() {
+                let index = e as! UIButton
+                if index != button {
+                    index.isSelected = false
+                    index.backgroundColor = .black
+                    index.setTitleColor(.white, for: .normal)
+                }
+            }
+        } else {
+            button.backgroundColor = .black
+            button.setTitleColor(.white, for: .normal)
+        }
+
+        callRequest()
     }
     
     func configureCollectionView() {
@@ -53,17 +85,67 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     }
     
     func configureHierarchy() {
+        view.addSubview(totalLabel)
         view.addSubview(collectionView)
+        view.addSubview(stackView)
+        
+        for i in standardLists {
+            let button = UIButton()
+            button.setTitle(i, for: .normal)
+            stackView.addArrangedSubview(button)
+        }
     }
     
     func configureLayout() {
+        totalLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.width.equalToSuperview()
+            make.height.equalTo(30)
+        }
+        
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(totalLabel.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(52)
+        }
+        
+        for (index, button) in stackView.subviews.enumerated() {
+            button.snp.makeConstraints { make in
+                make.verticalEdges.equalToSuperview().inset(8)
+            }
+        }
+        
         collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(stackView.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
     
     func configureView() {
         view.backgroundColor = .black
+        self.navigationItem.title = searchWord
+        self.navigationController?.navigationBar.topItem?.title = ""
+        
+        totalLabel.textColor = .systemGreen
+        totalLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        
+        stackView.backgroundColor = .black
+        stackView.axis = .horizontal
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 4
+        stackView.alignment = .center
+        
+        // TODO: CustomButton으로 구현
+        for (index, view) in stackView.subviews.enumerated() {
+            guard let button = view as? UIButton else { return }
+            button.setTitleColor(button.isSelected ? .black : .white, for: .normal)
+            button.layer.borderColor = UIColor.white.cgColor
+            button.layer.borderWidth = 1
+            button.layer.cornerRadius = 5
+            button.tag = index
+            button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
+        }
     }
     
     func createCollectionViewLayout() -> UICollectionViewFlowLayout {
@@ -74,7 +156,8 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = CGSizeMake(cellWidth / 2, cellWidth / 2 * 1.5)
+        layout.minimumLineSpacing = 20
+        layout.itemSize = CGSizeMake(cellWidth / 2, cellWidth / 2 * 1.6)
         layout.sectionInset = UIEdgeInsets(top: 0, left: sectionInset, bottom: 0, right: sectionInset)
         
         return layout
@@ -86,12 +169,11 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
 extension SearchResultViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return itemDetails.count
+        return item?.items.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCollectionViewCell.id, for: indexPath) as? ItemCollectionViewCell else { return UICollectionViewCell() }
-        let item = itemDetails[indexPath.item]
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCollectionViewCell.id, for: indexPath) as? ItemCollectionViewCell, let item = item?.items[indexPath.item] else { return UICollectionViewCell() }
         
         cell.configureData(item: item)
         
