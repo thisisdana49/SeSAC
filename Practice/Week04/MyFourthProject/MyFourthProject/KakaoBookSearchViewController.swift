@@ -7,6 +7,7 @@
 
 import UIKit
 import Alamofire
+import Kingfisher
 import SnapKit
 
 class KakaoBookSearchViewController: UIViewController {
@@ -78,7 +79,12 @@ extension KakaoBookSearchViewController: UISearchBarDelegate {
         let url = "https://dapi.kakao.com/v3/search/book?query=\(searchWord)"
         let headers: HTTPHeaders = [ "Authorization": "KakaoAK \(apiKey)"]
         
-        AF.request(url, method: .get, headers: headers).responseDecodable(of: Book.self) { response in
+        AF.request(url, method: .get, headers: headers)
+            .validate(statusCode: 200..<300)    // default로 숨어있음
+//            .validate(statusCode: 200..<500)    // success에서 다함께 처리하고 싶다? 넓~게 잡아서 처리함.
+            .responseDecodable(of: Book.self) { response in
+                print(response.response?.statusCode)
+                
             switch response.result {
             case .success(let book):
                 print("Search Request Success")
@@ -102,6 +108,9 @@ extension KakaoBookSearchViewController: UITableViewDelegate, UITableViewDataSou
         guard let cell = tableView.dequeueReusableCell(withIdentifier: KakaoBookSearchTableViewCell.id, for: indexPath) as? KakaoBookSearchTableViewCell else { return UITableViewCell() }
         
         let book = list[indexPath.row]
+        
+        let image = URL(string: book.thumbnail)
+        cell.thumbnailImageView.kf.setImage(with: image)
         
         cell.titleLabel.text = book.title
         cell.subTitleLabel.text = book.price.formatted()
