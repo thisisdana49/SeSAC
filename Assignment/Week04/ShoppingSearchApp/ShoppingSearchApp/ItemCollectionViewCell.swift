@@ -13,6 +13,8 @@ class ItemCollectionViewCell: UICollectionViewCell, ViewConfiguration {
     static let id = "ItemCollectionViewCell"
 
     let thumbnailImageView = UIImageView()
+    let likeBaseView = UIView()
+    let likeButton = UIButton()
     let mallNameLabel = UILabel()
     let titleLabel =  UILabel()
     let priceLabel = UILabel()
@@ -40,6 +42,8 @@ class ItemCollectionViewCell: UICollectionViewCell, ViewConfiguration {
 
     internal func configureHierarchy() {
         contentView.addSubview(thumbnailImageView)
+        contentView.addSubview(likeBaseView)
+        likeBaseView.addSubview(likeButton)
         contentView.addSubview(mallNameLabel)
         contentView.addSubview(titleLabel)
         contentView.addSubview(priceLabel)
@@ -51,6 +55,16 @@ class ItemCollectionViewCell: UICollectionViewCell, ViewConfiguration {
             make.centerX.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalTo(thumbnailImageView.snp.width)
+        }
+        
+        likeBaseView.snp.makeConstraints { make in
+            make.size.equalTo(thumbnailImageView)
+        }
+        
+        likeButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(8)
+            make.trailing.equalToSuperview().inset(8)
+            make.size.equalTo(30)
         }
         
         mallNameLabel.snp.makeConstraints { make in
@@ -79,6 +93,15 @@ class ItemCollectionViewCell: UICollectionViewCell, ViewConfiguration {
         thumbnailImageView.clipsToBounds = true
         thumbnailImageView.contentMode = .scaleAspectFill
         
+        likeButton.setImage(UIImage(systemName: "heart")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
+        likeButton.setImage(UIImage(systemName: "heart.fill")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .highlighted)
+        likeButton.setImage(UIImage(systemName: "heart.fill")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .selected)
+        likeButton.setTitle("", for: .normal)
+        likeButton.backgroundColor = .white
+        likeButton.layer.cornerRadius = 15
+        likeButton.isUserInteractionEnabled = true
+        likeButton.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
+        
         mallNameLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         priceLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
@@ -88,6 +111,11 @@ class ItemCollectionViewCell: UICollectionViewCell, ViewConfiguration {
         priceLabel.textColor = .white
         
         titleLabel.numberOfLines = 2
+    }
+    
+    @objc
+    func heartButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
     }
     
 }

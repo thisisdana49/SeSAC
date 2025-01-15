@@ -18,4 +18,5 @@ struct ItemDetail: Decodable {
     let mallName: String
     let title: String
     let lprice: String
+    var like: Bool? = false
 }
