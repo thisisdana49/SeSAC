@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E6990BA2D37D5C0001E85EF /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6990B92D37D5C0001E85EF /* APIKey.swift */; };
 		3E8510372D3795A4009BD95B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 3E8510362D3795A4009BD95B /* Kingfisher */; };
 		3E85103A2D3795B3009BD95B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3E8510392D3795B3009BD95B /* Alamofire */; };
 		3E85103D2D3795BC009BD95B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3E85103C2D3795BC009BD95B /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E6990B92D37D5C0001E85EF /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		3E85101D2D37951A009BD95B /* ShoppingSearchApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoppingSearchApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -54,6 +56,7 @@
 		3E8510142D379519009BD95B = {
 			isa = PBXGroup;
 			children = (
+				3E6990B92D37D5C0001E85EF /* APIKey.swift */,
 				3E85101F2D37951A009BD95B /* ShoppingSearchApp */,
 				3E85101E2D37951A009BD95B /* Products */,
 			);
@@ -149,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E6990BA2D37D5C0001E85EF /* APIKey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

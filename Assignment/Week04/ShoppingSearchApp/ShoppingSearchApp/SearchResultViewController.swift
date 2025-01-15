@@ -34,10 +34,12 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     func callRequest() {
         let url = "https://openapi.naver.com/v1/search/shop.json?query=\(searchWord)&sort=\(sortStandard)"
         let header: HTTPHeaders = [
-            "X-Naver-Client-Id": "7eZfrnA2JVpvhdjYn2_c",
-            "X-Naver-Client-Secret": "Z36ZX63j8a"
+            "X-Naver-Client-Id": naverClientID,
+            "X-Naver-Client-Secret": naverClientSecret
         ]
-        AF.request(url, method: .get, headers: header).responseDecodable(of: Item.self) { response in
+        AF.request(url, method: .get, headers: header)
+            .validate(statusCode: 200..<300)
+            .responseDecodable(of: Item.self) { response in
             switch response.result {
             case .success(let value):
                 self.item = value
@@ -61,7 +63,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
         if button.isSelected {
             button.backgroundColor = .white
             button.setTitleColor(.black, for: .normal)
-            for (i, e) in stackView.subviews.enumerated() {
+            for (_, e) in stackView.subviews.enumerated() {
                 let index = e as! UIButton
                 if index != button {
                     index.isSelected = false
