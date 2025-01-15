@@ -11,7 +11,7 @@ import SnapKit
 
 class SearchResultViewController: UIViewController, ViewConfiguration {
     let standardLists = ["정확도", "날짜순", "가격높은순", "가격낮은순"]
-    let sortStandards = ["sim", "date", "asc", "dsc"]
+    let sortStandards = ["sim", "date", "dsc", "asc"]
     var searchWord: String = ""
     var sortStandard: String = "sim"
     var item: Item?
