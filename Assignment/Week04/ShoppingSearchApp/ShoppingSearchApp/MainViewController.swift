@@ -10,7 +10,9 @@ import SnapKit
 
 class MainViewController: UIViewController {
 
-    let searchBar = CustomSearchBar()
+//    let searchBar = CustomSearchBar()
+    let mainImageView = UIImageView()
+    let mainLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,19 +23,38 @@ class MainViewController: UIViewController {
         configureNavController()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationItem.searchController?.searchBar.text = ""
+    }
+    
     func configureHierarchy() {
-
+        view.addSubview(mainImageView)
+        view.addSubview(mainLabel)
     }
     
     func configureLayout() {
-
+        mainImageView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(40)
+        }
+        
+        mainLabel.snp.makeConstraints { make in
+            make.top.equalTo(mainImageView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+        }
     }
     
     func configureView() {
-        searchBar.delegate = self
+//        searchBar.delegate = self
 
-        
         view.backgroundColor = .black
+        
+        mainImageView.image = .main
+        mainImageView.contentMode = .scaleAspectFit
+        
+        mainLabel.text = "정말로 쇼핑하고 시퍼요"
+        mainLabel.textColor = .white
+        mainLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
     }
     
     func configureNavController() {
