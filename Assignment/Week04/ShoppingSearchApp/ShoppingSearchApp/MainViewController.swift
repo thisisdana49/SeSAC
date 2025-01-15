@@ -68,6 +68,7 @@ extension MainViewController: UISearchBarDelegate {
         }
         print(#function)
         let vc = SearchResultViewController()
+        vc.searchWord = text
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
