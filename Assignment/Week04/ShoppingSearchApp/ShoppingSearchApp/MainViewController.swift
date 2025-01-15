@@ -10,40 +10,69 @@ import SnapKit
 
 class MainViewController: UIViewController {
 
-    let searchBar = UISearchBar()
+    let searchBar = CustomSearchBar()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("main view did load")
         
         configureHierarchy()
         configureLayout()
         configureView()
+        configureNavController()
     }
     
     func configureHierarchy() {
-        view.addSubview(searchBar)
+
     }
     
     func configureLayout() {
-        searchBar.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.height.equalTo(40)
-        }
-    }
 
-    func configureView() {
-        navigationController?.title = "쇼핑쇼핑"
-        view.backgroundColor = .black
-        
-        searchBar.searchBarStyle = .minimal
-        searchBar.tintColor = .lightGray
     }
     
+    func configureView() {
+        searchBar.delegate = self
+
+        
+        view.backgroundColor = .black
+    }
+    
+    func configureNavController() {
+        let searchController = UISearchController()
+        let searchBar = searchController.searchBar
+        searchBar.delegate = self
+
+        searchController.searchBar.tintColor = .lightGray
+        
+        if let textField = searchBar.value(forKey: "searchField") as? UITextField, let leftView = textField.leftView as? UIImageView {
+            textField.backgroundColor = .darkGray
+            textField.textColor = .blue
+            textField.attributedPlaceholder = NSAttributedString(
+                string: "브랜드, 상품, 프로필, 태그 등",
+                attributes: [.foregroundColor: UIColor.lightGray]
+            )
+            
+            leftView.image = leftView.image?.withRenderingMode(.alwaysTemplate)
+            leftView.tintColor = .lightGray
+        }
+        self.navigationItem.searchController = searchController
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationItem.title = "쇼핑쇼핑"
+    }
 }
 
-
-#Preview {
-    MainViewController()
+// MARK: UISearchBar Delegate
+extension MainViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text, !text.isEmpty, text.count > 1 else {
+            return
+        }
+        print(#function)
+        let vc = SearchResultViewController()
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
+
+//#Preview {
+//    MainViewController()
+//}
