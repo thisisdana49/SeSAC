@@ -59,7 +59,7 @@ class MarketViewController: UIViewController {
     }
     
     func configureView() {
-        view.backgroundColor = .white
+//        view.backgroundColor = .white
     }
 
 }

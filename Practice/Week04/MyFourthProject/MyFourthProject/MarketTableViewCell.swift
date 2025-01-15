@@ -12,7 +12,7 @@ class MarketTableViewCell: UITableViewCell {
     
     static let id = "MarketTableViewCell"
     
-    let nameLabel = UILabel()
+    let nameLabel = BlackRadiusLabel(color: .yellow)
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -34,7 +34,7 @@ class MarketTableViewCell: UITableViewCell {
     }
     
     func configureView() {
-        nameLabel.textColor = .brown
+//        nameLabel.textColor = .brown
         nameLabel.font = .boldSystemFont(ofSize: 20)
     }
     
