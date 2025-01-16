@@ -47,7 +47,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
             case .success(let value):
                 if self.start == 1 {
                     self.item = value
-                    dump(self.item)
+//                    dump(self.item)
                     if let total = self.item?.total {
                         self.totalLabel.text = "\(total.formatted(.number))개의 검색 결과"
                     }
@@ -205,8 +205,14 @@ extension SearchResultViewController: UICollectionViewDataSourcePrefetching {
         guard let itemsCount = item?.items.count else { return }
         for indexPath in indexPaths {
             if (itemsCount - 2) == indexPath.item {
-                start += display
-                callRequest()
+                if start < item!.total {
+                    print(#function, start)
+                    start += display
+                    callRequest()
+                } else {
+                    print("it's end", start)
+                    isEnd = true
+                }
             }
         }
     }
