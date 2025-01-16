@@ -9,10 +9,6 @@ import UIKit
 
 class BookView: BaseView {
     lazy var collectionView = createCollectionView()
-
-    override func configureHierarchy() {
-        addSubview(collectionView)
-    }
     
     func createCollectionView() -> UICollectionView {
         lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
@@ -21,6 +17,10 @@ class BookView: BaseView {
         collectionView.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: "BookCollectionViewCell")
 
         return collectionView
+    }
+    
+    override func configureHierarchy() {
+        addSubview(collectionView)
     }
     
     override func configureLayout() {

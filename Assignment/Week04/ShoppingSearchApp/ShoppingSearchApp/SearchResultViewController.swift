@@ -9,8 +9,10 @@ import UIKit
 import Alamofire
 import SnapKit
 
-class SearchResultViewController: UIViewController, ViewConfiguration {
-    let standardLists = ["정확도", "날짜순", "가격높은순", "가격낮은순"]
+class SearchResultViewController: UIViewController {
+    
+    var mainView = SearchResultView()
+    
     let sortStandards = ["sim", "date", "dsc", "asc"]
     var searchWord: String = ""
     let display: Int = 30
@@ -18,20 +20,16 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     var isEnd: Bool = false
     var sortStandard: String = "sim"
     var item: Item?
-    
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
-    let totalLabel = UILabel()
-    let stackView = UIStackView()
+
+    override func loadView() {
+        view = mainView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureViewController()
+        
         callRequest()
-
-        configureCollectionView()
-        configureHierarchy()
-        configureLayout()
-        configureView()
-        self.collectionView.reloadData()
     }
 
     func callRequest() {
@@ -49,15 +47,15 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
                     self.item = value
 //                    dump(self.item)
                     if let total = self.item?.total {
-                        self.totalLabel.text = "\(total.formatted(.number))개의 검색 결과"
+                        self.mainView.totalLabel.text = "\(total.formatted(.number))개의 검색 결과"
                     }
                 } else {
                     self.item?.items.append(contentsOf: value.items)
                 }
-                self.collectionView.reloadData()
+                self.mainView.collectionView.reloadData()
                 
                 if self.start == 1 {
-                    self.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+                    self.mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
                 }
 
 //                dump(self.itemDetails.first!)
@@ -75,7 +73,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
         if button.isSelected {
             button.backgroundColor = .white
             button.setTitleColor(.black, for: .normal)
-            for (_, e) in stackView.subviews.enumerated() {
+            for (_, e) in mainView.stackView.subviews.enumerated() {
                 let index = e as! UIButton
                 if index != button {
                     index.isSelected = false
@@ -91,94 +89,22 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
         callRequest()
     }
     
-    func configureCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.prefetchDataSource = self
-        collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.id)
-        collectionView.backgroundColor = .systemPink
-    }
-    
-    func configureHierarchy() {
-        view.addSubview(totalLabel)
-        view.addSubview(collectionView)
-        view.addSubview(stackView)
-        
-        for i in standardLists {
-            let button = UIButton()
-            button.setTitle(i, for: .normal)
-            stackView.addArrangedSubview(button)
-        }
-    }
-    
-    func configureLayout() {
-        totalLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.width.equalToSuperview()
-            make.height.equalTo(30)
-        }
-        
-        stackView.snp.makeConstraints { make in
-            make.top.equalTo(totalLabel.snp.bottom)
-            make.leading.equalToSuperview()
-//            make.width.equalToSuperview()
-            make.height.equalTo(52)
-        }
-        
-        for (index, button) in stackView.subviews.enumerated() {
-            button.snp.makeConstraints { make in
-                make.verticalEdges.equalToSuperview().inset(8)
-            }
-        }
-        
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(stackView.snp.bottom)
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview()
-        }
-    }
-    
-    func configureView() {
-        view.backgroundColor = .black
+    func configureViewController() {
         self.navigationItem.title = searchWord
         self.navigationController?.navigationBar.topItem?.title = ""
+
+        mainView.collectionView.delegate = self
+        mainView.collectionView.dataSource = self
+        mainView.collectionView.prefetchDataSource = self
+        mainView.collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.id)
+        mainView.collectionView.backgroundColor = .black
         
-        totalLabel.textColor = .systemGreen
-        totalLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        
-        stackView.backgroundColor = .black
-        stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 4
-        stackView.alignment = .leading
-        
-        // TODO: CustomButton으로 구현
-        for (index, view) in stackView.subviews.enumerated() {
+        for (index, view) in mainView.stackView.subviews.enumerated() {
             guard let button = view as? UIButton else { return }
-            button.setTitleColor(button.isSelected ? .black : .white, for: .normal)
-            button.layer.borderColor = UIColor.white.cgColor
-            button.layer.borderWidth = 1
-            button.layer.cornerRadius = 5
-            button.tag = index
             button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
         }
     }
-    
-    func createCollectionViewLayout() -> UICollectionViewFlowLayout {
-        let sectionInset: CGFloat = 16
-        let cellSpacing: CGFloat = 16
-        let deviceWidth = UIScreen.main.bounds.width
-        let cellWidth = (deviceWidth - (sectionInset * 2) - cellSpacing)
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 20
-        layout.itemSize = CGSizeMake(cellWidth / 2, cellWidth / 2 * 1.6)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: sectionInset, bottom: 0, right: sectionInset)
-        
-        return layout
-    }
-    
+
 }
 
 // MARK: UICollectionView Delegate, DataSource

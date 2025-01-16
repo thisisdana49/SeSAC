@@ -25,7 +25,7 @@ class BookViewController: UIViewController {
         print(UserDefaultsManager.shared.age)
         
         NetworkManager.shared.randomUser { name in
-            navigationItem.title = name
+            self.navigationItem.title = name
         }
     }
 }
