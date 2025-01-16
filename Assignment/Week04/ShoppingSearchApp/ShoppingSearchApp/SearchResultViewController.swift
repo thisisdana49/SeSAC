@@ -13,6 +13,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     let standardLists = ["정확도", "날짜순", "가격높은순", "가격낮은순"]
     let sortStandards = ["sim", "date", "dsc", "asc"]
     var searchWord: String = ""
+    var page: Int = 1
     var sortStandard: String = "sim"
     var item: Item?
     
@@ -32,7 +33,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     }
 
     func callRequest() {
-        let url = "https://openapi.naver.com/v1/search/shop.json?query=\(searchWord)&sort=\(sortStandard)"
+        let url = "https://openapi.naver.com/v1/search/shop.json?query=\(searchWord)&sort=\(sortStandard)&start=\(page)&display=30"
         let header: HTTPHeaders = [
             "X-Naver-Client-Id": naverClientID,
             "X-Naver-Client-Secret": naverClientSecret
@@ -42,10 +43,19 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
             .responseDecodable(of: Item.self) { response in
             switch response.result {
             case .success(let value):
-                self.item = value
+                if self.page == 1 {
+                    self.item = value
+                    dump(self.item)
+                    if let total = self.item?.total {
+                        self.totalLabel.text = "\(total.formatted(.number))개의 검색 결과"
+                    }
+                } else {
+                    self.item?.items.append(contentsOf: value.items)
+                }
                 self.collectionView.reloadData()
-                if let total = self.item?.total {
-                    self.totalLabel.text = "\(total.formatted(.number))개의 검색 결과"
+                
+                if self.page == 1 {
+                    self.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
                 }
 
 //                dump(self.itemDetails.first!)
@@ -57,10 +67,8 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     
     @objc
     func sortButtonTapped(_ button: UIButton) {
-        print(#function)
         button.isSelected = true
         sortStandard = sortStandards[button.tag]
-        print(#function, sortStandard, button.isSelected)
         if button.isSelected {
             button.backgroundColor = .white
             button.setTitleColor(.black, for: .normal)
@@ -83,8 +91,9 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     func configureCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.prefetchDataSource = self
         collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.id)
-        collectionView.backgroundColor = .black
+        collectionView.backgroundColor = .systemPink
     }
     
     func configureHierarchy() {
@@ -182,6 +191,21 @@ extension SearchResultViewController: UICollectionViewDelegate, UICollectionView
         cell.configureData(item: item)
         
         return cell
+    }
+    
+}
+
+// MARK:
+extension SearchResultViewController: UICollectionViewDataSourcePrefetching {
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        guard let itemsCount = item?.items.count else { return }
+        for indexPath in indexPaths {
+            if (itemsCount - 2) == indexPath.item {
+                page += 1
+                callRequest()
+            }
+        }
     }
     
 }

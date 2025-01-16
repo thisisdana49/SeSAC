@@ -10,7 +10,7 @@ import Foundation
 struct Item: Decodable {
     let total: Int
     let start: Int
-    let items: [ItemDetail]
+    var items: [ItemDetail]
 }
 
 struct ItemDetail: Decodable {
