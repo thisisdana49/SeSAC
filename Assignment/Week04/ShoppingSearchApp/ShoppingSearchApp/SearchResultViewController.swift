@@ -99,7 +99,7 @@ class SearchResultViewController: UIViewController {
         mainView.collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.id)
         mainView.collectionView.backgroundColor = .black
         
-        for (index, view) in mainView.stackView.subviews.enumerated() {
+        for (_, view) in mainView.stackView.subviews.enumerated() {
             guard let button = view as? UIButton else { return }
             button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
         }

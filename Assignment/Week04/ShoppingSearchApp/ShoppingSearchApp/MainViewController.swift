@@ -18,6 +18,9 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(#function)
+        let a = " a"
+        print(a.starts(with: " "))
         
         configureNavController()
     }
@@ -55,13 +58,23 @@ class MainViewController: UIViewController {
 // MARK: UISearchBar Delegate
 extension MainViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text, !text.isEmpty, text.count > 1 else {
-            return
+        if let text = searchBar.text, !text.isEmpty{
+            if text.starts(with: " ") {
+                showAlert(message: "검색어는 공백으로 시작할 수 없습니다.") { action in
+                    searchBar.text = ""
+                }
+                return
+            } else if text.count < 2 {
+                showAlert(message: "두 글자 이상 이상 입력해 주세요.") { action in
+                    searchBar.text = ""
+                }
+                return
+            }
+            let vc = SearchResultViewController()
+            vc.searchWord = text
+            
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
         }
-        print(#function)
-        let vc = SearchResultViewController()
-        vc.searchWord = text
-        
-        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
