@@ -13,7 +13,9 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     let standardLists = ["정확도", "날짜순", "가격높은순", "가격낮은순"]
     let sortStandards = ["sim", "date", "dsc", "asc"]
     var searchWord: String = ""
-    var page: Int = 1
+    let display: Int = 30
+    var start: Int = 1
+    var isEnd: Bool = false
     var sortStandard: String = "sim"
     var item: Item?
     
@@ -33,7 +35,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     }
 
     func callRequest() {
-        let url = "https://openapi.naver.com/v1/search/shop.json?query=\(searchWord)&sort=\(sortStandard)&start=\(page)&display=30"
+        let url = "https://openapi.naver.com/v1/search/shop.json?query=\(searchWord)&sort=\(sortStandard)&start=\(start)&display=\(display)"
         let header: HTTPHeaders = [
             "X-Naver-Client-Id": naverClientID,
             "X-Naver-Client-Secret": naverClientSecret
@@ -43,7 +45,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
             .responseDecodable(of: Item.self) { response in
             switch response.result {
             case .success(let value):
-                if self.page == 1 {
+                if self.start == 1 {
                     self.item = value
                     dump(self.item)
                     if let total = self.item?.total {
@@ -54,7 +56,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
                 }
                 self.collectionView.reloadData()
                 
-                if self.page == 1 {
+                if self.start == 1 {
                     self.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
                 }
 
@@ -68,7 +70,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     @objc
     func sortButtonTapped(_ button: UIButton) {
         button.isSelected = true
-        page = 1
+        start = 1
         sortStandard = sortStandards[button.tag]
         if button.isSelected {
             button.backgroundColor = .white
@@ -203,7 +205,7 @@ extension SearchResultViewController: UICollectionViewDataSourcePrefetching {
         guard let itemsCount = item?.items.count else { return }
         for indexPath in indexPaths {
             if (itemsCount - 2) == indexPath.item {
-                page += 1
+                start += display
                 callRequest()
             }
         }
