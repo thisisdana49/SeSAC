@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Alamofire
 import SnapKit
 
 class SearchResultViewController: UIViewController {
@@ -20,7 +19,7 @@ class SearchResultViewController: UIViewController {
     var isEnd: Bool = false
     var sortStandard: String = "sim"
     var item: Item?
-
+    
     override func loadView() {
         view = mainView
     }
@@ -31,36 +30,21 @@ class SearchResultViewController: UIViewController {
         
         callRequest()
     }
-
+    
     func callRequest() {
-        let url = "https://openapi.naver.com/v1/search/shop.json?query=\(searchWord)&sort=\(sortStandard)&start=\(start)&display=\(display)"
-        let header: HTTPHeaders = [
-            "X-Naver-Client-Id": naverClientID,
-            "X-Naver-Client-Secret": naverClientSecret
-        ]
-        AF.request(url, method: .get, headers: header)
-            .validate(statusCode: 200..<300)
-            .responseDecodable(of: Item.self) { response in
-            switch response.result {
-            case .success(let value):
-                if self.start == 1 {
-                    self.item = value
-//                    dump(self.item)
-                    if let total = self.item?.total {
-                        self.mainView.totalLabel.text = "\(total.formatted(.number))개의 검색 결과"
-                    }
-                } else {
-                    self.item?.items.append(contentsOf: value.items)
+        NetworkManager.shared.searchItem(searchWord: searchWord, sortWith: sortStandard, start: start, display: display) { value in
+            if self.start == 1 {
+                self.item = value
+                if let total = self.item?.total {
+                    self.mainView.totalLabel.text = "\(total.formatted(.number))개의 검색 결과"
                 }
-                self.mainView.collectionView.reloadData()
-                
-                if self.start == 1 {
-                    self.mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-                }
-
-//                dump(self.itemDetails.first!)
-            case .failure(let error):
-                print(error)
+            } else {
+                self.item?.items.append(contentsOf: value.items)
+            }
+            self.mainView.collectionView.reloadData()
+            
+            if self.start == 1 {
+                self.mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             }
         }
     }
@@ -85,14 +69,14 @@ class SearchResultViewController: UIViewController {
             button.backgroundColor = .black
             button.setTitleColor(.white, for: .normal)
         }
-
+        
         callRequest()
     }
     
     func configureViewController() {
         self.navigationItem.title = searchWord
         self.navigationController?.navigationBar.topItem?.title = ""
-
+        
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
         mainView.collectionView.prefetchDataSource = self
@@ -104,7 +88,7 @@ class SearchResultViewController: UIViewController {
             button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
         }
     }
-
+    
 }
 
 // MARK: UICollectionView Delegate, DataSource
