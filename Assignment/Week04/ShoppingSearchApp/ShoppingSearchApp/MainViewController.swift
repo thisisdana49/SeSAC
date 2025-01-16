@@ -60,14 +60,14 @@ extension MainViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let text = searchBar.text, !text.isEmpty{
             if text.starts(with: " ") {
-                showAlert(message: "검색어는 공백으로 시작할 수 없습니다.") { action in
+                AlertManager.shared.showAlert(message: "검색어는 공백으로 시작할 수 없습니다.", onConfirm: {
                     searchBar.text = ""
-                }
+                }, over: self)
                 return
             } else if text.count < 2 {
-                showAlert(message: "두 글자 이상 이상 입력해 주세요.") { action in
+                AlertManager.shared.showAlert(message: "두 글자 이상 입력해 주세요.", onConfirm: {
                     searchBar.text = ""
-                }
+                }, over: self)
                 return
             }
             let vc = SearchResultViewController()
