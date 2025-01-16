@@ -136,7 +136,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
         
         stackView.backgroundColor = .black
         stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .equalSpacing
         stackView.spacing = 4
         stackView.alignment = .leading
         

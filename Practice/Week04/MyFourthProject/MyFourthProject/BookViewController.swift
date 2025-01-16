@@ -20,23 +20,11 @@ class BookViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mainView.collectionView.delegate = self
-        mainView.collectionView.dataSource = self
+
     }
 }
 
-// MARK: CollectionView Delegate
-extension BookViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 100
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCollectionViewCell", for: indexPath) as! BookCollectionViewCell
-        cell.bookCoverImageView.layer.cornerRadius = 10
-        return cell
-    }
-}
+
 
 //#Preview {
 //    BookViewController()
