@@ -17,21 +17,16 @@ class SearchResultView: BaseView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        configureHierarchy()
-        configureLayout()
-        configureView()
     }
-    
     
     override func configureHierarchy() {
         addSubview(totalLabel)
         addSubview(collectionView)
         addSubview(stackView)
         
-        for i in standardLists {
-            let button = UIButton()
-            button.setTitle(i, for: .normal)
+        for i in 0..<standardLists.count {
+            print(#function, i)
+            let button = CustomButton(title: standardLists[i], tag: i)
             stackView.addArrangedSubview(button)
         }
     }
@@ -50,7 +45,7 @@ class SearchResultView: BaseView {
             make.height.equalTo(52)
         }
         
-        for (index, button) in stackView.subviews.enumerated() {
+        for (_, button) in stackView.subviews.enumerated() {
             button.snp.makeConstraints { make in
                 make.verticalEdges.equalToSuperview().inset(8)
             }
@@ -74,16 +69,6 @@ class SearchResultView: BaseView {
         stackView.distribution = .equalSpacing
         stackView.spacing = 4
         stackView.alignment = .leading
-        
-        // TODO: CustomButton으로 구현
-        for (index, view) in stackView.subviews.enumerated() {
-            guard let button = view as? UIButton else { return }
-            button.setTitleColor(button.isSelected ? .black : .white, for: .normal)
-            button.layer.borderColor = UIColor.white.cgColor
-            button.layer.borderWidth = 1
-            button.layer.cornerRadius = 5
-            button.tag = index
-        }
     }
     
     
