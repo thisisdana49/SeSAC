@@ -10,17 +10,36 @@ import Alamofire
 import Kingfisher
 import SnapKit
 
+/*
+ Pagenation
+ 1. 스크롤이 끝날 쯤 다음 페이지를 요청
+ 2. 이전 내용도 확인해야 해서 list.append로 수정
+ 또 어떤 것을 고쳐야 할까?
+ +) 다른 검색어를 입력한 경우, 배열 초기화
+ +) 페이지가 1페이지로 돌아가도록 설정
+ +) 스크롤이 내려간 상태에서 다른 키워드를 입력했을 때, 최상단으로 다시 올라가기
+ +) 마지막 페이지인 경우 더이상 호출하지 않기
+ */
+
+
 class KakaoBookSearchViewController: UIViewController {
     
     let searchBar = UISearchBar()
     let tableView = UITableView()
     
     var list: [BookDetail] = []
-    var searchWord: String = ""
-
+    var searchWord: String = "" {
+        didSet {
+            page = 1
+        }
+    }
+    
+    var page = 1
+    var isEnd = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureView()
         configureSearchBar()
         configureTableView()
@@ -54,14 +73,15 @@ class KakaoBookSearchViewController: UIViewController {
         tableView.rowHeight = 120
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.prefetchDataSource = self
         tableView.register(KakaoBookSearchTableViewCell.self, forCellReuseIdentifier: KakaoBookSearchTableViewCell.id)
-
+        
     }
-
+    
 }
 
 extension KakaoBookSearchViewController: UISearchBarDelegate {
-    
+    // 빈칸, 최소 1자 이상, 같은 단어에 대한 처리 로직 필요
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print(#function)
         guard let text = searchBar.text, searchWord != text else { print("it's same"); return }
@@ -76,27 +96,61 @@ extension KakaoBookSearchViewController: UISearchBarDelegate {
     
     func callRequest() {
         print(#function)
-        let url = "https://dapi.kakao.com/v3/search/book?query=\(searchWord)"
+        let url = "https://dapi.kakao.com/v3/search/book?query=\(searchWord)&size=20&page=\(page)"
         let headers: HTTPHeaders = [ "Authorization": "KakaoAK \(apiKey)"]
         
         AF.request(url, method: .get, headers: headers)
             .validate(statusCode: 200..<300)    // default로 숨어있음
-//            .validate(statusCode: 200..<500)    // success에서 다함께 처리하고 싶다? 넓~게 잡아서 처리함.
+        //            .validate(statusCode: 200..<500)    // success에서 다함께 처리하고 싶다? 넓~게 잡아서 처리함.
             .responseDecodable(of: Book.self) { response in
-                print(response.response?.statusCode)
-                
-            switch response.result {
-            case .success(let book):
-                print("Search Request Success")
-                self.list = book.documents
-                self.tableView.reloadData()
-            case .failure(let error):
-                print(error)
+                dump(self.list)
+                print(self.page)
+                switch response.result {
+                case .success(let book):
+                    print("Search Request Success")
+                    //                self.list = book.documents 갈아끼워주는 것이 아니라 기존 배열에 append 해야함
+                    self.isEnd = book.meta.isEnd
+                    if self.page == 1 {
+                        self.list = book.documents
+                    } else {
+                        self.list.append(contentsOf: book.documents)
+                    }
+                    
+                    self.tableView.reloadData()
+                    
+                    if self.page == 1 {
+                        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                    }
+                case .failure(let error):
+                    print(error)
+                }
             }
-        }
     }
 }
 
+// MARK: UITableView DataSource Prefetching
+extension KakaoBookSearchViewController: UITableViewDataSourcePrefetching {
+    
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        print(#function, indexPaths)
+        
+        // 20개 size => 0, 19
+        //
+        for item in indexPaths {
+            // 사용자의 마지막 스크롤 시점
+            if (list.count - 2) == item.row && !isEnd {
+                page += 1
+                callRequest()
+            }
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        print(#function, indexPaths)
+    }
+    
+}
 
 extension KakaoBookSearchViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -116,9 +170,19 @@ extension KakaoBookSearchViewController: UITableViewDelegate, UITableViewDataSou
         cell.subTitleLabel.text = book.price.formatted()
         cell.overviewLabel.text = book.contents
         cell.thumbnailImageView.backgroundColor = .brown
+        //        print(#function, indexPath)
         
         return cell
     }
+    
+    //    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    //        print(#function, indexPath)
+    //    }
+    
+    // MARK: UIScrollView Delegate : UITableView Delegate가 UIScroll을 상속 받고 있음.
+    //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    //        print(#function, scrollView.contentSize.height, scrollView.contentOffset.y)
+    //    }
     
 }
 

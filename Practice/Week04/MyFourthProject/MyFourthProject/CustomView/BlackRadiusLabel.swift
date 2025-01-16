@@ -37,7 +37,7 @@ class BaseLabel: UILabel {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        <#code#>
+        fatalError()
     }
 }
 

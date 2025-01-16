@@ -57,6 +57,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     
     @objc
     func sortButtonTapped(_ button: UIButton) {
+        print(#function)
         button.isSelected = true
         sortStandard = sortStandards[button.tag]
         print(#function, sortStandard, button.isSelected)
@@ -108,7 +109,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
         stackView.snp.makeConstraints { make in
             make.top.equalTo(totalLabel.snp.bottom)
             make.leading.equalToSuperview()
-            make.width.equalToSuperview()
+//            make.width.equalToSuperview()
             make.height.equalTo(52)
         }
         
@@ -135,7 +136,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
         
         stackView.backgroundColor = .black
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
         stackView.spacing = 4
         stackView.alignment = .leading
         

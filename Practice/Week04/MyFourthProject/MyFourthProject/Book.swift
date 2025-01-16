@@ -9,6 +9,7 @@ import Foundation
 
 struct Book: Decodable {
     let documents: [BookDetail]
+    let meta: Meta
 }
 
 struct BookDetail: Decodable {
@@ -16,4 +17,14 @@ struct BookDetail: Decodable {
     let price: Int
     let title: String
     let thumbnail: String
+}
+
+struct Meta: Decodable {
+    let isEnd: Bool
+    let totalCount: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case isEnd = "is_end"
+        case totalCount = "total_count"
+    }
 }
