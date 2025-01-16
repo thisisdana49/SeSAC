@@ -113,15 +113,7 @@ class RandomViewController: UIViewController, Viewconfiguration {
     
     @objc
     func userButtonTapped() {
-        let url = "https://randomuser.me/api/?results=50"
-        AF.request(url, method: .get).responseDecodable(of: User.self) { response in
-            switch response.result {
-            case .success(let value):
-                self.nameLabel.text = value.results[Int.random(in: 0..<50)].name.last
-            case .failure(let error):
-                print(error)
-            }
-        }
+        NetworkManager.shared.randomUser()
     }
 }
 
