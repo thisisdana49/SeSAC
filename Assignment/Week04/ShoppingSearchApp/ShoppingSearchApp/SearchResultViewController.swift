@@ -68,6 +68,7 @@ class SearchResultViewController: UIViewController, ViewConfiguration {
     @objc
     func sortButtonTapped(_ button: UIButton) {
         button.isSelected = true
+        page = 1
         sortStandard = sortStandards[button.tag]
         if button.isSelected {
             button.backgroundColor = .white
