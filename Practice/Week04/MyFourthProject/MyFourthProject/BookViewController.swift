@@ -8,31 +8,20 @@
 import UIKit
 import SnapKit
 
+
 class BookViewController: UIViewController {
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
+    
+    var mainView = BookView()
+    
+    // super XXX -> 기존 Apple이 만들어놓은 걸 다시 호출하는 일이 되기 때문에
+    override func loadView() {
+        view = mainView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print(#function)
-        view.backgroundColor = .gray
-        
-        view.addSubview(collectionView)
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(BookCollectionViewCell.self, forCellWithReuseIdentifier: "BookCollectionViewCell")
-        
-        collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-    
-    func createCollectionViewLayout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 50, height: 50)
-        layout.scrollDirection = .vertical
-        return layout
+        mainView.collectionView.delegate = self
+        mainView.collectionView.dataSource = self
     }
 }
 
@@ -49,7 +38,7 @@ extension BookViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 }
 
-#Preview {
-    BookViewController()
-}
-
+//#Preview {
+//    BookViewController()
+//}
+//

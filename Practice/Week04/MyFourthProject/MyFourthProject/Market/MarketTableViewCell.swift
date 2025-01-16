@@ -8,39 +8,25 @@
 import UIKit
 import SnapKit
 
-class MarketTableViewCell: UITableViewCell {
+class MarketTableViewCell: BaseTableViewCell {
     
     static let id = "MarketTableViewCell"
     
     let nameLabel = BlackRadiusLabel(color: .yellow)
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        configureHierarchy()
-        configureLayout()
-        configureView()
-        
-    }
     
-    func configureHierarchy() {
+    override func configureHierarchy() {
         contentView.addSubview(nameLabel)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         nameLabel.snp.makeConstraints { make in
             make.edges.equalTo(contentView.safeAreaLayoutGuide).inset(16)
         }
     }
     
-    func configureView() {
+    override func configureView() {
 //        nameLabel.textColor = .brown
         nameLabel.font = .boldSystemFont(ofSize: 20)
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     
 }
