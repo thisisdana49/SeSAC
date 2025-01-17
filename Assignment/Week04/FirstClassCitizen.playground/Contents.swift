@@ -22,6 +22,9 @@ func introduce(name: String) -> String {
     return "안녕하세요 저는 \(name)입니다."
 }
 
+// 클로저 헤더 in 클로저 바디
+// 1) 타입 어노테이션 함수 타입을 지정
+// 2) 클로저 헤더에 타입 지정
 let test = {
     print("안녕하세요")
     return "안녕하세요"
