@@ -16,7 +16,7 @@ class ChatDetailViewController: UIViewController {
     @IBOutlet var textView: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureTableView()
         configureTableViewUI()
         configureTextView()
@@ -70,42 +70,58 @@ extension ChatDetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = chatRoom?.chatList[indexPath.row]
+        let currentRow = chatRoom?.chatList[indexPath.row]
+        let beforeRow = indexPath.row > 0 ? chatRoom?.chatList[indexPath.row - 1] : nil
         
-        let dateFromString = Date.fromString(row?.date ?? "", format: "yyyy-MM-dd HH:mm")
-        let dateString = dateFromString?.toFormattedString("hh:mm a") ?? ""
+        let currentRowDate = Date.fromString(currentRow?.date ?? "", format: "yyyy-MM-dd HH:mm")
+        let beforeRowDate = beforeRow != nil ? Date.fromString(beforeRow?.date ?? "", format: "yyyy-MM-dd HH:mm") : nil
+        let dateString = currentRowDate?.toFormattedString("hh:mm a") ?? ""
         
-        if row?.user == .user {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatUserDetailTableViewCell.identifier) as? ChatUserDetailTableViewCell else { return UITableViewCell()}
-            
-            cell.configureData(
-                date: dateString,
-                message: row?.message ?? "")
-            
-            return cell
+        let dayChange: Bool
+        if let beforeRowDate = beforeRowDate {
+            dayChange = !Calendar.current.isDate(beforeRowDate, inSameDayAs: currentRowDate!)
         } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatDetailTableViewCell.identifier) as? ChatDetailTableViewCell else { return UITableViewCell()}
-            
-            cell.configureData(
-                image: row?.user.profileImage ?? "",
-                name: row?.user.rawValue ?? "",
-                date: dateString,
-                message: row?.message ?? ""
-            )
-            
-            DispatchQueue.main.async {
-                cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.height / 2
-                cell.profileImageView.layer.borderColor = UIColor.systemGray5.cgColor
-                cell.profileImageView.layer.borderWidth = 1
+            dayChange = false
+        }
+        
+        let dateSeparator = currentRowDate?.toFormattedString("yyyy년 MM월 dd일")
+        
+        if currentRow?.user == .user {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatUserDetailTableViewCell.identifier) as? ChatUserDetailTableViewCell else {
+                return UITableViewCell()
             }
             
+            cell.configureData(
+                date: dateString,
+                message: currentRow?.message ?? "",
+                dayChange: dayChange,
+                dateSeparator: dateSeparator ?? ""
+            )
+            
             return cell
+    } else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatDetailTableViewCell.identifier) as? ChatDetailTableViewCell else { return UITableViewCell()}
+        
+        cell.configureData(
+            image: currentRow?.user.profileImage ?? "",
+            name: currentRow?.user.rawValue ?? "",
+            date: dateString,
+            message: currentRow?.message ?? ""
+        )
+        
+        DispatchQueue.main.async {
+            cell.profileImageView.layer.cornerRadius = cell.profileImageView.frame.height / 2
+            cell.profileImageView.layer.borderColor = UIColor.systemGray5.cgColor
+            cell.profileImageView.layer.borderWidth = 1
         }
+        
+        return cell
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
+}
+
+func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return UITableView.automaticDimension
+}
 }
 
 // MARK: TextView Delegate
