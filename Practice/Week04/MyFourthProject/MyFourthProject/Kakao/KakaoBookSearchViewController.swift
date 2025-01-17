@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Alamofire
 import Kingfisher
 import SnapKit
 
@@ -95,36 +94,27 @@ extension KakaoBookSearchViewController: UISearchBarDelegate {
      */
     
     func callRequest() {
-        print(#function)
-        let url = "https://dapi.kakao.com/v3/search/book?query=\(searchWord)&size=20&page=\(page)"
-        let headers: HTTPHeaders = [ "Authorization": "KakaoAK \(apiKey)"]
         
-        AF.request(url, method: .get, headers: headers)
-            .validate(statusCode: 200..<300)    // default로 숨어있음
-        //            .validate(statusCode: 200..<500)    // success에서 다함께 처리하고 싶다? 넓~게 잡아서 처리함.
-            .responseDecodable(of: Book.self) { response in
-                dump(self.list)
-                print(self.page)
-                switch response.result {
-                case .success(let book):
-                    print("Search Request Success")
-                    //                self.list = book.documents 갈아끼워주는 것이 아니라 기존 배열에 append 해야함
-                    self.isEnd = book.meta.isEnd
-                    if self.page == 1 {
-                        self.list = book.documents
-                    } else {
-                        self.list.append(contentsOf: book.documents)
-                    }
-                    
-                    self.tableView.reloadData()
-                    
-                    if self.page == 1 {
-                        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-                    }
-                case .failure(let error):
-                    print(error)
-                }
+//        let result = NetworkManager.shared.callKakaoBookAPI(query: searchWord, page: page)
+        
+        NetworkManager.shared.callKakaoBookAPI(query: searchWord, page: page) { book in
+//            dump(self.list)
+            print("Search Request Success")
+            //                self.list = book.documents 갈아끼워주는 것이 아니라 기존 배열에 append 해야함
+//            dump(book)
+            self.isEnd = book.meta.isEnd
+            if self.page == 1 {
+                self.list = book.documents
+            } else {
+                self.list.append(contentsOf: book.documents)
             }
+            
+            self.tableView.reloadData()
+            
+            if self.page == 1 {
+                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            }
+        }
     }
 }
 
