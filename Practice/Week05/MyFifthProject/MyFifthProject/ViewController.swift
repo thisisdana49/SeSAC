@@ -10,7 +10,7 @@ import SnapKit
 
 /*
  1. GCD vs Swift Concurrency
-    - GCD: sync/async/serial/concurrent -> dispatchgroup
+ - GCD: sync/async/serial/concurrent -> dispatchgroup
  2. url ? AF.request ? -> router pattern
  */
 class ViewController: UIViewController {
@@ -22,33 +22,107 @@ class ViewController: UIViewController {
         return view
     }()
     
+    let secondImageView = {
+        let view = UIImageView()
+        view.backgroundColor = .red
+        
+        return view
+    }()
+    
+    let thirdImageView = {
+        let view = UIImageView()
+        view.backgroundColor = .blue
+        
+        return view
+    }()
+    
     let checkButton = {
         let view = UIButton()
         view.backgroundColor = .green
         return view
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         configureView()
-//        serialSync()
-//        serialAsync()
-//        concurrentSync()
-        concurrentAsync()
+        //        serialSync()
+        //        serialAsync()
+        //        concurrentSync()
+        //        concurrentAsync()
+//        example()
+        example2()
     }
     
     // 생명주기랑 함꼐 보는 것도 좋은 방법!!
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-//        DispatchQueue.main.async {
-            print(#function)
-//        }
+        //        DispatchQueue.main.async {
+        print(#function)
+        //        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         print(#function)
+    }
+
+    // Dispatch Group
+    func example2() { // 모두 끝났을 때 얼럿을 주고 싶은 경우
+        print("START")
+        
+        let group = DispatchGroup()
+        
+        DispatchQueue.global().async(group: group) {
+            for i in 1...100 {
+                print(i, terminator: " ")
+            }
+        }
+        print("ONE")
+        
+        DispatchQueue.global().async(group: group) {
+            for i in 101...200 {
+                print(i, terminator: " ")
+            }
+        }
+        print("TWO")
+        
+        DispatchQueue.global().async(group: group) {
+            for i in 201...300 {
+                print(i, terminator: " ")
+            }
+        }
+        print("END")
+        
+        group.notify(queue: .main) { // 신호를 받아야할 때가 대부분 main에서 필요한 때라서?
+            print("알바생 3명 끝! 신호 받음!")
+        }
+    }
+
+    
+    func example() {
+        print("START")
+        
+        DispatchQueue.global(qos: .userInteractive).async {
+            for i in 1...100 {
+                print(i, terminator: " ")
+            }
+        }
+        print("ONE")
+        
+        DispatchQueue.global(qos: .background).async {
+            for i in 101...200 {
+                print(i, terminator: " ")
+            }
+        }
+        print("TWO")
+        
+        DispatchQueue.global().async {
+            for i in 201...300 {
+                print(i, terminator: " ")
+            }
+        }
+        print("END")
     }
     
     // 직렬 + 동기
@@ -109,27 +183,31 @@ class ViewController: UIViewController {
     func concurrentAsync() {
         print("START", terminator: " ")
         
-//        DispatchQueue.global().async {
-//            for i in 1...100 {
-//                print(i, terminator: " ")
-//            }
-//        }
-            
+        //        DispatchQueue.global().async {
+        //            for i in 1...100 {
+        //                print(i, terminator: " ")
+        //            }
+        //        }
+        
         for i in 1...100 {
             DispatchQueue.global().async {
                 print(i, terminator: " ")
             }
         }
-        
-        for i in 101...200 {
-            print(i, terminator: " ")
+        DispatchQueue.global().async {
+            
+            for i in 101...200 {
+                print(i, terminator: " ")
+            }
         }
         
         print("END", terminator: " ")
     }
-
+    
     func configureView() {
         view.addSubview(firstImageView)
+        view.addSubview(secondImageView)
+        view.addSubview(thirdImageView)
         view.addSubview(checkButton)
         
         checkButton.snp.makeConstraints { make in
@@ -144,25 +222,48 @@ class ViewController: UIViewController {
             make.centerX.top.equalTo(view.safeAreaLayoutGuide)
         }
         
+        secondImageView.snp.makeConstraints { make in
+            make.size.equalTo(200)
+            make.centerX.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(firstImageView.snp.bottom).offset(20)
+        }
+        
+        thirdImageView.snp.makeConstraints { make in
+            make.size.equalTo(200)
+            make.centerX.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(secondImageView.snp.bottom).offset(20)
+        }
     }
     
     @objc
     func checkButtonTapped() {
-        print(#function)
-        let url = URL(string: "https://apod.nasa.gov/apod/image/2308/sombrero_spitzer_3000.jpg")!
-//        let url = URL(string: "https://picsum.photos/200/300")!
         
-        DispatchQueue.global().async {
-            // Data(contentsOf: url)은 동기 처리 작업
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self.firstImageView.image = image
-                    }
-                }
+        let group = DispatchGroup()
+        
+        group.enter()
+            NetworkManager.shared.fetchImage { image in
+                print("first image view succeed")
+                group.leave() // 나 다 됐어 가볼게~
+//                self.firstImageView.image = image
             }
+        group.enter()
+            NetworkManager.shared.fetchImage { image in
+                print("second image view succeed")
+                group.leave()
+//                self.secondImageView.image = image
+            }
+        group.enter()
+            NetworkManager.shared.fetchImage { image in
+                print("third image view succeed")
+                group.leave()
+//                self.thirdImageView.image = image
+            }
+        
+        group.notify(queue: .main) {
+            print(#function, "It's all done!")
         }
         
+        print(#function, "END")
     }
 }
 
