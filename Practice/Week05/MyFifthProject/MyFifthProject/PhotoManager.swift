@@ -22,7 +22,7 @@ import Alamofire
     case photo(id: String)
     
     var baseURL: String {
-        return "https://api/unsplash.com/"
+        return "https://api.unsplash.com/"
     }
     
     var endpoint: URL {
@@ -56,10 +56,68 @@ import Alamofire
 
 class PhotoManager {
     
+    // 타입 프로퍼티인 이유?
+    // '메타' 타입 프로퍼티기 때문!
+    // PhotoManager.self.shared
     static let shared = PhotoManager()
     
     private init() { }
 
+    // 1. Decodable Protocol을 채택하고 있는 경우만 들어올 수 있게 함
+    func example<T: Decodable>(
+        api: UnsplashRequest,
+        successHandler: @escaping (T) -> Void,
+        failHandler: @escaping () -> Void
+    ) {
+        AF.request(api.endpoint, method: api.method, headers: api.header)
+            .validate(statusCode: 200..<500)
+            .responseDecodable(of: T.self) { response in
+                switch response.result {
+                case .success(let value):
+                    successHandler(value)
+                case .failure(let error):
+                    failHandler()
+                }
+            }
+    }
+    
+    func example2<T: Decodable>(api: UnsplashRequest,
+                                    type: T.Type,
+                                   successHandler: @escaping (T) -> Void,
+                                   failHandler: @escaping (AFError) -> Void) {
+        AF.request(api.endpoint, method: api.method, headers: api.header)
+                .validate(statusCode: 200..<500)
+                .responseDecodable(of: T.self) { response in
+                    switch response.result {
+                    case .success(let value):
+                        print(value)
+                        successHandler(value)
+                    case .failure(let error):
+                        print(error)
+                        failHandler(error)
+                    }
+                }
+        }
+    
+//    func example2<T: Decodable>(
+//        api: UnsplashRequest,
+//        type: T.Type,
+//        successHandler: @escaping (T) -> Void,
+//        failHandler: @escaping () -> Void
+//    ) {
+//        AF.request(api.endpoint, method: api.method, headers: api.header)
+//            .validate(statusCode: 200..<500)
+//            .responseDecodable(of: T.self) { response in
+//                print(api.endpoint)
+//                switch response.result {
+//                case .success(let value):
+//                    successHandler(value)
+//                case .failure(let error):
+//                    failHandler()
+//                }
+//            }
+//    }
+    
     func callRequest(api: UnsplashRequest) {
         
         AF.request(api.endpoint, method: api.method, headers: api.header)
