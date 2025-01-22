@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class SearchViewController: UIViewController {
+final class SearchViewController: UIViewController {
 
     let textField = UITextField()
     
