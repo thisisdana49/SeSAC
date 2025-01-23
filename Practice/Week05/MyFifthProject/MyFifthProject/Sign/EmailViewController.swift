@@ -21,6 +21,27 @@ class EmailViewController: UIViewController {
         configureLayout()
          
         nextButton.addTarget(self, action: #selector(nextButtonClicked), for: .touchUpInside)
+        
+        // Notification Observer
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(danaReceivedNotification),
+            name: NSNotification.Name("Dana"),
+            object: nil
+        )
+    }
+    
+    deinit {
+        print(self, #function)
+    }
+    
+    @objc
+    func danaReceivedNotification(notification: NSNotification) {
+        if let name = notification.userInfo!["value"] as? String {
+            print(self, name)
+        } else {
+            print(self, "no data from noti")
+        }
     }
     
     @objc func nextButtonClicked() {
