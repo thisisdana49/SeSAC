@@ -16,8 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UILabel.appearance().font = .boldSystemFont(ofSize: 13)
         UINavigationBar.appearance().tintColor = .black
-        UIView.appearance().backgroundColor = .white
-        
+
         return true
     }
 

@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
-        let nav = UINavigationController(rootViewController: GroupViewController())
+        let nav = UINavigationController(rootViewController: EmailViewController())
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
     }
