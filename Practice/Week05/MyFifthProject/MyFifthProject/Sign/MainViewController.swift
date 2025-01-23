@@ -8,6 +8,11 @@
 import UIKit
 import SnapKit
 
+
+protocol PassDataDelegate {
+    func nicknameReceived(value: String)
+}
+
 class MainViewController: UIViewController {
    
     let statusLabel = UILabel()
@@ -22,7 +27,7 @@ class MainViewController: UIViewController {
         configureLayout()
          
         nextButton.addTarget(self, action: #selector(nextButtonClicked), for: .touchUpInside)
-        profileButton.addTarget(self, action: #selector(profileButtonClicked), for: .touchUpInside)
+        profileButton.addTarget(self, action: #selector(delegateButtonClicked), for: .touchUpInside)
         
         // Notification Observer
         NotificationCenter.default.addObserver(
@@ -56,7 +61,30 @@ class MainViewController: UIViewController {
 //    func profileButtonClicked(a: Int) {
 //        print(#function)
 //    }
-                                
+    
+    func sample() {
+        print("테스트 해보기")
+        statusLabel.textColor = .blue
+    }
+
+    @objc
+    func delegateButtonClicked() {
+        let vc = DelegateViewController()
+        vc.contents = self
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc
+    func closureButtonClicked() {
+        let vc = ClosureViewController()
+        //        vc.contents = { // 매개변수와 구분자 in이 완전히 생략 될 수 있는 것
+        vc.contents = { (text: String) in
+            print("테스트 해보기")
+            self.statusLabel.text = text
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @objc
     func profileButtonClicked() {
         let vc = NotificationViewController()
@@ -95,3 +123,12 @@ class MainViewController: UIViewController {
 
 }
 
+extension MainViewController: PassDataDelegate {
+    
+    func nicknameReceived(value: String) {
+        print(#function)
+        statusLabel.textColor = .red
+        statusLabel.text = value
+    }
+
+}
