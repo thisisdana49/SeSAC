@@ -7,10 +7,13 @@
 
 import UIKit
 import CoreLocation
-import SnapKit
 import MapKit
+import Alamofire
+import SnapKit
 
 class WeatherViewController: UIViewController {
+    
+    var weather: Weather?
     
     lazy var locationManager = CLLocationManager()
     var currentAnnotation = MKPointAnnotation()
@@ -63,6 +66,28 @@ class WeatherViewController: UIViewController {
         setupConstraints()
         setupActions()
         checkDeviceLocationAuthorization()
+    }
+    
+    private func fetchCurrentWeather(coordinate: CLLocationCoordinate2D) {
+        NetworkManager.shared.fetchData(
+            apiRequest: .currentWeather(lat: coordinate.latitude, lon: coordinate.longitude),
+            requestType: Weather.self) { response in
+                switch response {
+                case .success(let value):
+                    self.weather = value
+                    print(self.weather)
+                    
+                    DispatchQueue.main.async {
+                        guard let temp = self.weather?.main.temp, let windSpeed = self.weather?.wind.speed, let humidity = self.weather?.main.humidity else {
+                            self.weatherInfoLabel.text = "현재 날씨 정보를 받아올 수 없습니다. 다시 시도해 주세요."
+                            return
+                        }
+                        self.weatherInfoLabel.text = "현재온도: \(temp)℃\n풍속: \(windSpeed)m/s\n습도\(humidity)%"
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
     }
     
     // MARK: - UI Setup
@@ -194,6 +219,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
         print(#function)
         if let coordinate = locations.first?.coordinate {
             setRegionAndAnnotation(center: coordinate)
+            fetchCurrentWeather(coordinate: coordinate)
         }
         locationManager.stopUpdatingLocation()
     }
