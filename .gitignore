@@ -2,6 +2,7 @@
 Document/
 Asset/
 
+Config.swift
 APIKey.swift
 
 *.pdf
