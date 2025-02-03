@@ -152,6 +152,8 @@ extension WeatherViewController {
             locationManager.requestWhenInUseAuthorization()
         case .denied:
             setRegionAndAnnotation(center: campusLocation!)
+            locationManager.requestWhenInUseAuthorization()
+            
             print(#function, "권한 줄 수 있도록 설정으로 유도")
         case .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
@@ -159,7 +161,20 @@ extension WeatherViewController {
         }
     }
     
-    func showLocationSettingAlert() { }
+    func showLocationSettingAlert() {
+        let alert = UIAlertController(title: "위치 정보 이용", message: "위치 서비스를 사용할 수 없습니다. 기기의 '설정 > 개인정보 보호'에서 위치 서비스를 켜주세요", preferredStyle: .alert)
+        
+        let goSetting = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+            if let setting = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(setting)
+            }
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(goSetting)
+        alert.addAction(cancel)
+        present(alert, animated: true)
+    }
     
     func setRegionAndAnnotation(center: CLLocationCoordinate2D) {
         let region = MKCoordinateRegion(center: center, latitudinalMeters: 500, longitudinalMeters: 500)
@@ -176,16 +191,19 @@ extension WeatherViewController {
 extension WeatherViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(#function, locations)
+        print(#function)
         if let coordinate = locations.first?.coordinate {
-            print(coordinate)
             setRegionAndAnnotation(center: coordinate)
         }
         locationManager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
-        print(#function)
+        if locationManager.authorizationStatus == .denied {
+            showLocationSettingAlert()
+        } else {
+            print(#function, error)
+        }
     }
     
     // iOS14++
