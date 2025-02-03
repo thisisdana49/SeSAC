@@ -7,6 +7,11 @@
 
 import UIKit
 
+extension NSNotification.Name {
+    static let sesac = NSNotification.Name("sesac")
+}
+
+
 class NotificationViewController: UIViewController {
 
     let valueTextField = SignTextField(placeholderText: "Noti를 통한 앖 전달")
@@ -24,7 +29,7 @@ class NotificationViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(sesacReceivedNotification),
-            name: NSNotification.Name("sesac"),
+            name: NSNotification.Name.sesac,
             object: nil
         )
     }

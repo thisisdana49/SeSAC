@@ -29,7 +29,7 @@ class MainViewController: UIViewController {
         nextButton.addTarget(self, action: #selector(nextButtonClicked), for: .touchUpInside)
         profileButton.addTarget(self, action: #selector(delegateButtonClicked), for: .touchUpInside)
         
-        // Notification Observer
+        // Notification Obser
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(danaReceivedNotification),
