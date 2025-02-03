@@ -11,7 +11,10 @@ import SnapKit
 import MapKit
 
 class WeatherViewController: UIViewController {
-     
+    
+    lazy var locationManager = CLLocationManager()
+    var currentAnnotation = MKPointAnnotation()
+    var campusLocation: CLLocationCoordinate2D?
     private let mapView: MKMapView = {
         let view = MKMapView()
         return view
@@ -55,9 +58,11 @@ class WeatherViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureLocationManager()
         setupUI()
         setupConstraints()
         setupActions()
+        checkDeviceLocationAuthorization()
     }
     
     // MARK: - UI Setup
@@ -106,4 +111,91 @@ class WeatherViewController: UIViewController {
     @objc private func refreshButtonTapped() {
         // 날씨 새로고침 구현
     }
+}
+
+
+extension WeatherViewController {
+    
+    func configureLocationManager() {
+        locationManager.delegate = self
+    }
+    
+    // 1) 사용자에게 권한 요청을 하기 위해, iOS 위치 서비스 활성화 여부 체크
+    func checkDeviceLocationAuthorization() {
+        DispatchQueue.global().async {
+            if CLLocationManager.locationServicesEnabled() {
+                // 현재 사용자의 위치 권한 상태 확인
+                let authorization: CLAuthorizationStatus
+                
+                if #available(iOS 14.0, *) {
+                    authorization = self.locationManager.authorizationStatus
+                } else {
+                    authorization = CLLocationManager.authorizationStatus()
+                }
+                
+                DispatchQueue.main.async {
+                    self.checkCurrentLocationAuthorization(status: authorization)
+                }
+            } else {
+                print("위치 서비스가 꺼져 있어 위치 권한 요청을 할 수 없어요.")
+            }
+        }
+    }
+    
+    // 2) 사용자 위치 권한 상태 확인 후, 권한 요청
+    func checkCurrentLocationAuthorization(status: CLAuthorizationStatus) {
+        print(#function)
+        switch status {
+        case .notDetermined:
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.requestWhenInUseAuthorization()
+        case .denied:
+            setRegionAndAnnotation(center: <#T##CLLocationCoordinate2D#>)
+            print(#function, "권한 줄 수 있도록 설정으로 유도")
+        case .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+        default: print("Error")
+        }
+    }
+    
+    func showLocationSettingAlert() { }
+    
+    func setRegionAndAnnotation(center: CLLocationCoordinate2D) {
+        let region = MKCoordinateRegion(center: center, latitudinalMeters: 500, longitudinalMeters: 500)
+        mapView.setRegion(region, animated: true)
+        currentAnnotation.coordinate = CLLocationCoordinate2D(latitude: center.latitude, longitude: center.longitude)
+        DispatchQueue.main.async {
+            self.mapView.addAnnotation(self.currentAnnotation)
+        }
+    }
+    
+}
+
+// MARK: CLLocationManager Delegate
+extension WeatherViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(#function, locations)
+        if let coordinate = locations.first?.coordinate {
+            print(coordinate)
+            setRegionAndAnnotation(center: coordinate)
+        }
+        locationManager.stopUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+        print(#function)
+    }
+    
+    // iOS14++
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        print(#function)
+        checkDeviceLocationAuthorization()
+    }
+    
+    // iOS14-
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print(#function)
+    }
+    
 }
