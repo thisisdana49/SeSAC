@@ -75,7 +75,7 @@ class WeatherViewController: UIViewController {
                 switch response {
                 case .success(let value):
                     self.weather = value
-                    print(self.weather)
+//                    print(self.weather)
                     
                     DispatchQueue.main.async {
                         guard let dateStamp = self.weather?.dt,

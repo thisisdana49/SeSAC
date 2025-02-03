@@ -13,7 +13,7 @@ enum WeatherAPIRequest {
     
     var endPoint: String {
         switch self {
-        case .currentWeather(let lat, let lon):
+        case .currentWeather:
             return Config.baseURL
         }
     }
