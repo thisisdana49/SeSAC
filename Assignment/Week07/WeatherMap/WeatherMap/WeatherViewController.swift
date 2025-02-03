@@ -186,8 +186,7 @@ extension WeatherViewController {
             locationManager.requestWhenInUseAuthorization()
         case .denied:
             setRegionAndAnnotation(center: campusLocation!)
-            locationManager.requestWhenInUseAuthorization()
-            
+            fetchCurrentWeather(coordinate: campusLocation!)
             print(#function, "권한 줄 수 있도록 설정으로 유도")
         case .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
@@ -236,8 +235,6 @@ extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
         if locationManager.authorizationStatus == .denied {
             showLocationSettingAlert()
-            fetchCurrentWeather(coordinate: campusLocation!)
-
         } else {
             print(#function, error)
         }
