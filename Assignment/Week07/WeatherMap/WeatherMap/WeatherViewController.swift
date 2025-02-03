@@ -78,11 +78,16 @@ class WeatherViewController: UIViewController {
                     print(self.weather)
                     
                     DispatchQueue.main.async {
-                        guard let temp = self.weather?.main.temp, let windSpeed = self.weather?.wind.speed, let humidity = self.weather?.main.humidity else {
+                        guard let dateStamp = self.weather?.dt,
+                              let temp = self.weather?.main.temp,
+                              let windSpeed = self.weather?.wind.speed,
+                              let humidity = self.weather?.main.humidity else {
                             self.weatherInfoLabel.text = "현재 날씨 정보를 받아올 수 없습니다. 다시 시도해 주세요."
                             return
                         }
-                        self.weatherInfoLabel.text = "현재온도: \(temp)℃\n풍속: \(windSpeed)m/s\n습도\(humidity)%"
+                        let date = Date(timeIntervalSince1970: TimeInterval(dateStamp))
+                        let formattedDate = date.toFormattedString()
+                        self.weatherInfoLabel.text = "\(formattedDate)\n현재온도: \(temp)℃\n풍속: \(windSpeed)m/s\n습도\(humidity)%"
                     }
                 case .failure(let error):
                     print(error)
@@ -129,12 +134,16 @@ class WeatherViewController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc private func currentLocationButtonTapped() {
+    @objc
+    private func currentLocationButtonTapped() {
         locationManager.startUpdatingLocation()
     }
     
-    @objc private func refreshButtonTapped() {
-        // 날씨 새로고침 구현
+    @objc
+    private func refreshButtonTapped() {
+        print(#function)
+        weatherInfoLabel.text = "날씨 정보를 다시 불러오는 중..."
+        locationManager.startUpdatingLocation()
     }
 }
 
@@ -227,6 +236,8 @@ extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
         if locationManager.authorizationStatus == .denied {
             showLocationSettingAlert()
+            fetchCurrentWeather(coordinate: campusLocation!)
+
         } else {
             print(#function, error)
         }
