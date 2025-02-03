@@ -105,7 +105,7 @@ class WeatherViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func currentLocationButtonTapped() {
-        // 현재 위치 가져오기 구현
+        locationManager.startUpdatingLocation()
     }
     
     @objc private func refreshButtonTapped() {
