@@ -118,6 +118,7 @@ extension WeatherViewController {
     
     func configureLocationManager() {
         locationManager.delegate = self
+        campusLocation = CLLocationCoordinate2D(latitude: 37.654379, longitude: 127.049871)
     }
     
     // 1) 사용자에게 권한 요청을 하기 위해, iOS 위치 서비스 활성화 여부 체크
@@ -150,7 +151,7 @@ extension WeatherViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.requestWhenInUseAuthorization()
         case .denied:
-            setRegionAndAnnotation(center: <#T##CLLocationCoordinate2D#>)
+            setRegionAndAnnotation(center: campusLocation!)
             print(#function, "권한 줄 수 있도록 설정으로 유도")
         case .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
