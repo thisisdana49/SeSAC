@@ -10,6 +10,7 @@ import PhotosUI
 
 class PhotoViewController: UIViewController {
     
+    var passDelegate: GalleryImagePassDelegate?
     var photos: [UIImage] = []
     
     private let photoImageView = UIImageView()
@@ -75,15 +76,18 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.id, for: indexPath) as? PhotoCollectionViewCell else {
-            print(#function)
-            return UICollectionViewCell() }
-        print(#function)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.id, for: indexPath) as? PhotoCollectionViewCell else { return UICollectionViewCell() }
         let photo = photos[indexPath.row]
         
         cell.imageView.image = photo
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let photo = photos[indexPath.item]
+        passDelegate?.didSelectImagesInGallery(photo)
+        dismiss(animated: true)
     }
     
 }
@@ -92,7 +96,6 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
 extension PhotoViewController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-//        print(#function, Thread.isMainThread)
         results.forEach { result in
             if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
                 result.itemProvider.loadObject(ofClass: UIImage.self) { image, error in
@@ -105,7 +108,6 @@ extension PhotoViewController: PHPickerViewControllerDelegate {
                 }
             }
         }
-
         dismiss(animated: true)
     }
     

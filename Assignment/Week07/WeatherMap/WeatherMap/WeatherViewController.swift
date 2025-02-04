@@ -67,6 +67,14 @@ class WeatherViewController: UIViewController {
         return button
     }()
     
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 5
+        imageView.clipsToBounds = true
+        
+        return imageView
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,7 +116,7 @@ class WeatherViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         
-        [mapView, weatherInfoLabel, currentLocationButton, refreshButton, imagePickerButton].forEach {
+        [mapView, weatherInfoLabel, currentLocationButton, refreshButton, imagePickerButton, imageView].forEach {
             view.addSubview($0)
         }
     }
@@ -140,6 +148,12 @@ class WeatherViewController: UIViewController {
             make.centerX.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
         }
+        
+        imageView.snp.makeConstraints { make in
+            make.top.equalTo(weatherInfoLabel.snp.bottom).offset(12)
+            make.centerX.equalToSuperview()
+            make.size.equalTo(100)
+        }
     }
     
     private func setupActions() {
@@ -164,6 +178,7 @@ class WeatherViewController: UIViewController {
     @objc
     private func pickerButtonTapped() {
         let photoVC = PhotoViewController()
+        photoVC.passDelegate = self
         let navVC = UINavigationController(rootViewController: photoVC)
         present(navVC, animated: true)
     }
@@ -271,6 +286,14 @@ extension WeatherViewController: CLLocationManagerDelegate {
     // iOS14-
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         print(#function)
+    }
+    
+}
+
+extension WeatherViewController: GalleryImagePassDelegate {
+    
+    func didSelectImagesInGallery(_ image: UIImage) {
+        imageView.image = image
     }
     
 }
