@@ -58,6 +58,15 @@ class WeatherViewController: UIViewController {
         return button
     }()
     
+    private let imagePickerButton: UIButton = {
+        var config = UIButton.Configuration.filled()
+        config.title = "Load Photo"
+        config.image = UIImage(named:  "photo")
+        let button = UIButton(configuration: config)
+        
+        return button
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +108,7 @@ class WeatherViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         
-        [mapView, weatherInfoLabel, currentLocationButton, refreshButton].forEach {
+        [mapView, weatherInfoLabel, currentLocationButton, refreshButton, imagePickerButton].forEach {
             view.addSubview($0)
         }
     }
@@ -126,11 +135,17 @@ class WeatherViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
             make.width.height.equalTo(50)
         }
+        
+        imagePickerButton.snp.makeConstraints { make in
+            make.centerX.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
+        }
     }
     
     private func setupActions() {
         currentLocationButton.addTarget(self, action: #selector(currentLocationButtonTapped), for: .touchUpInside)
         refreshButton.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
+        imagePickerButton.addTarget(self, action: #selector(pickerButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - Actions
@@ -144,6 +159,13 @@ class WeatherViewController: UIViewController {
         print(#function)
         weatherInfoLabel.text = "날씨 정보를 다시 불러오는 중..."
         locationManager.startUpdatingLocation()
+    }
+    
+    @objc
+    private func pickerButtonTapped() {
+        let photoVC = PhotoViewController()
+        let navVC = UINavigationController(rootViewController: photoVC)
+        present(navVC, animated: true)
     }
 }
 
