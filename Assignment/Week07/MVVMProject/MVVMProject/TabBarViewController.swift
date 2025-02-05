@@ -18,7 +18,7 @@ class TabBarViewController: UITabBarController {
         
         currencyVC.tabBarItem = UITabBarItem(title: "EXCHANGE", image: UIImage(systemName: "dollarsign.arrow.circlepath"), tag: 0)
         wordCounterVC.tabBarItem = UITabBarItem(title: "WORD COUNTER", image: UIImage(systemName: "keyboard.chevron.compact.down"), tag: 1)
-        wordCounterVC.tabBarItem = UITabBarItem(title: "USER", image: UIImage(systemName: "person.3"), tag: 2)
+        userVC.tabBarItem = UITabBarItem(title: "USER", image: UIImage(systemName: "person.3"), tag: 2)
         
         self.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0);
         
