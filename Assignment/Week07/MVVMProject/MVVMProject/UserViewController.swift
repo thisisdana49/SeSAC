@@ -72,7 +72,7 @@ class UserViewController: UIViewController {
      
     private func setupUI() {
         view.backgroundColor = .white
-        title = "Person List"
+        navigationItem.title = "Person List"
         
         [buttonStackView, tableView].forEach {
             view.addSubview($0)
