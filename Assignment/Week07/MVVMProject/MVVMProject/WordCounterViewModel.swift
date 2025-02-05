@@ -9,8 +9,8 @@ import Foundation
 
 final class WordCounterViewModel {
     
-    var inputText: Observable<String?> = Observable(nil)
-    var outputCountText = Observable("")
+    let inputText: Observable<String?> = Observable(nil)
+    let outputCountText = Observable("")
     
     init() {
         inputText.bind { value in

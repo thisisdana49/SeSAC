@@ -9,9 +9,9 @@ import Foundation
 
 final class CurrencyViewModel {
     
-    var inputCurrency: Observable<String?> = Observable(nil)
-    var inputConvertButtonTapped: Observable<Void> = Observable(())
-    var outputResultText = Observable("")
+    let inputCurrency: Observable<String?> = Observable(nil)
+    let inputConvertButtonTapped: Observable<Void> = Observable(())
+    let outputResultText = Observable("")
     
     init() {
         inputConvertButtonTapped.bind { _ in
