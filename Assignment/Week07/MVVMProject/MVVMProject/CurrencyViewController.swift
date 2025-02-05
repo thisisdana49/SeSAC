@@ -8,7 +8,9 @@
 import UIKit
 import SnapKit
 
-class CurrencyViewController: UIViewController {
+final class CurrencyViewController: UIViewController {
+    
+    let viewModel = CurrencyViewModel()
     
     private let exchangeRateLabel: UILabel = {
         let label = UILabel()
@@ -48,6 +50,11 @@ class CurrencyViewController: UIViewController {
      
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel.outputResultText.bind { value in
+            self.resultLabel.text = value
+        }
+        
         setupUI()
         setupConstraints()
         setupActions()
@@ -86,18 +93,17 @@ class CurrencyViewController: UIViewController {
     }
     
     private func setupActions() {
+        amountTextField.addTarget(self, action: #selector(amountChanged), for: .editingChanged)
         convertButton.addTarget(self, action: #selector(convertButtonTapped), for: .touchUpInside)
     }
      
-    @objc private func convertButtonTapped() {
-        guard let amountText = amountTextField.text,
-              let amount = Double(amountText) else {
-            resultLabel.text = "올바른 금액을 입력해주세요"
-            return
-        }
-        
-        let exchangeRate = 1350.0 // 실제 환율 데이터로 대체 필요
-        let convertedAmount = amount / exchangeRate
-        resultLabel.text = String(format: "%.2f USD (약 $%.2f)", convertedAmount, convertedAmount)
+    @objc
+    private func amountChanged() {
+        viewModel.inputCurrency.value = amountTextField.text
+    }
+    
+    @objc
+    private func convertButtonTapped() {
+        viewModel.inputConvertButtonTapped.value = ()
     }
 }
