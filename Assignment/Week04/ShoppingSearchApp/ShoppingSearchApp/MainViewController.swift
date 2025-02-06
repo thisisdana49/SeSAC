@@ -6,10 +6,10 @@
 //
 
 import UIKit
-import SnapKit
 
 class MainViewController: UIViewController {
 
+    let viewModel = MainViewModel()
     let mainView = MainView()
     
     override func loadView() {
@@ -18,18 +18,48 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(#function)
-        let a = " a"
-        print(a.starts(with: " "))
         
         configureNavController()
+        bindData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationItem.searchController?.searchBar.text = ""
     }
     
-    func configureNavController() {
+    private func bindData() {
+        
+        viewModel.outputSearchBarText.lazyBind { [weak self] value in
+            self?.navigationItem.searchController?.searchBar.text = ""
+        }
+        
+        viewModel.outputPushVC.lazyBind { [weak self] value in
+            let vc = SearchResultViewController()
+            // TODO: forced unwrapping
+            vc.searchWord = value!
+            
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+}
+
+// MARK: UISearchBar Delegate
+extension MainViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(#function)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.inputReturnKeyTapped.value = searchBar.text
+    }
+    
+}
+
+extension MainViewController {
+    
+    private func configureNavController() {
         let searchController = UISearchController()
         let searchBar = searchController.searchBar
         searchBar.delegate = self
@@ -53,28 +83,5 @@ class MainViewController: UIViewController {
         
         self.navigationController?.navigationBar.tintColor = .white
     }
-}
-
-// MARK: UISearchBar Delegate
-extension MainViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if let text = searchBar.text, !text.isEmpty{
-            if text.starts(with: " ") {
-                AlertManager.shared.showAlert(message: "검색어는 공백으로 시작할 수 없습니다.", onConfirm: {
-                    searchBar.text = ""
-                }, over: self)
-                return
-            } else if text.count < 2 {
-                AlertManager.shared.showAlert(message: "두 글자 이상 입력해 주세요.", onConfirm: {
-                    searchBar.text = ""
-                }, over: self)
-                return
-            }
-            let vc = SearchResultViewController()
-            vc.searchWord = text
-            
-            self.navigationController?.pushViewController(vc, animated: true)
-        } else {
-        }
-    }
+    
 }
