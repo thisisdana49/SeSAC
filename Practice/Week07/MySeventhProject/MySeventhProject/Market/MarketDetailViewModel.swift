@@ -10,7 +10,9 @@ import Foundation
 final class MarketDetailViewModel {
     
     // Market이 전부 필요할 때
-    var outputMarket: Observable<Market?> = Observable(nil)
+//    var outputMarket: Observable<Market?> = Observable(nil)
+    // 이름만이 필요할 때
+    var outputMarket: Observable<String?> = Observable(nil)
     
     init() {
         print("Market Detail View Model Init")

@@ -36,14 +36,14 @@ final class MarketViewController: UIViewController {
     private func bindData() {
         // VC viewDidLoad -> VM
         viewModel.inputViewDidLoadTrigger.value = ()
-        viewModel.outputMarket.lazyBind { value in
+        viewModel.outputMarket.lazyBind { [weak self] value in
             print(#function, "Output Market bind")
-            self.tableView.reloadData()
+            self?.tableView.reloadData()
         }
-        viewModel.outputTitle.lazyBind { value in
-            self.navigationItem.title = value
+        viewModel.outputTitle.lazyBind { [weak self] value in
+            self?.navigationItem.title = value
         }
-        viewModel.outputCellSelected.bind { market in
+        viewModel.outputCellSelected.bind { [weak self] market in
             print("OutputCell selected")
             guard let market = market else {
                 print("nil이라 화면전환 된면 안 됨")
@@ -52,8 +52,8 @@ final class MarketViewController: UIViewController {
             
             let vc = MarketDetailViewController()
 //            vc.viewModel = self.viewModel
-            vc.viewModel.outputMarket.value = market
-            self.navigationController?.pushViewController(vc, animated: true)
+            vc.viewModel.outputMarket.value = market.korean_name
+            self?.navigationController?.pushViewController(vc, animated: true)
         }
 //        viewModel.outputCellSelected.lazyBind { _ in
 //            let vc = MarketDetailViewController()

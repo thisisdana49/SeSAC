@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MarketDetailViewController: UIViewController {
+final class MarketDetailViewController: UIViewController {
 
     let viewModel = MarketDetailViewModel()
     
@@ -25,10 +25,19 @@ class MarketDetailViewController: UIViewController {
         bindData()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("Market Detail View Controlelr", #function)
+    }
+    
+    deinit {
+        print(#function)
+    }
+    
     private func bindData() {
-        viewModel.outputMarket.bind { market in
+        viewModel.outputMarket.bind { [weak self] data in
             // 삼항연산자 사용 또한 데이터 가공이지 않은가? & Market 이름만 쓸 건데 다 받을 필요가 있을까?
-            self.navigationItem.title = market?.korean_name ?? "마켓 없음"
+            self?.navigationItem.title = data
         }
     }
     
