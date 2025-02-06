@@ -37,12 +37,30 @@ final class MarketViewController: UIViewController {
         // VC viewDidLoad -> VM
         viewModel.inputViewDidLoadTrigger.value = ()
         viewModel.outputMarket.lazyBind { value in
-            print(#function, "Output Market bind", value)
+            print(#function, "Output Market bind")
             self.tableView.reloadData()
         }
         viewModel.outputTitle.lazyBind { value in
             self.navigationItem.title = value
         }
+        viewModel.outputCellSelected.bind { market in
+            print("OutputCell selected")
+            guard let market = market else {
+                print("nil이라 화면전환 된면 안 됨")
+                return
+            }
+            
+            let vc = MarketDetailViewController()
+//            vc.viewModel = self.viewModel
+            vc.viewModel.outputMarket.value = market
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+//        viewModel.outputCellSelected.lazyBind { _ in
+//            let vc = MarketDetailViewController()
+////            vc.viewModel = self.viewModel
+//            vc.viewModel.outputMarket.value = Market(market: "market", korean_name: "kor", english_name: "eng")
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
     }
 }
 
@@ -59,7 +77,7 @@ extension MarketViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(#function)
+        viewModel.inputCellSelected.value = viewModel.outputMarket.value[indexPath.row]
     }
     
 }
