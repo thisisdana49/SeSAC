@@ -13,13 +13,7 @@ class SearchResultViewController: UIViewController {
     let viewModel = SearchResultViewModel()
     var mainView = SearchResultView()
     
-//    let sortStandards = ["sim", "date", "dsc", "asc"]
-    var searchWord: String = ""
-    let display: Int = 30
-//    var start: Int = 1
     var isEnd: Bool = false
-    var sortStandard: String = "sim"
-//    var item: Item?
     
     override func loadView() {
         view = mainView
@@ -36,33 +30,33 @@ class SearchResultViewController: UIViewController {
         viewModel.inputFetchData.value = ()
         
         viewModel.outputItem.lazyBind { [weak self] item in
-            self?.mainView.totalLabel.text = self?.viewModel.totalText
+            print("view controller", self?.viewModel.outputTotalText.value)
             self?.mainView.collectionView.reloadData()
         }
         
         viewModel.outputScrollToTop.lazyBind { [weak self] _ in
-            self?.mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+            self?.mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+        
+        viewModel.outputTotalText.bind { [weak self] text in
+            self?.mainView.totalLabel.text = text
         }
     }
     
     @objc
-    func sortButtonTapped(_ button: UIButton) {
-        viewModel.inputSortButtonTapped.value = button.tag
-        button.isSelected = true
-        if button.isSelected {
-            button.backgroundColor = .white
-            button.setTitleColor(.black, for: .normal)
+    func sortButtonTapped(_ selectedButton: UIButton) {
+        viewModel.inputSortButtonTapped.value = selectedButton.tag
+        selectedButton.isSelected = true
+        selectedButton.setNeedsUpdateConfiguration()
+        if selectedButton.isSelected {
             for (_, e) in mainView.stackView.subviews.enumerated() {
-                let index = e as! UIButton
-                if index != button {
-                    index.isSelected = false
-                    index.backgroundColor = .black
-                    index.setTitleColor(.white, for: .normal)
+                let button = e as! CustomButton
+                print(#function, button.isSelected)
+                if button.tag != selectedButton.tag {
+                    button.isSelected = false
+                    button.setNeedsUpdateConfiguration()
                 }
             }
-        } else {
-            button.backgroundColor = .black
-            button.setTitleColor(.white, for: .normal)
         }
     }
     
@@ -101,6 +95,10 @@ extension SearchResultViewController {
         for (_, view) in mainView.stackView.subviews.enumerated() {
             guard let button = view as? UIButton else { return }
             button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
+            
+            if button.tag == 0 {
+                button.isSelected = true
+            }
         }
         
     }

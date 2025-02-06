@@ -11,16 +11,39 @@ class CustomButton: UIButton {
     
     init(title: String, tag: Int) {
         super.init(frame: .zero)
-        self.setTitle(title, for: .normal)
-        self.setTitleColor(self.isSelected ? .black : .white, for: .normal)
-        self.layer.borderColor = UIColor.white.cgColor
-        self.layer.borderWidth = 1
-        self.layer.cornerRadius = 5
+        setupButton(title: title, tag: tag)
+    }
+    
+    private func setupButton(title: String, tag: Int) {
+        let handler: UIButton.ConfigurationUpdateHandler = { button in
+            switch button.state {
+            case .selected:
+                button.configuration?.baseForegroundColor = .black
+                button.configuration?.baseBackgroundColor = .white
+            default:
+                button.configuration?.baseBackgroundColor = .black
+                button.configuration?.baseForegroundColor = .white
+            }
+        }
+        
+        var config = UIButton.Configuration.filled()
+        
+        config.title = title
+        config.baseForegroundColor = .white
+        config.baseBackgroundColor = .black
+        
+        config.background.strokeColor = .white
+        config.background.strokeWidth = 1
+        
         self.tag = tag
+        
+        configurationUpdateHandler = handler
+        configuration = config
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupButton(title: "", tag: 0)
     }
     
     @available(*, unavailable)

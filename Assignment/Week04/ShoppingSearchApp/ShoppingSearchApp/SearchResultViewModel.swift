@@ -12,16 +12,17 @@ class SearchResultViewModel {
     let inputFetchData: Observable<Void?> = Observable(nil)
     let inputSortButtonTapped: Observable<Int> = Observable(0)
     
-    var outputItem: Observable<Item?> = Observable(nil)
-    var outputItemTotal: Observable<Int> = Observable(0)
-    var outputScrollToTop: Observable<Void?> = Observable(nil)
+    let outputItem: Observable<Item?> = Observable(nil)
+    let outputItemTotal: Observable<Int> = Observable(0)
+    let outputScrollToTop: Observable<Void?> = Observable(nil)
     
     let sortStandards = ["sim", "date", "dsc", "asc"]
     var sortStandard: String = "sim"
     var keyword: String?
     var start: Int = 1
+    var display: Int = 100
     // TODO: 연산 프로퍼티?
-    var totalText: String = ""
+    let outputTotalText: Observable<String> = Observable("")
     
     init() {
         inputFetchData.lazyBind { [weak self] _ in
@@ -36,11 +37,11 @@ class SearchResultViewModel {
     
     private func fetchData() {
         guard let searchWord = keyword else { return }
-        print(#function, searchWord)
-        NetworkManager.shared.searchItem(searchWord: searchWord, sortWith: sortStandard, start: self.start, display: 30) { [weak self] value in
+        NetworkManager.shared.searchItem(searchWord: searchWord, sortWith: sortStandard, start: self.start, display: self.display) { [weak self] value in
             if self?.start == 1 {
                 self?.outputItem.value = value
-                self?.totalText = "\(value.total.formatted(.number))개의 검색 결과"
+                print(#function, value.total)
+                self?.outputTotalText.value = "\(value.total.formatted(.number))개의 검색 결과"
             } else {
                 self?.outputItem.value?.items.append(contentsOf: value.items)
             }
