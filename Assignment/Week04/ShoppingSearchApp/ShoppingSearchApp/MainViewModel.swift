@@ -21,7 +21,6 @@ class MainViewModel {
     }
     
     private func pushViewController(keyword: String?) {
-        print(#function)
         if let text = keyword, !text.isEmpty{
             // TODO: 공백 처리
             if text.starts(with: " ") {

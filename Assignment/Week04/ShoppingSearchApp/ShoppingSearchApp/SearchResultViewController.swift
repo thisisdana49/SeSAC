@@ -10,15 +10,16 @@ import SnapKit
 
 class SearchResultViewController: UIViewController {
     
+    let viewModel = SearchResultViewModel()
     var mainView = SearchResultView()
     
     let sortStandards = ["sim", "date", "dsc", "asc"]
     var searchWord: String = ""
     let display: Int = 30
-    var start: Int = 1
+//    var start: Int = 1
     var isEnd: Bool = false
     var sortStandard: String = "sim"
-    var item: Item?
+//    var item: Item?
     
     override func loadView() {
         view = mainView
@@ -27,66 +28,62 @@ class SearchResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
-        
-        callRequest()
+
+        bindData()
     }
     
-    func callRequest() {
-        NetworkManager.shared.searchItem(searchWord: searchWord, sortWith: sortStandard, start: start, display: display) { value in
-            if self.start == 1 {
-                self.item = value
-                if let total = self.item?.total {
-                    self.mainView.totalLabel.text = "\(total.formatted(.number))개의 검색 결과"
-                }
-            } else {
-                self.item?.items.append(contentsOf: value.items)
-            }
-            self.mainView.collectionView.reloadData()
-            
-            if self.start == 1 {
-                self.mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-            }
+    private func bindData() {
+        viewModel.inputViewDidLoad.value = ()
+        
+        viewModel.outputItem.lazyBind { [weak self] item in
+            dump(self?.viewModel.outputItem.value?.items)
+            self?.mainView.totalLabel.text = self?.viewModel.totalText
+            self?.mainView.collectionView.reloadData()
+        }
+        
+        viewModel.outputScrollToTop.lazyBind { [weak self] _ in
+            self?.mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
     }
     
     @objc
-    func sortButtonTapped(_ button: UIButton) {
-        button.isSelected = true
-        start = 1
-        sortStandard = sortStandards[button.tag]
-        if button.isSelected {
-            button.backgroundColor = .white
-            button.setTitleColor(.black, for: .normal)
-            for (_, e) in mainView.stackView.subviews.enumerated() {
-                let index = e as! UIButton
-                if index != button {
-                    index.isSelected = false
-                    index.backgroundColor = .black
-                    index.setTitleColor(.white, for: .normal)
-                }
-            }
-        } else {
-            button.backgroundColor = .black
-            button.setTitleColor(.white, for: .normal)
-        }
-        
-        callRequest()
-    }
+//    func sortButtonTapped(_ button: UIButton) {
+//        button.isSelected = true
+//        start = 1
+//        sortStandard = sortStandards[button.tag]
+//        if button.isSelected {
+//            button.backgroundColor = .white
+//            button.setTitleColor(.black, for: .normal)
+//            for (_, e) in mainView.stackView.subviews.enumerated() {
+//                let index = e as! UIButton
+//                if index != button {
+//                    index.isSelected = false
+//                    index.backgroundColor = .black
+//                    index.setTitleColor(.white, for: .normal)
+//                }
+//            }
+//        } else {
+//            button.backgroundColor = .black
+//            button.setTitleColor(.white, for: .normal)
+//        }
+//        
+//        callRequest()
+//    }
     
     func configureViewController() {
-        self.navigationItem.title = searchWord
+        self.navigationItem.title = viewModel.keyword
         self.navigationController?.navigationBar.topItem?.title = ""
         
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
-        mainView.collectionView.prefetchDataSource = self
+//        mainView.collectionView.prefetchDataSource = self
         mainView.collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.id)
         mainView.collectionView.backgroundColor = .black
         
-        for (_, view) in mainView.stackView.subviews.enumerated() {
-            guard let button = view as? UIButton else { return }
-            button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
-        }
+//        for (_, view) in mainView.stackView.subviews.enumerated() {
+//            guard let button = view as? UIButton else { return }
+//            button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
+//        }
     }
     
 }
@@ -95,11 +92,12 @@ class SearchResultViewController: UIViewController {
 extension SearchResultViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return item?.items.count ?? 0
+        return viewModel.outputItem.value?.items.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCollectionViewCell.id, for: indexPath) as? ItemCollectionViewCell, let item = item?.items[indexPath.item] else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCollectionViewCell.id, for: indexPath) as? ItemCollectionViewCell,
+              let item = viewModel.outputItem.value?.items[indexPath.item] else { return UICollectionViewCell() }
         
         cell.configureData(item: item)
         
@@ -109,22 +107,22 @@ extension SearchResultViewController: UICollectionViewDelegate, UICollectionView
 }
 
 // MARK:
-extension SearchResultViewController: UICollectionViewDataSourcePrefetching {
-    
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        guard let itemsCount = item?.items.count else { return }
-        for indexPath in indexPaths {
-            if (itemsCount - 2) == indexPath.item {
-                if start < item!.total {
-                    print(#function, start)
-                    start += display
-                    callRequest()
-                } else {
-                    print("it's end", start)
-                    isEnd = true
-                }
-            }
-        }
-    }
-    
-}
+//extension SearchResultViewController: UICollectionViewDataSourcePrefetching {
+//    
+//    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+//        guard let itemsCount = item?.items.count else { return }
+//        for indexPath in indexPaths {
+//            if (itemsCount - 2) == indexPath.item {
+//                if start < item!.total {
+//                    print(#function, start)
+//                    start += display
+//                    callRequest()
+//                } else {
+//                    print("it's end", start)
+//                    isEnd = true
+//                }
+//            }
+//        }
+//    }
+//    
+//}

@@ -36,7 +36,7 @@ class MainViewController: UIViewController {
         viewModel.outputPushVC.lazyBind { [weak self] value in
             let vc = SearchResultViewController()
             // TODO: forced unwrapping
-            vc.searchWord = value!
+            vc.viewModel.keyword = value
             
             self?.navigationController?.pushViewController(vc, animated: true)
         }
@@ -48,7 +48,7 @@ class MainViewController: UIViewController {
 extension MainViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(#function)
+//        print(#function)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

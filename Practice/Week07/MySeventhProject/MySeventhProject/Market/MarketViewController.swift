@@ -58,7 +58,7 @@ final class MarketViewController: UIViewController {
 //        viewModel.outputCellSelected.lazyBind { _ in
 //            let vc = MarketDetailViewController()
 ////            vc.viewModel = self.viewModel
-//            vc.viewModel.outputMarket.value = Market(market: "market", korean_name: "kor", english_name: "eng")
+//            vc.viewModel.outputMarket.valuet = Market(market: "market", korean_name: "kor", english_name: "eng")
 //            self.navigationController?.pushViewController(vc, animated: true)
 //        }
     }

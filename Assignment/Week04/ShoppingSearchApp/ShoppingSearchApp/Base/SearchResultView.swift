@@ -25,7 +25,6 @@ class SearchResultView: BaseView {
         addSubview(stackView)
         
         for i in 0..<standardLists.count {
-            print(#function, i)
             let button = CustomButton(title: standardLists[i], tag: i)
             stackView.addArrangedSubview(button)
         }
