@@ -13,7 +13,7 @@ class SearchResultViewController: UIViewController {
     let viewModel = SearchResultViewModel()
     var mainView = SearchResultView()
     
-    let sortStandards = ["sim", "date", "dsc", "asc"]
+//    let sortStandards = ["sim", "date", "dsc", "asc"]
     var searchWord: String = ""
     let display: Int = 30
 //    var start: Int = 1
@@ -33,10 +33,9 @@ class SearchResultViewController: UIViewController {
     }
     
     private func bindData() {
-        viewModel.inputViewDidLoad.value = ()
+        viewModel.inputFetchData.value = ()
         
         viewModel.outputItem.lazyBind { [weak self] item in
-            dump(self?.viewModel.outputItem.value?.items)
             self?.mainView.totalLabel.text = self?.viewModel.totalText
             self?.mainView.collectionView.reloadData()
         }
@@ -47,43 +46,24 @@ class SearchResultViewController: UIViewController {
     }
     
     @objc
-//    func sortButtonTapped(_ button: UIButton) {
-//        button.isSelected = true
-//        start = 1
-//        sortStandard = sortStandards[button.tag]
-//        if button.isSelected {
-//            button.backgroundColor = .white
-//            button.setTitleColor(.black, for: .normal)
-//            for (_, e) in mainView.stackView.subviews.enumerated() {
-//                let index = e as! UIButton
-//                if index != button {
-//                    index.isSelected = false
-//                    index.backgroundColor = .black
-//                    index.setTitleColor(.white, for: .normal)
-//                }
-//            }
-//        } else {
-//            button.backgroundColor = .black
-//            button.setTitleColor(.white, for: .normal)
-//        }
-//        
-//        callRequest()
-//    }
-    
-    func configureViewController() {
-        self.navigationItem.title = viewModel.keyword
-        self.navigationController?.navigationBar.topItem?.title = ""
-        
-        mainView.collectionView.delegate = self
-        mainView.collectionView.dataSource = self
-//        mainView.collectionView.prefetchDataSource = self
-        mainView.collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.id)
-        mainView.collectionView.backgroundColor = .black
-        
-//        for (_, view) in mainView.stackView.subviews.enumerated() {
-//            guard let button = view as? UIButton else { return }
-//            button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
-//        }
+    func sortButtonTapped(_ button: UIButton) {
+        viewModel.inputSortButtonTapped.value = button.tag
+        button.isSelected = true
+        if button.isSelected {
+            button.backgroundColor = .white
+            button.setTitleColor(.black, for: .normal)
+            for (_, e) in mainView.stackView.subviews.enumerated() {
+                let index = e as! UIButton
+                if index != button {
+                    index.isSelected = false
+                    index.backgroundColor = .black
+                    index.setTitleColor(.white, for: .normal)
+                }
+            }
+        } else {
+            button.backgroundColor = .black
+            button.setTitleColor(.white, for: .normal)
+        }
     }
     
 }
@@ -104,6 +84,26 @@ extension SearchResultViewController: UICollectionViewDelegate, UICollectionView
         return cell
     }
     
+}
+
+extension SearchResultViewController {
+    
+    func configureViewController() {
+        self.navigationItem.title = viewModel.keyword
+        self.navigationController?.navigationBar.topItem?.title = ""
+        
+        mainView.collectionView.delegate = self
+        mainView.collectionView.dataSource = self
+//        mainView.collectionView.prefetchDataSource = self
+        mainView.collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.id)
+        mainView.collectionView.backgroundColor = .black
+        
+        for (_, view) in mainView.stackView.subviews.enumerated() {
+            guard let button = view as? UIButton else { return }
+            button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
+        }
+        
+    }
 }
 
 // MARK:

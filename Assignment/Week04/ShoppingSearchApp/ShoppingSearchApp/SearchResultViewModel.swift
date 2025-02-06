@@ -9,19 +9,27 @@ import Foundation
 
 class SearchResultViewModel {
     
-    let inputViewDidLoad: Observable<Void?> = Observable(nil)
-    let inputStart: Observable<Int> = Observable(1)
+    let inputFetchData: Observable<Void?> = Observable(nil)
+    let inputSortButtonTapped: Observable<Int> = Observable(0)
     
     var outputItem: Observable<Item?> = Observable(nil)
     var outputItemTotal: Observable<Int> = Observable(0)
     var outputScrollToTop: Observable<Void?> = Observable(nil)
     
+    let sortStandards = ["sim", "date", "dsc", "asc"]
+    var sortStandard: String = "sim"
     var keyword: String?
+    var start: Int = 1
     // TODO: 연산 프로퍼티?
     var totalText: String = ""
     
     init() {
-        inputViewDidLoad.lazyBind { [weak self] _ in
+        inputFetchData.lazyBind { [weak self] _ in
+            self?.fetchData()
+        }
+        inputSortButtonTapped.lazyBind { [weak self] value in
+            self?.start = 1
+            self?.sortStandard = (self?.sortStandards[value])!
             self?.fetchData()
         }
     }
@@ -29,16 +37,15 @@ class SearchResultViewModel {
     private func fetchData() {
         guard let searchWord = keyword else { return }
         print(#function, searchWord)
-        NetworkManager.shared.searchItem(searchWord: searchWord, sortWith: "sim", start: self.inputStart.value, display: 30) { [weak self] value in
-            if self?.inputStart.value == 1 {
-                dump(value)
+        NetworkManager.shared.searchItem(searchWord: searchWord, sortWith: sortStandard, start: self.start, display: 30) { [weak self] value in
+            if self?.start == 1 {
                 self?.outputItem.value = value
                 self?.totalText = "\(value.total.formatted(.number))개의 검색 결과"
             } else {
                 self?.outputItem.value?.items.append(contentsOf: value.items)
             }
             
-            if self?.inputStart.value == 1 {
+            if self?.start == 1 {
                 self?.outputScrollToTop.value = ()
             }
         }
