@@ -58,7 +58,9 @@ final class BoxOfficeViewController: UIViewController {
         }
         
         viewModel.output.boxOffice.bind { data in
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     
