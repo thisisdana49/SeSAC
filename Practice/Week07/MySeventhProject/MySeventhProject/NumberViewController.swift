@@ -33,11 +33,11 @@ class NumberViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.outputText.bind { value in
+        viewModel.output.text.bind { value in
             self.formattedAmountLabel.text = value
         }
         
-        viewModel.outputTextColor.bind { value in
+        viewModel.output.textColor.bind { value in
             self.formattedAmountLabel.textColor = value ? .blue : .red
         }
         
@@ -46,9 +46,8 @@ class NumberViewController: UIViewController {
         configureActions()
     }
  
- 
     @objc private func amountChanged() {
-        viewModel.inputField.value = amountTextField.text
+        viewModel.input.field.value = amountTextField.text
     }
     
 }
