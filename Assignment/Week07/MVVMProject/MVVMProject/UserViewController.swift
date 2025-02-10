@@ -60,7 +60,7 @@ class UserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel.people.bind { _ in
+        viewModel.output.people.bind { _ in
             self.tableView.reloadData()
         }
         
@@ -105,26 +105,26 @@ class UserViewController: UIViewController {
     }
      
     @objc private func loadButtonTapped() {
-        viewModel.inputLoadButtonTapped.value = ()
+        viewModel.input.loadTapped.value = ()
     }
     
     @objc private func resetButtonTapped() {
-        viewModel.inputResetButtonTapped.value = ()
+        viewModel.input.resetTapped.value = ()
     }
     
     @objc private func addButtonTapped() {
-        viewModel.inputAddButtonTapped.value = ()
+        viewModel.input.addTapped.value = ()
     }
 }
  
 extension UserViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.people.value.count
+        return viewModel.output.people.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PersonCell", for: indexPath)
-        let person = viewModel.people.value[indexPath.row]
+        let person = viewModel.output.people.value[indexPath.row]
         cell.textLabel?.text = "\(person.name), \(person.age)세"
         return cell
     }

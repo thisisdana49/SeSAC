@@ -9,21 +9,34 @@ import Foundation
 
 class UserViewModel {
     
-    let people: Observable<[Person]> = Observable([])
- 
-    let inputLoadButtonTapped: Observable<Void> = Observable(())
-    let inputAddButtonTapped: Observable<Void> = Observable(())
-    let inputResetButtonTapped: Observable<Void> = Observable(())
+    private(set) var input: Input
+    private(set) var output: Output
     
+    struct Input {
+        let loadTapped: Observable<Void> = Observable(())
+        let addTapped: Observable<Void> = Observable(())
+        let resetTapped: Observable<Void> = Observable(())
+    }
+    
+    struct Output {
+        let people: Observable<[Person]> = Observable([])
+    }
+        
     init() {
-        inputLoadButtonTapped.bind { _ in
-            self.people.value = self.generatePeople()
+        input = Input()
+        output = Output()
+        transform()
+    }
+    
+    private func transform() {
+        input.loadTapped.bind { _ in
+            self.output.people.value = self.generatePeople()
         }
-        inputAddButtonTapped.bind { _ in
-            self.people.value.append(self.generatePerson())
+        input.addTapped.bind { _ in
+            self.output.people.value.append(self.generatePerson())
         }
-        inputResetButtonTapped.bind { _ in
-            self.people.value.removeAll()
+        input.resetTapped.bind { _ in
+            self.output.people.value.removeAll()
         }
     }
     

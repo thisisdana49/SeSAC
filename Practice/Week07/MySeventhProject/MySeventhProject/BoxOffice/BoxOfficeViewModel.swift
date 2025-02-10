@@ -10,28 +10,40 @@ import Alamofire
 
 class BoxOfficeViewModel {
     
-    let inputSelectedDate: Observable<Date> = Observable(Date())
-    let inputSearchButtonTapped: Observable<Void?> = Observable(nil)
+    private(set) var input: Input
+    private(set) var output: Output
     
-    let outputBoxOffice: Observable<[Movie]> = Observable([])
-    let outputSelectDate: Observable<String> = Observable("")
+    struct Input {
+        let selectedDate: Observable<Date> = Observable(Date())
+        let searchButtonTapped: Observable<Void?> = Observable(nil)
+    }
+    
+    struct Output {
+        let boxOffice: Observable<[Movie]> = Observable([])
+        let selectDate: Observable<String> = Observable("")
+    }
     
     private var query = ""
     
     init() {
         print("BoxOfficeViewModel Init")
-        inputSelectedDate.bind { value in
-            self.convertDate(value)
-        }
-        
-        inputSearchButtonTapped.lazyBind { _ in
-            print(#function, self.query)
-            self.callBoxOffice(date: self.query)
-        }
+        input = Input()
+        output = Output()
     }
     
     deinit {
         print("BoxOfficeViewModel Deinit")
+    }
+    
+    private func transform() {
+        input.selectedDate.bind { value in
+            self.convertDate(value)
+        }
+        
+        input.searchButtonTapped.lazyBind { _ in
+            print(#function, self.query)
+            self.callBoxOffice(date: self.query)
+        }
     }
     
     func callBoxOffice(date: String) {
@@ -42,7 +54,7 @@ class BoxOfficeViewModel {
             case .success(let success):
 //                dump(success.boxOfficeResult.dailyBoxOfficeList)
                 print(#function, "call box office")
-                self.outputBoxOffice.value = success.boxOfficeResult.dailyBoxOfficeList
+                self.output.boxOffice.value = success.boxOfficeResult.dailyBoxOfficeList
             case .failure(let failure):
                 print(failure)
             }
@@ -53,7 +65,7 @@ class BoxOfficeViewModel {
         let format = DateFormatter()
         format.dateFormat = "yy년 MM월 dd일"
         let string = format.string(from: date)
-        outputSelectDate.value = string
+        output.selectDate.value = string
         
         let format2 = DateFormatter()
         format2.dateFormat = "yyyyMMdd"
