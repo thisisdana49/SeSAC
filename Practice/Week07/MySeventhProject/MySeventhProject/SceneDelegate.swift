@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
-        let nav = UINavigationController(rootViewController: NasaViewController())
+        let nav = UINavigationController(rootViewController: NotificationViewController())
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
     }
@@ -31,6 +31,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        // Badge 제거
+        UNUserNotificationCenter.current().setBadgeCount(0)
+        
+        //사용자에게 전달되어 있는 알림 제거(default로는 알림을 클릭해서 열어주면 해당 알림만 제거가 됨)
+//        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        
+        // 사용자에게 아직 전달되지 않았지만, 앞으로 전달될 알림들을 제거
+//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
