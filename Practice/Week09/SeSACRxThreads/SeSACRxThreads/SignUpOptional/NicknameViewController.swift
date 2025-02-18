@@ -34,6 +34,7 @@ class NicknameViewController: UIViewController {
     func bind() {
         // .just -> Finite Sequence, 한 번 전달하고 끝이 나게 됨!!
         // 1) complete X 2) event 받음
+        // Observable 체인 구독 과정: 다운스트림 -> 업스트림
         nickname
             .subscribe(with: self) { owner, value in
                 owner.nicknameTextField.text = value
@@ -48,16 +49,19 @@ class NicknameViewController: UIViewController {
         
         nextButton.rx
             .tap
+            .debug("===Debug1===")
             .withUnretained(self)
+            .debug("===Debug2===")
             // 함수 매개변수 안에 매개변수가 있는 상태
             // map({}) == map { } => @autoclosure
 //            .map({ _ in
-//
 //            })
             .map { owner, _ in
                 let random = owner.recommandList.randomElement()!
                 return random
             }
+            .debug("===Debug3===")
+            .debug()
 //            .subscribe(with: self) { owner, value in
             .bind(to: nickname)
 //            .bind(with: self) { owner, value in
