@@ -14,15 +14,67 @@ class NicknameViewController: UIViewController {
    
     let nicknameTextField = SignTextField(placeholderText: "닉네임을 입력해주세요")
     let nextButton = PointButton(title: "다음")
-    let nickname = BehaviorSubject(value: "다우니맛도리탕")
+    let nickname = PublishSubject<String>()
+//    let nickname = BehaviorSubject(value: "다우니맛도리탕")
 //    let nickname = Observable.just("다우니맛도리탕")
     // 랜덤 배열
     let recommandList = ["우우", "니니", "빔빔", "푸푸"]
     let disposeBag = DisposeBag()
     
+    func testPublishSubject() {
+        let subject = PublishSubject<Int>()
+        
+        subject.onNext(1)
+        subject.onNext(2)
+        
+        subject
+            .subscribe(with: self) { owner, value in
+                print(#function, value)
+            } onError: { owner, error in
+                print(#function, error)
+            } onCompleted: { owner in
+                print(#function, "onCompleted")
+            } onDisposed: { owner in
+                print(#function, "onDisposed")
+            }
+            .disposed(by: disposeBag)
+        
+        subject.onNext(16)
+        subject.onNext(114)
+        subject.onCompleted()
+        subject.onNext(1444)
+    }
+    
+    func testBehaviorSubject() {
+        let subject = BehaviorSubject(value: 1)
+        
+        subject.onNext(1)
+        subject.onNext(2)
+        
+        subject
+            .subscribe(with: self) { owner, value in
+                print(#function, value)
+            } onError: { owner, error in
+                print(#function, error)
+            } onCompleted: { owner in
+                print(#function, "onCompleted")
+            } onDisposed: { owner in
+                print(#function, "onDisposed")
+            }
+            .disposed(by: disposeBag)
+        
+        subject.onNext(16)
+        subject.onNext(114)
+        subject.onCompleted()
+        subject.onNext(1444)
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        testPublishSubject()
+        
         view.backgroundColor = Color.white
         
         configureLayout()
@@ -46,6 +98,10 @@ class NicknameViewController: UIViewController {
                 print("nickname onDisposed")
             }
             .disposed(by: disposeBag)
+        
+        nickname.onNext("테스트1")
+        nickname.onNext("테스트2")
+        nickname.onNext("테스트3")
         
         nextButton.rx
             .tap
@@ -73,6 +129,13 @@ class NicknameViewController: UIViewController {
 //                owner.nickname.on(.next(random))
 //            }
             .disposed(by: disposeBag)
+        
+        // map을 써도 되지만 Observable 2개를 결합해볼 수도 있음
+//        nextButton.rx.tap
+//            .withLatestFrom(Observable.just(recommandList.randomElement()!))
+//            .flatMapLatest(Observable.just(recommandList.randomElement()!))
+//            .bind(to: nickname)
+//            .disposed(by: disposeBag)
     }
     
     @objc func nextButtonClicked() {

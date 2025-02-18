@@ -20,8 +20,13 @@ class SearchViewController: UIViewController {
         view.separatorStyle = .none
        return view
      }()
-    
     let searchBar = UISearchBar()
+    
+    let items = Observable.just([
+        "First Item",
+        "Second Item",
+        "Third Item"
+    ])
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -34,13 +39,6 @@ class SearchViewController: UIViewController {
     }
     
     func bind() {
-        print(#function)
-        let items = Observable.just([
-            "First Item",
-            "Second Item",
-            "Third Item"
-        ])
-
         items
         .bind(to: tableView.rx.items) { (tableView, row, element) in
             let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier) as! SearchTableViewCell
@@ -49,13 +47,27 @@ class SearchViewController: UIViewController {
         }
         .disposed(by: disposeBag)
         
-        tableView
-            .rx
-            .itemSelected
-            .bind { index in
-            print(index)
+        // 2개 이상의 Observable을 하나로 합쳐줌!
+        Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(String.self)
+        )
+        .map {
+            return "\($0.0)는 \($0.1)"
+            
         }
-        .disposed(by: disposeBag)
+        .bind(with: self) { owner, value in
+            print(value)
+        }
+        
+//        tableView.rx.itemSelected
+//            .bind { index in
+//            print(index)
+//        }
+//        .disposed(by: disposeBag)
+//        
+//        tableView.rx.modelSelected(String.self)
+//            .bind(with: self) { owner, value in
+//                print(value)
+//            }
     }
      
     private func setSearchController() {
