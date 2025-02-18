@@ -8,24 +8,55 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import SnapKit
 
 class SimpleTableViewExampleViewController: UIViewController {
 
+    let tableView = UITableView()
+    let tableViewCell = UITableViewCell(style: .value1, reuseIdentifier: "Cell")
+    
+    let items = Observable.just(
+        (0..<20).map { "\($0)" }
+    )
+    
+    let disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        bind()
+        configure()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func bind() {
+        items
+            .bind(to: tableView.rx.items(cellIdentifier: "Cell", cellType: UITableViewCell.self)) { (row, element, cell) in
+                cell.accessoryType = .detailButton
+                cell.textLabel?.text = "\(element) @ row \(row)"
+            }
+            .disposed(by: disposeBag)
+        
+        tableView.rx
+            .modelSelected(String.self)
+            .subscribe(with: self) { owner, value in
+                AlertManager.shared.showAlert(on: self, message: "Tapped `\(value)`")
+            }
+            .disposed(by: disposeBag)
+        
+        tableView.rx
+            .itemAccessoryButtonTapped
+            .bind(with: self) { owner, indexPath in
+                AlertManager.shared.showAlert(on: self, message: "Tapped Detail @ \(indexPath.section),\(indexPath.row)")
+            }
+            .disposed(by: disposeBag)
     }
-    */
+    
+    private func configure() {
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
 
 }
