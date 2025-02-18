@@ -9,15 +9,13 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-final class NumbersViewController: UIViewController {
+final class NumbersViewController: BaseViewController, ViewControllerProtocol {
 
     let number1 = UITextField()
     let number2 = UITextField()
     let number3 = UITextField()
     let separatorView = UIView()
     let resultLabel = UILabel()
-    
-    let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()

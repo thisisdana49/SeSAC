@@ -9,7 +9,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class BirthdayViewController: UIViewController {
+class BirthdayViewController: BaseViewController, ViewControllerProtocol {
 
     let birthDayPicker: UIDatePicker = {
         let picker = UIDatePicker()
@@ -58,8 +58,6 @@ class BirthdayViewController: UIViewController {
         return label
     }()
     
-    let disposeBag = DisposeBag()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -67,7 +65,7 @@ class BirthdayViewController: UIViewController {
         configure()
     }
     
-    private func bind() {
+    internal func bind() {
         birthDayPicker.rx.date
             .map { date -> (String, String, String) in
                 let calendar = Calendar.current
@@ -92,7 +90,7 @@ class BirthdayViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func configure() {
+    internal func configure() {
         view.backgroundColor = .white
         
         view.addSubview(containerStackView)

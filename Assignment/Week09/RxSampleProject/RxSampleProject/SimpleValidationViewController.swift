@@ -13,7 +13,7 @@ import SnapKit
 private let minimalUsernameLength = 5
 private let minimalPasswordLength = 5
 
-class SimpleValidationViewController: UIViewController {
+class SimpleValidationViewController: BaseViewController, ViewControllerProtocol {
 
     let usernameLabel = UILabel()
     let usernameValidLabel = UILabel()
@@ -22,16 +22,14 @@ class SimpleValidationViewController: UIViewController {
     let usernameTextField = UITextField()
     let passwordTextField = UITextField()
     let confirmButton = UIButton()
-    
-    let disposeBag = DisposeBag()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
         configure()
     }
     
-    private func bind() {
+    internal func bind() {
         let usernameValid = usernameTextField.rx.text.orEmpty
             .map { $0.count >= minimalUsernameLength }
             .share(replay: 1)
@@ -66,7 +64,7 @@ class SimpleValidationViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func configure() {
+    internal func configure() {
         view.addSubview(usernameLabel)
         view.addSubview(usernameTextField)
         view.addSubview(usernameValidLabel)

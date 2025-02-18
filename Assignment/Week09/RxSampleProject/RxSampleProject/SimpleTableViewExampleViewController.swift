@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-class SimpleTableViewExampleViewController: UIViewController {
+class SimpleTableViewExampleViewController: BaseViewController, ViewControllerProtocol {
 
     let tableView = UITableView()
     let tableViewCell = UITableViewCell(style: .value1, reuseIdentifier: "Cell")
@@ -19,8 +19,6 @@ class SimpleTableViewExampleViewController: UIViewController {
         (0..<20).map { "\($0)" }
     )
     
-    let disposeBag = DisposeBag()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,7 +26,7 @@ class SimpleTableViewExampleViewController: UIViewController {
         configure()
     }
     
-    private func bind() {
+    internal func bind() {
         items
             .bind(to: tableView.rx.items(cellIdentifier: "Cell", cellType: UITableViewCell.self)) { (row, element, cell) in
                 cell.accessoryType = .detailButton
@@ -51,7 +49,7 @@ class SimpleTableViewExampleViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func configure() {
+    internal func configure() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
