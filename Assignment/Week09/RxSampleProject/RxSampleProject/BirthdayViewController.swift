@@ -9,7 +9,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class BirthdayViewController: BaseViewController, ViewControllerProtocol {
+final class BirthdayViewController: BaseViewController, ViewControllerProtocol {
 
     let birthDayPicker: UIDatePicker = {
         let picker = UIDatePicker()

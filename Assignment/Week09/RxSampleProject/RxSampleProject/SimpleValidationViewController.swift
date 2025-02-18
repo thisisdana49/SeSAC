@@ -13,7 +13,7 @@ import SnapKit
 private let minimalUsernameLength = 5
 private let minimalPasswordLength = 5
 
-class SimpleValidationViewController: BaseViewController, ViewControllerProtocol {
+final class SimpleValidationViewController: BaseViewController, ViewControllerProtocol {
 
     let usernameLabel = UILabel()
     let usernameValidLabel = UILabel()

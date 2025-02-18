@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-class SimpleTableViewExampleViewController: BaseViewController, ViewControllerProtocol {
+final class SimpleTableViewExampleViewController: BaseViewController, ViewControllerProtocol {
 
     let tableView = UITableView()
     let tableViewCell = UITableViewCell(style: .value1, reuseIdentifier: "Cell")
