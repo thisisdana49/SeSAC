@@ -48,13 +48,14 @@ class NicknameViewController: UIViewController {
         
         nextButton.rx
             .tap
+            .withUnretained(self)
             // 함수 매개변수 안에 매개변수가 있는 상태
             // map({}) == map { } => @autoclosure
 //            .map({ _ in
 //
 //            })
-            .map {
-                let random = self.recommandList.randomElement()!
+            .map { owner, _ in
+                let random = owner.recommandList.randomElement()!
                 return random
             }
 //            .subscribe(with: self) { owner, value in
