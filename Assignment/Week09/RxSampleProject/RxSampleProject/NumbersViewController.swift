@@ -6,14 +6,18 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 final class NumbersViewController: UIViewController {
 
-    let number1TextField = UITextField()
-    let number2TextField = UITextField()
-    let number3TextField = UITextField()
+    let number1 = UITextField()
+    let number2 = UITextField()
+    let number3 = UITextField()
     let separatorView = UIView()
     let resultLabel = UILabel()
+    
+    let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,14 +27,23 @@ final class NumbersViewController: UIViewController {
     }
     
     private func bind() {
-
+        Observable.combineLatest(
+            number1.rx.text.orEmpty, number2.rx.text.orEmpty, number3.rx.text.orEmpty) { textValue1, textValue2, textValue3 -> Int in
+                print(textValue1)
+                print(textValue2)
+                print(textValue3)
+                return (Int(textValue1) ?? 0) + (Int(textValue2) ?? 0) + (Int(textValue3) ?? 0)
+        }
+            .map { $0.description }
+            .bind(to: resultLabel.rx.text)
+            .disposed(by: disposeBag)
     }
     
     private func configure() {
         view.backgroundColor = .white
-        view.addSubview(number1TextField)
-        view.addSubview(number2TextField)
-        view.addSubview(number3TextField)
+        view.addSubview(number1)
+        view.addSubview(number2)
+        view.addSubview(number3)
         view.addSubview(separatorView)
         view.addSubview(resultLabel)
         
@@ -40,18 +53,18 @@ final class NumbersViewController: UIViewController {
             $0.height.equalTo(1)
         }
         
-        number3TextField.snp.makeConstraints {
+        number3.snp.makeConstraints {
             $0.bottom.equalTo(separatorView.snp.top).offset(-12)
             $0.horizontalEdges.equalToSuperview().inset(100)
             $0.height.equalTo(40)
         }
-        number2TextField.snp.makeConstraints {
-            $0.bottom.equalTo(number3TextField.snp.top).offset(-12)
+        number2.snp.makeConstraints {
+            $0.bottom.equalTo(number3.snp.top).offset(-12)
             $0.horizontalEdges.equalToSuperview().inset(100)
             $0.height.equalTo(40)
         }
-        number1TextField.snp.makeConstraints {
-            $0.bottom.equalTo(number2TextField.snp.top).offset(-12)
+        number1.snp.makeConstraints {
+            $0.bottom.equalTo(number2.snp.top).offset(-12)
             $0.horizontalEdges.equalToSuperview().inset(100)
             $0.height.equalTo(40)
         }
@@ -62,18 +75,19 @@ final class NumbersViewController: UIViewController {
             $0.height.equalTo(40)
         }
     
-        number1TextField.borderStyle = .roundedRect
-        number2TextField.borderStyle = .roundedRect
-        number3TextField.borderStyle = .roundedRect
+        number1.borderStyle = .roundedRect
+        number2.borderStyle = .roundedRect
+        number3.borderStyle = .roundedRect
         separatorView.backgroundColor = .black
-        number1TextField.textAlignment = .right
-        number2TextField.textAlignment = .right
-        number3TextField.textAlignment = .right
+        
+        number1.textAlignment = .right
+        number2.textAlignment = .right
+        number3.textAlignment = .right
         resultLabel.textAlignment = .right
         
-        number1TextField.text = "1"
-        number2TextField.text = "2"
-        number3TextField.text = "3"
+        number1.text = "1"
+        number2.text = "2"
+        number3.text = "3"
         resultLabel.text = "6"
     }
     
