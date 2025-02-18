@@ -58,6 +58,16 @@ class BirthdayViewController: BaseViewController, ViewControllerProtocol {
         return label
     }()
     
+    let validLabel: UILabel = {
+       let label = UILabel()
+        label.text = "성인인증이 완료 되었습니다."
+        label.textColor = .black
+
+        return label
+    }()
+    
+    let ageValid = BehaviorSubject(value: "0")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -73,13 +83,14 @@ class BirthdayViewController: BaseViewController, ViewControllerProtocol {
                 let month = calendar.component(.month, from: date)
                 let day = calendar.component(.day, from: date)
                 
-                return ("\(year)년", "\(month)월", "\(day)일")
+                return ("\(year)", "\(month)", "\(day)")
             }
             .subscribe(with: self) { owner, value in
                 let (year, month, day) = value
-                owner.yearLabel.text = year
-                owner.monthLabel.text = month
-                owner.dayLabel.text = day
+                owner.yearLabel.text = "\(year)년"
+                owner.monthLabel.text = "\(month)월"
+                owner.dayLabel.text = "\(day)일"
+                owner.ageValid.onNext(year)
             } onError: { owner, error in
                 print(error)
             } onCompleted: { owner in
@@ -88,6 +99,13 @@ class BirthdayViewController: BaseViewController, ViewControllerProtocol {
                 print("on disposed")
             }
             .disposed(by: disposeBag)
+        
+        ageValid
+            .map { value -> Bool in
+                return Int(value)! > 2004
+            }
+            .bind(to: validLabel.rx.isHidden)
+            .disposed(by: disposeBag)
     }
     
     internal func configure() {
@@ -95,6 +113,7 @@ class BirthdayViewController: BaseViewController, ViewControllerProtocol {
         
         view.addSubview(containerStackView)
         view.addSubview(birthDayPicker)
+        view.addSubview(validLabel)
 
         containerStackView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(30)
@@ -109,6 +128,11 @@ class BirthdayViewController: BaseViewController, ViewControllerProtocol {
         
         birthDayPicker.snp.makeConstraints {
             $0.top.equalTo(containerStackView.snp.bottom)
+            $0.centerX.equalToSuperview()
+        }
+        
+        validLabel.snp.makeConstraints {
+            $0.top.equalTo(birthDayPicker.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
         }
     }

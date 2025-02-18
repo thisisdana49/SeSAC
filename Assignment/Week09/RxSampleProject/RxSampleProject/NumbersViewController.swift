@@ -24,7 +24,7 @@ final class NumbersViewController: BaseViewController, ViewControllerProtocol {
         configure()
     }
     
-    private func bind() {
+    internal func bind() {
         Observable.combineLatest(
             number1.rx.text.orEmpty, number2.rx.text.orEmpty, number3.rx.text.orEmpty) { textValue1, textValue2, textValue3 -> Int in
                 print(textValue1)
@@ -37,7 +37,7 @@ final class NumbersViewController: BaseViewController, ViewControllerProtocol {
             .disposed(by: disposeBag)
     }
     
-    private func configure() {
+    internal func configure() {
         view.backgroundColor = .white
         view.addSubview(number1)
         view.addSubview(number2)
