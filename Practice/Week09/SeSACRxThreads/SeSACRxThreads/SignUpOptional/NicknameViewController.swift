@@ -57,14 +57,16 @@ class NicknameViewController: UIViewController {
                 let random = self.recommandList.randomElement()!
                 return random
             }
-            .subscribe(with: self) { owner, value in
-                print("nextButton tap")
-                owner.nickname.onNext(value)
-                
+//            .subscribe(with: self) { owner, value in
+            .bind(to: nickname)
+//            .bind(with: self) { owner, value in
+//                print("nextButton tap")
+//                owner.nickname.onNext(value)
+                    
 //                let random = owner.recommandList.randomElement()!
 //                owner.nickname.onNext(random)
 //                owner.nickname.on(.next(random))
-            }
+//            }
             .disposed(by: disposeBag)
     }
     
