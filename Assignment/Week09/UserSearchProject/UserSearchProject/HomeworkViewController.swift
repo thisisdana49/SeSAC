@@ -18,7 +18,7 @@ struct Person: Identifiable {
     let profileImage: String
 }
 
-class HomeworkViewController: UIViewController {
+final class HomeworkViewController: UIViewController {
     
     let sampleUsers: [Person] = [
         Person(name: "Steven", email: "steven.brown@example.com", profileImage: "https://randomuser.me/api/portraits/thumb/men/1.jpg"),
@@ -95,6 +95,13 @@ class HomeworkViewController: UIViewController {
                 let imgURL = URL(string: element.profileImage)
                 cell.profileImageView.kf.setImage(with: imgURL)
                 cell.usernameLabel.text = element.name
+                cell.detailButton.rx.tap
+                    .bind(with: self) { owner, value in
+                        let vc = DetailViewController()
+                        vc.titleText.onNext(element.name)
+                        owner.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         

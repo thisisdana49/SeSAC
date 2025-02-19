@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 import SnapKit
 
 final class PersonTableViewCell: UITableViewCell {
     
     static let identifier = "PersonTableViewCell"
+    var disposeBag = DisposeBag()
     
     let usernameLabel: UILabel = {
         let label = UILabel()
@@ -30,7 +33,7 @@ final class PersonTableViewCell: UITableViewCell {
     
     let detailButton: UIButton = {
         let button = UIButton()
-        button.setTitle("받기", for: .normal)
+        button.setTitle("더보기", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
         button.isUserInteractionEnabled = true
         button.backgroundColor = .lightGray
@@ -48,7 +51,11 @@ final class PersonTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-     
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
     
     private func configure() {
         contentView.addSubview(usernameLabel)
