@@ -73,7 +73,9 @@ class HomeworkViewController: UIViewController {
         Person(name: "Ralph", email: "ralph.cox@example.com", profileImage: "https://randomuser.me/api/portraits/thumb/men/26.jpg"),
         Person(name: "Ann", email: "ann.howard@example.com", profileImage: "https://randomuser.me/api/portraits/thumb/women/25.jpg")
     ]
-    lazy var items = Observable.just(sampleUsers)
+    var searchUsers: [String] = []
+    lazy var tableViewItems = Observable.just(sampleUsers)
+    lazy var collectionViewItems = PublishSubject<[String]>()
     
     let tableView = UITableView()
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
@@ -88,12 +90,26 @@ class HomeworkViewController: UIViewController {
     }
      
     private func bind() {
-        items
+        tableViewItems
             .bind(to: tableView.rx.items(cellIdentifier: PersonTableViewCell.identifier, cellType: PersonTableViewCell.self)) { (row, element, cell) in
                 let imgURL = URL(string: element.profileImage)
                 cell.profileImageView.kf.setImage(with: imgURL)
                 cell.usernameLabel.text = element.name
-        }
+            }
+            .disposed(by: disposeBag)
+        
+        collectionViewItems
+            .bind(to: collectionView.rx.items(cellIdentifier: UserCollectionViewCell.identifier, cellType: UserCollectionViewCell.self)) { (item, element, cell) in
+                cell.label.text = element
+            }
+            .disposed(by: disposeBag)
+        
+        tableView.rx
+            .modelSelected(Person.self)
+            .bind(with: self) { owner, value in
+                owner.searchUsers.insert(value.name, at: 0)
+                owner.collectionViewItems.onNext(owner.searchUsers)
+            }
             .disposed(by: disposeBag)
     }
     
