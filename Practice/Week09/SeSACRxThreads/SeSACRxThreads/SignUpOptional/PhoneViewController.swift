@@ -6,12 +6,18 @@
 //
  
 import UIKit
+import RxCocoa
+import RxSwift
 import SnapKit
 
 class PhoneViewController: UIViewController {
    
     let phoneTextField = SignTextField(placeholderText: "연락처를 입력해주세요")
     let nextButton = PointButton(title: "다음")
+    
+    let disposeBag = DisposeBag()
+    
+    let viewModel = PhoneViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,11 +26,28 @@ class PhoneViewController: UIViewController {
         
         configureLayout()
         
-        nextButton.addTarget(self, action: #selector(nextButtonClicked), for: .touchUpInside)
+        bind()
     }
     
-    @objc func nextButtonClicked() {
-        navigationController?.pushViewController(NicknameViewController(), animated: true)
+    private func bind() {
+        let input = PhoneViewModel.Input(tap: nextButton.rx.tap, text: phoneTextField.rx.text)
+        
+        let output = viewModel.transform(input: input)
+        
+        output.tap
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.pushViewController(NicknameViewController(), animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        output.text
+            .bind(to: nextButton.rx.title())
+            .disposed(by: disposeBag)
+        
+        output.validation
+            .bind(to: nextButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
     }
 
     

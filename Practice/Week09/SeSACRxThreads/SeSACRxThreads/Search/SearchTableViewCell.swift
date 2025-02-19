@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 import SnapKit
 
 final class SearchTableViewCell: UITableViewCell {
     
     static let identifier = "SearchTableViewCell"
+    
+    var disposeBag = DisposeBag()
     
     let appNameLabel: UILabel = {
         let label = UILabel()
@@ -50,6 +54,11 @@ final class SearchTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
      
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        // 구독을 해제
+        disposeBag = DisposeBag()
+    }
     
     private func configure() {
         contentView.addSubview(appNameLabel)
