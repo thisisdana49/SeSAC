@@ -1,26 +1,15 @@
 //
-//  HomeworkViewController.swift
-//  RxSwift
+//  HomeViewModel.swift
+//  UserSearchProject
 //
-//  Created by Jack on 1/30/25.
+//  Created by 조다은 on 2/19/25.
 //
 
-import UIKit
-import Kingfisher
-import RxCocoa
+import Foundation
 import RxSwift
-import SnapKit
+import RxCocoa
 
-struct Person: Identifiable {
-    let id = UUID()
-    let name: String
-    let email: String
-    let profileImage: String
-}
-
-final class HomeworkViewController: UIViewController {
-    
-    let viewModel = HomeViewModel()
+final class HomeViewModel {
     
     let sampleUsers: [Person] = [
         Person(name: "Steven", email: "steven.brown@example.com", profileImage: "https://randomuser.me/api/portraits/thumb/men/1.jpg"),
@@ -76,90 +65,64 @@ final class HomeworkViewController: UIViewController {
         Person(name: "Ann", email: "ann.howard@example.com", profileImage: "https://randomuser.me/api/portraits/thumb/women/25.jpg")
     ]
     var searchUsers: [String] = []
-    lazy var tableViewItems = BehaviorSubject(value: sampleUsers)
-    lazy var collectionViewItems = PublishSubject<[String]>()
-    
-    let tableView = UITableView()
-    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout())
-    let searchBar = UISearchBar()
-    
+
     let disposeBag = DisposeBag()
-     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configure()
-        bind()
+    
+    struct Input {
+//        let birthday: ControlProperty<Date>
+//        let detailTap: ControlEvent<Void>?
+        let searchBarText: ControlProperty<String>
+        let rowTap: ControlEvent<Person>
+        let searchTap: ControlEvent<Void>
     }
-     
-    private func bind() {
-        let input = HomeViewModel.Input(searchBarText: searchBar.rx.text.orEmpty, rowTap: tableView.rx.modelSelected(Person.self), searchTap: searchBar.rx.searchButtonClicked)
-        let output = viewModel.transform(input: input)
+    
+    struct Output {
+//        let detailTap: ControlEvent<Void>
+//        let year: BehaviorRelay<Int>
+//        let month: BehaviorRelay<Int>
+//        let day: BehaviorRelay<Int>
+        let tableViewItems: BehaviorSubject<[Person]>
+        let collectionViewItems: PublishRelay<[String]>
+    }
+    
+    func transform(input: Input) -> Output {
+        let tableViewItems = BehaviorSubject(value: sampleUsers)
+        let collectionViewItems = PublishRelay<[String]>()
         
-        output.tableViewItems
-            .bind(to: tableView.rx.items(cellIdentifier: PersonTableViewCell.identifier, cellType: PersonTableViewCell.self)) { (row, element, cell) in
-                let imgURL = URL(string: element.profileImage)
-                cell.profileImageView.kf.setImage(with: imgURL)
-                cell.usernameLabel.text = element.name
-                cell.detailButton.rx.tap
-                    .bind(with: self) { owner, value in
-                        let vc = DetailViewController()
-                        vc.titleText.onNext(element.name)
-                        owner.navigationController?.pushViewController(vc, animated: true)
-                    }
-                    .disposed(by: cell.disposeBag)
+        input.rowTap
+            .bind(with: self) { owner, value in
+                owner.searchUsers.insert(value.name, at: 0)
+                collectionViewItems.accept(owner.searchUsers)
             }
             .disposed(by: disposeBag)
         
-        output.collectionViewItems
-            .bind(to: collectionView.rx.items(cellIdentifier: UserCollectionViewCell.identifier, cellType: UserCollectionViewCell.self)) { (item, element, cell) in
-                cell.label.text = element
+        input.searchTap
+            .debounce(.seconds(1), scheduler: MainScheduler.asyncInstance)
+            .withLatestFrom(input.searchBarText)
+            .bind(with: self) { owner, value in
+                let result = value == "" ? owner.sampleUsers : owner.sampleUsers.filter { $0.name.contains(value) }
+                tableViewItems.onNext(result)
+            }
+            .disposed(by: disposeBag)
+
+        input.searchBarText
+            .map { value -> Bool in
+                value.isEmpty
+            }
+            .bind(with: self) { owner, value in
+                if value {
+                    let result = owner.sampleUsers
+                    tableViewItems.onNext(result)
+                }
             }
             .disposed(by: disposeBag)
         
-//        searchBar.rx.searchButtonClicked
-//            .debounce(.seconds(1), scheduler: MainScheduler.asyncInstance)
-//            .withLatestFrom(searchBar.rx.text.orEmpty)
-//            .bind(with: self) { owner, value in
-//                print(#function, value.isEmpty)
-//                let result = value == "" ? owner.sampleUsers : owner.sampleUsers.filter { $0.name.contains(value) }
-//                owner.tableViewItems.onNext(result)
-//            }
-//            .disposed(by: disposeBag)
-
+        let year = BehaviorRelay(value: 2025)
+        let month = BehaviorRelay(value: 2)
+        let day = BehaviorRelay(value: 4)
+        
+        return Output(tableViewItems: tableViewItems,
+                      collectionViewItems: collectionViewItems)
     }
     
-    private func configure() {
-        view.backgroundColor = .white
-        view.addSubview(tableView)
-        view.addSubview(collectionView)
-        view.addSubview(searchBar)
-        
-        navigationItem.titleView = searchBar
-         
-        collectionView.register(UserCollectionViewCell.self, forCellWithReuseIdentifier: UserCollectionViewCell.identifier)
-        collectionView.backgroundColor = .lightGray
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(50)
-        }
-        
-        tableView.register(PersonTableViewCell.self, forCellReuseIdentifier: PersonTableViewCell.identifier)
-        tableView.backgroundColor = .systemGreen
-        tableView.rowHeight = 100
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(50)
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview()
-        }
-    }
-    
-    private func layout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 80, height: 40)
-        layout.scrollDirection = .horizontal
-        return layout
-    }
-
 }
- 
