@@ -74,7 +74,7 @@ class HomeworkViewController: UIViewController {
         Person(name: "Ann", email: "ann.howard@example.com", profileImage: "https://randomuser.me/api/portraits/thumb/women/25.jpg")
     ]
     var searchUsers: [String] = []
-    lazy var tableViewItems = Observable.just(sampleUsers)
+    lazy var tableViewItems = BehaviorSubject(value: sampleUsers)
     lazy var collectionViewItems = PublishSubject<[String]>()
     
     let tableView = UITableView()
@@ -111,6 +111,17 @@ class HomeworkViewController: UIViewController {
                 owner.collectionViewItems.onNext(owner.searchUsers)
             }
             .disposed(by: disposeBag)
+        
+        searchBar.rx.searchButtonClicked
+            .debounce(.seconds(1), scheduler: MainScheduler.asyncInstance)
+            .withLatestFrom(searchBar.rx.text.orEmpty)
+            .bind(with: self) { owner, value in
+                print(#function, value.isEmpty)
+                let result = value == "" ? owner.sampleUsers : owner.sampleUsers.filter { $0.name.contains(value) }
+                owner.tableViewItems.onNext(result)
+            }
+            .disposed(by: disposeBag)
+
     }
     
     private func configure() {
