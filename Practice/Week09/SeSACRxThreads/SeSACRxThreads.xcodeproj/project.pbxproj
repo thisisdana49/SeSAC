@@ -30,7 +30,6 @@
 		04F6DC022C5B0D8200667F4D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F6DC012C5B0D8200667F4D /* DetailViewController.swift */; };
 		3E7304DB2D65646D00AD5A49 /* PhoneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7304DA2D65646D00AD5A49 /* PhoneViewModel.swift */; };
 		3E7304FB2D6573F300AD5A49 /* BirthDayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7304FA2D6573F300AD5A49 /* BirthDayViewModel.swift */; };
-		3EA40B692D66FB170051D0CB /* HomeworkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA40B682D66FB170051D0CB /* HomeworkViewModel.swift */; };
 		3EB3E9462D62C2650056BDFC /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 3EB3E9452D62C2650056BDFC /* RxCocoa */; };
 		3EB3E9482D62C2650056BDFC /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3EB3E9472D62C2650056BDFC /* RxSwift */; };
 /* End PBXBuildFile section */
@@ -79,7 +78,6 @@
 		04F6DC012C5B0D8200667F4D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3E7304DA2D65646D00AD5A49 /* PhoneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewModel.swift; sourceTree = "<group>"; };
 		3E7304FA2D6573F300AD5A49 /* BirthDayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthDayViewModel.swift; sourceTree = "<group>"; };
-		3EA40B682D66FB170051D0CB /* HomeworkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeworkViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -117,7 +115,6 @@
 		041280172AEF9BAB00972552 = {
 			isa = PBXGroup;
 			children = (
-				3EA40B682D66FB170051D0CB /* HomeworkViewModel.swift */,
 				041280222AEF9BAB00972552 /* SeSACRxThreads */,
 				041280392AEF9BAC00972552 /* SeSACRxThreadsTests */,
 				041280432AEF9BAC00972552 /* SeSACRxThreadsUITests */,
@@ -374,7 +371,6 @@
 				3E7304FB2D6573F300AD5A49 /* BirthDayViewModel.swift in Sources */,
 				041280242AEF9BAB00972552 /* AppDelegate.swift in Sources */,
 				04F6DBFE2C5B0C0300667F4D /* SearchViewController.swift in Sources */,
-				3EA40B692D66FB170051D0CB /* HomeworkViewModel.swift in Sources */,
 				04F6DC002C5B0C2200667F4D /* SearchTableViewCell.swift in Sources */,
 				041280732AEFAD4B00972552 /* NicknameViewController.swift in Sources */,
 				0412806A2AEFA91E00972552 /* SignUpViewController.swift in Sources */,

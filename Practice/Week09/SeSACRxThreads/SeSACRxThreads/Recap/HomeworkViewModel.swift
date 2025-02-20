@@ -21,7 +21,7 @@ final class HomeworkViewModel {
     
     struct Output {
         let items: BehaviorSubject<[String]>
-        let recent: BehaviorRelay<[String]>
+        let recent: Driver<[String]>
     }
     
     var items = ["Test"]
@@ -49,7 +49,7 @@ final class HomeworkViewModel {
             .disposed(by: disposeBag)
         
         return Output(items: itemsList,
-                      recent: recentList)
+                      recent: recentList.asDriver())
     }
     
 }
