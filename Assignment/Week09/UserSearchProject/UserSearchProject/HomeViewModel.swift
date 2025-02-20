@@ -94,10 +94,8 @@ final class HomeViewModel {
             .debounce(.seconds(1), scheduler: MainScheduler.asyncInstance)
             .withLatestFrom(input.searchBarText)
             .bind(with: self) { owner, value in
-                if !owner.sampleUsers.contains(value) {                
-                    let result = value == "" ? owner.sampleUsers : owner.sampleUsers.filter { $0.name.contains(value) }
-                    tableViewItems.onNext(result)
-                }
+                let result = value == "" ? owner.sampleUsers : owner.sampleUsers.filter { $0.name.contains(value) }
+                tableViewItems.onNext(result)
             }
             .disposed(by: disposeBag)
 

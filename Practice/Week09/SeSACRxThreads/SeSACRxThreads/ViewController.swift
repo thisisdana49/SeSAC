@@ -9,19 +9,151 @@ import UIKit
 import RxCocoa
 import RxSwift
 
+enum QuizError: Error {
+    case incorrect
+}
+
 class ViewController: UIViewController {
     
     let nicknameTextField = SignTextField(placeholderText: "닉네임을 입력해주세요")
     let nextButton = PointButton(title: "다음")
     
     let disposeBag = DisposeBag()
-
+    
+    let textFieldValue = BehaviorRelay(value: "고래고래")
+    let publishSubject = PublishSubject<Int>()
+    let behaviorSubject = BehaviorSubject(value: 0)
+    
+    let quiz = Int.random(in: 1...10)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureLayout()
-//        bindButton()
+        randomNumber()
+            .subscribe(with: self) { owner, value in
+                print(value)
+            }
+            .disposed(by: disposeBag)
+
+        bindCustomObservable()
+        print("quiz is ", quiz)
+//        bindTextField()
+        //        bindButton()
     }
+    
+    private func randomNumber() -> Observable<Int> {
+        return Observable<Int>.create { value in
+            value.onNext(Int.random(in: 1...10))
+            print("random number is", value)
+            return Disposables.create()
+        }
+    }
+    
+    private func randomQuiz(number: Int) -> Observable<Bool> {
+        
+        return Observable<Bool>.create { value in
+            if number == self.quiz {
+                value.onNext(true)
+                value.onCompleted()
+            } else {
+                value.onNext(false)
+                value.onCompleted()
+//                value.onError(QuizError.incorrect)
+            }
+            return Disposables.create()
+        }
+    }
+    
+    private func bindCustomObservable() {
+        nextButton.rx.tap
+            .map { Int.random(in: 1...10) }
+            .bind(with: self) { owner, value in
+                print("value", value)
+                
+                owner.play(value: value)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func play(value: Int) {
+        randomQuiz(number: value)
+            .subscribe(with: self) { owner, value in
+                print("my result is", value)
+            } onError: { owner, error in
+                print("my result is", error)
+            } onCompleted: { owner in
+                print("my result is complete")
+            } onDisposed: { owner in
+                print("my result is disposed")
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindTextField() {
+        textFieldValue
+            .subscribe(with: self) { owner, value in
+                owner.nicknameTextField.text = value
+                print("textfield Text changed")
+            }
+            .disposed(by: disposeBag)
+        
+        nextButton.rx.tap
+            .bind(with: self) { owner, _ in
+//                owner.textFieldValue.onNext("TestTestTest")
+                print("텍스트 필드에 글자 가져오기")
+                let result = owner.textFieldValue.value
+                print("text field value", result)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+//    private func bindTextField() {
+//        // UI 처리에 특화된 Observable이 Trait
+//        // RxCocoa의 Trait은 ControlProperty, ControlEvent, Driver
+//        nicknameTextField.rx.text.orEmpty
+//            .subscribe(with: self) { owner, value in
+//                print("subscribe", value)
+//                print("실시간으로 텍스트필드 달라짐")
+//            } onError: { owner, error in
+//                print("error", error)
+//            } onCompleted: { owner in
+//                print("complete")
+//            } onDisposed: { owner in
+//                print("dispose")
+//            }
+//            .disposed(by: disposeBag)
+//        
+////        publishSubject
+////            .subscribe(with: self) { owner, value in
+////                print("publish subscribe", value)
+////            } onError: { owner, error in
+////                print("error", error)
+////            } onCompleted: { owner in
+////                print("complete")
+////            } onDisposed: { owner in
+////                print("dispose")
+////            }
+////            .disposed(by: disposeBag)
+////        
+////        behaviorSubject
+////            .subscribe(with: self) { owner, value in
+////                print("behavior subscribe", value)
+////            } onError: { owner, error in
+////                print("error", error)
+////            } onCompleted: { owner in
+////                print("complete")
+////            } onDisposed: { owner in
+////                print("dispose")
+////            }
+////            .disposed(by: disposeBag)
+//        
+//        nextButton.rx.tap
+//            .bind(with: self) { owner, _ in
+//                owner.nicknameTextField.text = "5"
+//            }
+//            .disposed(by: disposeBag)
+//    }
     
     private func bindButton() {
         
