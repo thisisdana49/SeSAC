@@ -69,18 +69,12 @@ final class HomeViewModel {
     let disposeBag = DisposeBag()
     
     struct Input {
-//        let birthday: ControlProperty<Date>
-//        let detailTap: ControlEvent<Void>?
         let searchBarText: ControlProperty<String>
         let rowTap: ControlEvent<Person>
         let searchTap: ControlEvent<Void>
     }
     
     struct Output {
-//        let detailTap: ControlEvent<Void>
-//        let year: BehaviorRelay<Int>
-//        let month: BehaviorRelay<Int>
-//        let day: BehaviorRelay<Int>
         let tableViewItems: BehaviorSubject<[Person]>
         let collectionViewItems: PublishRelay<[String]>
     }
@@ -100,8 +94,10 @@ final class HomeViewModel {
             .debounce(.seconds(1), scheduler: MainScheduler.asyncInstance)
             .withLatestFrom(input.searchBarText)
             .bind(with: self) { owner, value in
-                let result = value == "" ? owner.sampleUsers : owner.sampleUsers.filter { $0.name.contains(value) }
-                tableViewItems.onNext(result)
+                if !owner.sampleUsers.contains(value) {                
+                    let result = value == "" ? owner.sampleUsers : owner.sampleUsers.filter { $0.name.contains(value) }
+                    tableViewItems.onNext(result)
+                }
             }
             .disposed(by: disposeBag)
 
@@ -116,11 +112,7 @@ final class HomeViewModel {
                 }
             }
             .disposed(by: disposeBag)
-        
-        let year = BehaviorRelay(value: 2025)
-        let month = BehaviorRelay(value: 2)
-        let day = BehaviorRelay(value: 4)
-        
+
         return Output(tableViewItems: tableViewItems,
                       collectionViewItems: collectionViewItems)
     }

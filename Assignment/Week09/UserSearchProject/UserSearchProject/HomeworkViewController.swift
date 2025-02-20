@@ -115,17 +115,6 @@ final class HomeworkViewController: UIViewController {
                 cell.label.text = element
             }
             .disposed(by: disposeBag)
-        
-//        searchBar.rx.searchButtonClicked
-//            .debounce(.seconds(1), scheduler: MainScheduler.asyncInstance)
-//            .withLatestFrom(searchBar.rx.text.orEmpty)
-//            .bind(with: self) { owner, value in
-//                print(#function, value.isEmpty)
-//                let result = value == "" ? owner.sampleUsers : owner.sampleUsers.filter { $0.name.contains(value) }
-//                owner.tableViewItems.onNext(result)
-//            }
-//            .disposed(by: disposeBag)
-
     }
     
     private func configure() {
