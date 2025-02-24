@@ -16,6 +16,7 @@ final class ViewController: UIViewController {
     let disposeBag = DisposeBag()
     
     var resultLotto: Lotto = Lotto(drwNo: 1, drwNoDate: "2025-01-11", drwtNo1: 1, drwtNo2: 2, drwtNo3: 3, drwtNo4: 4, drwtNo5: 5, drwtNo6: 6, bnusNo: 7)
+    var resultLabel: [UILabel] = []
     let pickerView = UIPickerView()
     let pickerTextField = UITextField()
     let headerLabel = UILabel()
@@ -54,6 +55,14 @@ final class ViewController: UIViewController {
                 owner.pickerTextField.text = value
             }
             .disposed(by: disposeBag)
+        
+        output.resultLotto
+            .drive(with: self) { owner, value in
+                for index in 0...value.drwtNums.count-1 {
+                    owner.resultLabel[index].text = "\(value.drwtNums[index])"
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -73,9 +82,10 @@ extension ViewController {
         view.addSubview(observableButton)
         view.addSubview(singleButton)
         
-        for i in 0...7 {
+        for _ in 0...7 {
             let label = UILabel()
             resultView.addArrangedSubview(label)
+            resultLabel.append(label)
         }
     }
     

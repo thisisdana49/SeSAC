@@ -24,7 +24,7 @@ final class ViewModel {
     struct Output {
         let selectedItem: BehaviorSubject<String>
         let roundList: Observable<[Int]>
-        let resultLotto: Observable<Lotto>
+        let resultLotto: Driver<Lotto>
     }
     
     private let selectedItem = BehaviorSubject(value: "1154")
@@ -54,8 +54,15 @@ final class ViewModel {
             .disposed(by: disposeBag)
         
         input.observableButtonTap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .withLatestFrom(self.selectedItem)
+            .distinctUntilChanged()
+            .flatMap {
+                NetworkManager.share.callBoxOffice(round: $0)
+            }
             .bind(with: self) { owner, value in
-                print("observable button")
+                print("observable button", value)
+                owner.resultLotto.onNext(value)
             }
             .disposed(by: disposeBag)
         
@@ -67,7 +74,7 @@ final class ViewModel {
         
         return Output(selectedItem: selectedItem,
                       roundList: roundList,
-                      resultLotto: resultLotto)
+                      resultLotto: resultLotto.asDriver(onErrorDriveWith: .empty()))
     }
     
 }
