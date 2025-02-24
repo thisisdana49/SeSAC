@@ -26,6 +26,7 @@ final class NewSearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configure()
         setSearchController()
         bind()
@@ -40,7 +41,7 @@ final class NewSearchViewController: UIViewController {
         
         output.list
             .bind(to: tableView.rx.items(cellIdentifier: SearchTableViewCell.identifier, cellType: SearchTableViewCell.self)) { (row, element, cell) in
-                cell.appNameLabel.text = element
+                cell.appNameLabel.text = element.movieNm
             }
             .disposed(by: disposeBag)
         // flatMap

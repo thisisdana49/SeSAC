@@ -19,28 +19,32 @@ final class NewSearchBarModel {
     }
     
     struct Output {
-        let list: Observable<[String]>
+        let list: Observable<[DailyBoxOfficeList]>
     }
     
     // map, withLatestFrom, flatMap, flatMapLatest
     func transform(input: Input) -> Output {
-        let list = Observable.just(["dummy", "data", "list"])
+        let list = PublishSubject<[DailyBoxOfficeList]>()
         
         input.searchTap
             .throttle(.seconds(1), scheduler: MainScheduler.instance)
             .withLatestFrom(input.searchText)
-            .distinctUntilChanged()jk환
+            .distinctUntilChanged()
+            .map {
                 guard let text = Int($0) else {
                     return 20250223
                 }
+                print(text)
                 return text
             }
-            .map { return "\($0)" }
-            .map {
-                
+            .map { "\($0)" }
+            .flatMap {  // 구독에 구독과 같은 중첩 구조를 사용하지 않기 위해 map 대신에 flatMap을 사용
+                NetworkManager.share.callBoxOffice(date: $0).debug("movie")
             }
+            .debug("tap")
             .subscribe(with: self) { owner, value in
-                print("next searchTap", value)
+                //print("next searchTap", value)
+                list.onNext(value.boxOfficeResult.dailyBoxOfficeList)
             } onError: { owner, error in
                 print("onError searchTap")
             } onCompleted: { owner in
@@ -53,4 +57,42 @@ final class NewSearchBarModel {
         return Output(list: list)
     }
     
+    
+//    func transform2(input: Input) -> Output {
+//        //        let list = Observable.just(["sampleData1", "sampleData2", "sampleData3"])
+//        let list = PublishSubject<[DailyBoxOfficeList]>()
+//        
+//        // 20250101
+//        input.searchTap
+//            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+//            .withLatestFrom(input.searchText)
+//            .distinctUntilChanged() // 같은 내용일 경우에는 방출되지 않도록
+//            .map {
+//                guard let text = Int($0) else { return 20250223 }
+//                return text
+//            }
+//            .debug("text")
+//            .map { return "\($0)" }
+//            .flatMap {
+//                // 그냥 map일 경우 observable타입으로 나옴 -> 한 번 더 구독 필요
+//                // 다르게 검색을 할 때마다 구독이 새로 생겨남, 이전 구독이 지속되고 있다...
+//                
+//                // 네트워크 통신
+//                NetworkManager.shared.callBoxOffice(date: $0)
+//            }
+//            .debug("tap")
+//            .subscribe(with: self) { owner, value in
+//                print("next", value)
+//                list.onNext(value.boxOfficeResult.dailyBoxOfficeList)
+//            } onError: { owner, error in
+//                print("error", error)
+//            } onCompleted: { owner in
+//                print("onCompleted")
+//            } onDisposed: { owner in
+//                print("onDisposed")
+//            }
+//            .disposed(by: disposeBag)
+//        
+//        return Output(list: list)
+//    }
 }
