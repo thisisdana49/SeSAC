@@ -20,9 +20,27 @@ final class NetworkManager {
     static let share = NetworkManager()
     private init() { }
     
+    private let isMock = true
+    
     func callLotto(round: String) -> Observable<Lotto> {
         
+        if self.isMock {
+            let mockData = Lotto(
+                drwNo: 1154,
+                drwNoDate: "2025-01-11",
+                drwtNo1: 4,
+                drwtNo2: 8,
+                drwtNo3: 22,
+                drwtNo4: 26,
+                drwtNo5: 32,
+                drwtNo6: 38,
+                bnusNo: 27
+            )
+            return Observable.just(mockData)
+        }
+        
         return Observable<Lotto>.create { value in
+
             let url =  "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=\(round)"
             
             guard let url = URL(string: url) else {
@@ -60,6 +78,21 @@ final class NetworkManager {
     }
     
     func callLottoWithSingle(round: String) -> Single<Lotto> {
+        
+        if isMock {
+            let mockData = Lotto(
+                drwNo: 1154,
+                drwNoDate: "2025-01-11",
+                drwtNo1: 4,
+                drwtNo2: 8,
+                drwtNo3: 22,
+                drwtNo4: 26,
+                drwtNo5: 32,
+                drwtNo6: 38,
+                bnusNo: 27
+            )
+            return Single.just(mockData)
+        }
         
         return Single<Lotto>.create { value in
 
