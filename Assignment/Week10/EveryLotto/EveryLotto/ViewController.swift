@@ -6,17 +6,24 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 import SnapKit
 
 final class ViewController: UIViewController {
 
-    var resultLotto: Lotto?
+    let viewModel = ViewModel()
+    let disposeBag = DisposeBag()
+    
+    var resultLotto: Lotto = Lotto(drwNo: 1, drwNoDate: "2025-01-11", drwtNo1: 1, drwtNo2: 2, drwtNo3: 3, drwtNo4: 4, drwtNo5: 5, drwtNo6: 6, bnusNo: 7)
     let pickerView = UIPickerView()
     let pickerTextField = UITextField()
     let headerLabel = UILabel()
     let headerDateLabel = UILabel()
-    let roundTitlelabel = UILabel()
+    let roundTitleLabel = UILabel()
     let resultView = UIStackView()
+    let observableButton = UIButton()
+    let singleButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +35,29 @@ final class ViewController: UIViewController {
     }
     
     private func bindViewModel() {
+        let input = ViewModel.Input(pickerText: pickerTextField.rx.text,
+                                    selectPickerItem: pickerView.rx.modelSelected(Int.self).map{ $0.first! },
+                                    editingDidEnd: pickerTextField.rx.controlEvent(.editingDidEnd),
+                                    observableButtonTap: observableButton.rx.tap,
+                                    singleButtonTap: singleButton.rx.tap
+        )
+        let output = viewModel.transform(input: input)
+
+        output.roundList
+            .bind(to: pickerView.rx.itemTitles) { _, item in
+                return "\(item)"
+            }
+            .disposed(by: disposeBag)
+        
+        output.selectedItem
+            .bind(with: self) { owner, value in
+                owner.pickerTextField.text = value
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
 }
@@ -38,8 +68,10 @@ extension ViewController {
         view.addSubview(pickerTextField)
         view.addSubview(headerLabel)
         view.addSubview(headerDateLabel)
-        view.addSubview(roundTitlelabel)
+        view.addSubview(roundTitleLabel)
         view.addSubview(resultView)
+        view.addSubview(observableButton)
+        view.addSubview(singleButton)
         
         for i in 0...7 {
             let label = UILabel()
@@ -65,23 +97,33 @@ extension ViewController {
             $0.trailing.equalToSuperview().inset(20)
         }
         
-        roundTitlelabel.snp.makeConstraints {
+        roundTitleLabel.snp.makeConstraints {
             $0.top.equalTo(headerLabel.snp.bottom).offset(48)
             $0.centerX.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
         resultView.snp.makeConstraints {
-            $0.top.equalTo(roundTitlelabel.snp.bottom).offset(24)
+            $0.top.equalTo(roundTitleLabel.snp.bottom).offset(24)
             $0.centerX.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(44)
         }
         
-        for (index, label) in resultView.subviews.enumerated() {
+        for (_, label) in resultView.subviews.enumerated() {
             label.snp.makeConstraints {
                 $0.centerY.equalToSuperview()
             }
+        }
+        
+        observableButton.snp.makeConstraints{
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(40)
+        }
+        
+        singleButton.snp.makeConstraints{
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(40)
         }
     }
     
@@ -98,9 +140,9 @@ extension ViewController {
         headerDateLabel.textColor = .systemGray
         
 //        roundTitlelabel.text = "\(selectedRound)회 당첨결과"
-        roundTitlelabel.text = "NNNN회 당첨결과"
-        roundTitlelabel.textAlignment = .center
-        roundTitlelabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        roundTitleLabel.text = "NNNN회 당첨결과"
+        roundTitleLabel.textAlignment = .center
+        roundTitleLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
         
         resultView.axis = .horizontal
         resultView.distribution = .fillEqually
@@ -114,7 +156,8 @@ extension ViewController {
                 label.textAlignment = .center
                 label.font = UIFont.systemFont(ofSize: 22)
             } else {
-                label.text = "\(resultLotto?.drwtNums[index])"
+//                label.text = "\(resultLotto.drwtNums[index])"
+                label.text = "\(index)"
                 label.textAlignment = .center
                 label.backgroundColor = .black
                 label.textColor = .white
@@ -122,6 +165,12 @@ extension ViewController {
                 label.layer.masksToBounds = true
             }
         }
+        
+        observableButton.setTitle("Observable", for: .normal)
+        observableButton.backgroundColor = .black
+        
+        singleButton.setTitle("Single", for: .normal)
+        singleButton.backgroundColor = .black
     }
     
 }
