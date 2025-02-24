@@ -12,10 +12,9 @@ import SnapKit
 
 final class ViewController: UIViewController {
 
-    let viewModel = ViewModel()
-    let disposeBag = DisposeBag()
+    private let viewModel =  ViewModel()
+    private let disposeBag = DisposeBag()
     
-    var resultLotto: Lotto = Lotto(drwNo: 1, drwNoDate: "2025-01-11", drwtNo1: 1, drwtNo2: 2, drwtNo3: 3, drwtNo4: 4, drwtNo5: 5, drwtNo6: 6, bnusNo: 7)
     var resultLabel: [UILabel] = []
     let pickerView = UIPickerView()
     let pickerTextField = UITextField()
@@ -28,6 +27,7 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureHierarchy()
         configureLayout()
         configureView()
@@ -36,7 +36,8 @@ final class ViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        let input = ViewModel.Input(pickerText: pickerTextField.rx.text,
+        let input = ViewModel.Input(viewDidLoad: Observable.just(()),
+                                    pickerText: pickerTextField.rx.text,
                                     selectPickerItem: pickerView.rx.modelSelected(Int.self).map{ $0.first! },
                                     editingDidEnd: pickerTextField.rx.controlEvent(.editingDidEnd),
                                     observableButtonTap: observableButton.rx.tap,
@@ -59,6 +60,8 @@ final class ViewController: UIViewController {
         output.resultLotto
             .drive(with: self) { owner, value in
                 for index in 0...value.drwtNums.count-1 {
+                    owner.roundTitleLabel.text = "\(value.drwNo)회 당첨결과"
+                    owner.headerDateLabel.text = "\(value.drwNoDate) 추첨"
                     owner.resultLabel[index].text = "\(value.drwtNums[index])"
                 }
             }

@@ -14,6 +14,7 @@ final class ViewModel {
     let disposeBag = DisposeBag()
     
     struct Input {
+        let viewDidLoad: Observable<Void>
         let pickerText: ControlProperty<String?>
         let selectPickerItem: Observable<Int>
         let editingDidEnd: ControlEvent<Void>
@@ -26,7 +27,7 @@ final class ViewModel {
         let roundList: Observable<[Int]>
         let resultLotto: Driver<Lotto>
     }
-    
+
     private let selectedItem = BehaviorSubject(value: "1154")
     private let roundList: BehaviorSubject<[Int]> = BehaviorSubject(value: Array(1...1154).reversed())
     private let resultLotto = PublishSubject<Lotto>()
@@ -50,6 +51,19 @@ final class ViewModel {
             .map { "\($0)" }
             .bind(with: self) { owner, value in
                 owner.selectedItem.onNext(value)
+            }
+            .disposed(by: disposeBag)
+        
+        input.viewDidLoad
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .withLatestFrom(self.selectedItem)
+            .distinctUntilChanged()
+            .flatMap {
+                NetworkManager.share.callLottoWithSingle(round: $0)
+            }
+            .bind(with: self) { owner, value in
+                print("single button", value)
+                owner.resultLotto.onNext(value)
             }
             .disposed(by: disposeBag)
         
