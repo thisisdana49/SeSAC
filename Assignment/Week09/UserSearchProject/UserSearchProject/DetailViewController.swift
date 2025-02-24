@@ -14,6 +14,7 @@ final class DetailViewController: UIViewController {
 
     let nextButton = UIButton()
     var titleText = BehaviorSubject<String>(value: "")
+//    var titleText = PublishSubject<String>()
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
