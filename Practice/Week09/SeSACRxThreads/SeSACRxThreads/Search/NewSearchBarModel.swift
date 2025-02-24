@@ -39,7 +39,8 @@ final class NewSearchBarModel {
             }
             .map { "\($0)" }
             .flatMap {  // 구독에 구독과 같은 중첩 구조를 사용하지 않기 위해 map 대신에 flatMap을 사용
-                NetworkManager.share.callBoxOffice(date: $0).debug("movie")
+//                NetworkManager.share.callBoxOffice(date: $0).debug("movie")
+                NetworkManager.share.callBoxOfficeWithSingle(date: $0)
             }
             .debug("tap")
             .subscribe(with: self) { owner, value in

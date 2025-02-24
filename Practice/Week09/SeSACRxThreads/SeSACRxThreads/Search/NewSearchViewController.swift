@@ -44,6 +44,7 @@ final class NewSearchViewController: UIViewController {
                 cell.appNameLabel.text = element.movieNm
             }
             .disposed(by: disposeBag)
+        
         // flatMap
         tableView.rx.itemSelected
             .flatMapLatest { _ in
