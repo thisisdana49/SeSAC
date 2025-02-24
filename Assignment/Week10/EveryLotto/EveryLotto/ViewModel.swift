@@ -58,7 +58,7 @@ final class ViewModel {
             .withLatestFrom(self.selectedItem)
             .distinctUntilChanged()
             .flatMap {
-                NetworkManager.share.callBoxOffice(round: $0)
+                NetworkManager.share.callLotto(round: $0)
             }
             .bind(with: self) { owner, value in
                 print("observable button", value)
@@ -67,8 +67,15 @@ final class ViewModel {
             .disposed(by: disposeBag)
         
         input.singleButtonTap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .withLatestFrom(self.selectedItem)
+            .distinctUntilChanged()
+            .flatMap {
+                NetworkManager.share.callLottoWithSingle(round: $0)
+            }
             .bind(with: self) { owner, value in
-                print("single button")
+                print("single button", value)
+                owner.resultLotto.onNext(value)
             }
             .disposed(by: disposeBag)
         

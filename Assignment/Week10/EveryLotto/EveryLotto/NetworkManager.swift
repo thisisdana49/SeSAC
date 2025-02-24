@@ -20,7 +20,7 @@ final class NetworkManager {
     static let share = NetworkManager()
     private init() { }
     
-    func callBoxOffice(round: String) -> Observable<Lotto> {
+    func callLotto(round: String) -> Observable<Lotto> {
         
         return Observable<Lotto>.create { value in
             let url =  "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=\(round)"
@@ -48,8 +48,6 @@ final class NetworkManager {
                         dump(result)
                         value.onNext(result)
                         value.onCompleted()
-                        // flatMap으로 나갈 경우 옵저버블이 계속 쌓임
-                        // 값이 전달되었다면 disposed 되도록 해주어야 함 => 스트림 누수 방지
                     } catch {
                         value.onError(APIError.unknownResponse)
                     }
@@ -61,47 +59,44 @@ final class NetworkManager {
         }
     }
     
-//    func callLottoWithSingle(round: String) -> Single<Lotto> {
-//        
-//        return Single<Lotto>.create { value in
-//
-//            let url =  "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=\(round)"
-//            
-//            guard let url = URL(string: url) else {
-//                value(.failure(APIError.invalidURL))
-//                return Disposables.create()
-//            }
-//            
-//            URLSession.shared.dataTask(with: url) { data, response, error in
-//                if let error {
-//                    value(.failure(APIError.unknownResponse))
-//                    return
-//                }
-//                
-//                guard let response = response as? HTTPURLResponse,
-//                      (200...299).contains(response.statusCode) else {
-//                    value(.failure(APIError.unknownResponse))
-//                    return
-//                }
-//                
-//                if let data {
-//                    do {
-//                        let result = try JSONDecoder().decode(Movie.self, from: data)
-//                        value(.failure(APIError.unknownResponse))
-//                        value(.success(result))
-//                        // flatMap으로 나갈 경우 옵저버블이 계속 쌓임
-//                        // 값이 전달되었다면 disposed 되도록 해주어야 함 => 스트림 누수 방지
-//                    } catch {
-//                        value(.failure(APIError.unknownResponse))
-//                    }
-//                } else {
-//                    value(.failure(APIError.unknownResponse))
-//                }
-//            }.resume()
-//            return Disposables.create()
-//        }
-//
-//    }
+    func callLottoWithSingle(round: String) -> Single<Lotto> {
+        
+        return Single<Lotto>.create { value in
 
-    
+            let url =  "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=\(round)"
+            
+            guard let url = URL(string: url) else {
+                value(.failure(APIError.invalidURL))
+                return Disposables.create()
+            }
+            
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let error {
+                    print(error)
+                    value(.failure(APIError.unknownResponse))
+                    return
+                }
+                
+                guard let response = response as? HTTPURLResponse,
+                      (200...299).contains(response.statusCode) else {
+                    value(.failure(APIError.unknownResponse))
+                    return
+                }
+                
+                if let data {
+                    do {
+                        let result = try JSONDecoder().decode(Lotto.self, from: data)
+                        value(.success(result))
+                    } catch {
+                        value(.failure(APIError.unknownResponse))
+                    }
+                } else {
+                    value(.failure(APIError.unknownResponse))
+                }
+            }.resume()
+            return Disposables.create()
+        }
+
+    }
+
 }
