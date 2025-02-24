@@ -12,18 +12,19 @@ import SnapKit
 
 final class ViewController: UIViewController {
 
+    private var resultLabel: [UILabel] = []
+    private let pickerView = UIPickerView()
+    private let pickerTextField = UITextField()
+    private let headerLabel = UILabel()
+    private let headerDateLabel = UILabel()
+    private let separatorView = UIView()
+    private let roundTitleLabel = UILabel()
+    private let resultView = UIStackView()
+    private let observableButton = UIButton()
+    private let singleButton = UIButton()
+    
     private let viewModel =  ViewModel()
     private let disposeBag = DisposeBag()
-    
-    var resultLabel: [UILabel] = []
-    let pickerView = UIPickerView()
-    let pickerTextField = UITextField()
-    let headerLabel = UILabel()
-    let headerDateLabel = UILabel()
-    let roundTitleLabel = UILabel()
-    let resultView = UIStackView()
-    let observableButton = UIButton()
-    let singleButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +59,7 @@ final class ViewController: UIViewController {
             .disposed(by: disposeBag)
         
         output.resultLotto
+            .compactMap { $0 }
             .drive(with: self) { owner, value in
                 for index in 0...value.drwtNums.count-1 {
                     owner.roundTitleLabel.text = "\(value.drwNo)회 당첨결과"
@@ -80,15 +82,15 @@ extension ViewController {
         view.addSubview(pickerTextField)
         view.addSubview(headerLabel)
         view.addSubview(headerDateLabel)
+        view.addSubview(separatorView)
         view.addSubview(roundTitleLabel)
         view.addSubview(resultView)
         view.addSubview(observableButton)
         view.addSubview(singleButton)
         
         for _ in 0...7 {
-            let label = UILabel()
+            let label = CustomLabel()
             resultView.addArrangedSubview(label)
-            resultLabel.append(label)
         }
     }
     
@@ -108,6 +110,12 @@ extension ViewController {
         headerDateLabel.snp.makeConstraints {
             $0.top.equalTo(pickerTextField.snp.bottom).offset(28)
             $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        separatorView.snp.makeConstraints{
+            $0.top.equalTo(headerDateLabel.snp.bottom).offset(12)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(1)
         }
         
         roundTitleLabel.snp.makeConstraints {
@@ -130,32 +138,35 @@ extension ViewController {
         }
         
         observableButton.snp.makeConstraints{
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(40)
+            $0.centerY.equalToSuperview().offset(-12)
+            $0.leading.equalToSuperview().inset(32)
         }
         
         singleButton.snp.makeConstraints{
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(40)
+            $0.centerY.equalToSuperview().offset(-12)
+            $0.trailing.equalToSuperview().inset(32)
         }
     }
     
     private func configureView() {
         pickerTextField.inputView = pickerView
+        pickerTextField.borderStyle = .roundedRect
+        pickerTextField.textAlignment = .center
         
         headerLabel.text = "당첨번호 안내"
         headerLabel.textAlignment = .left
         headerLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         
-        headerDateLabel.text = "2024-04-30 추첨"
+        headerDateLabel.text = "yyyy-MM-dd 추첨"
         headerDateLabel.textAlignment = .right
         headerDateLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         headerDateLabel.textColor = .systemGray
         
-//        roundTitlelabel.text = "\(selectedRound)회 당첨결과"
+        separatorView.backgroundColor = .systemGray4
+        
         roundTitleLabel.text = "NNNN회 당첨결과"
         roundTitleLabel.textAlignment = .center
-        roundTitleLabel.font = UIFont.systemFont(ofSize: 23, weight: .medium)
+        roundTitleLabel.font = UIFont.systemFont(ofSize: 23, weight: .bold)
         
         resultView.axis = .horizontal
         resultView.distribution = .fillEqually
@@ -166,24 +177,31 @@ extension ViewController {
             let label = currentLabel as! UILabel
             if index == 6 {
                 label.text = "+"
+                label.textColor = .black
                 label.textAlignment = .center
                 label.font = UIFont.systemFont(ofSize: 22)
             } else {
-//                label.text = "\(resultLotto.drwtNums[index])"
+                resultLabel.append(label)
                 label.text = "\(index)"
                 label.textAlignment = .center
                 label.backgroundColor = .black
                 label.textColor = .white
-//                label.layer.cornerRadius = label.layer.frame.height / 2
+                label.layer.cornerRadius = label.layer.frame.height / 2
                 label.layer.masksToBounds = true
             }
         }
         
-        observableButton.setTitle("Observable", for: .normal)
-        observableButton.backgroundColor = .black
+        var config1 = UIButton.Configuration.filled()
+        let titleAttr1 = AttributedString.init("Call with Observable")
+        config1.baseBackgroundColor = .systemPurple
+        config1.attributedTitle = titleAttr1
+        observableButton.configuration = config1
         
-        singleButton.setTitle("Single", for: .normal)
-        singleButton.backgroundColor = .black
+        var config2 = UIButton.Configuration.filled()
+        let titleAttr2 = AttributedString.init("Call with Single")
+        config2.baseBackgroundColor = .systemTeal
+        config2.attributedTitle = titleAttr2
+        singleButton.configuration = config2
     }
     
 }

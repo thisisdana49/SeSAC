@@ -25,12 +25,15 @@ final class ViewModel {
     struct Output {
         let selectedItem: BehaviorSubject<String>
         let roundList: Observable<[Int]>
-        let resultLotto: Driver<Lotto>
+        let resultLotto: Driver<Lotto?>
     }
-
-    private let selectedItem = BehaviorSubject(value: "1154")
+    
+    init() { getLatestRound() }
+    
+    private let latestRound = BehaviorRelay<Int>(value: 1160)
+    private lazy var selectedItem = BehaviorSubject(value: "")
     private let roundList: BehaviorSubject<[Int]> = BehaviorSubject(value: Array(1...1154).reversed())
-    private let resultLotto = PublishSubject<Lotto>()
+    private let resultLotto = BehaviorSubject<Lotto?>(value: nil)
     
     func transform(input: Input) -> Output {
         input.pickerText
@@ -55,14 +58,13 @@ final class ViewModel {
             .disposed(by: disposeBag)
         
         input.viewDidLoad
-            .throttle(.seconds(1), scheduler: MainScheduler.instance)
-            .withLatestFrom(self.selectedItem)
-            .distinctUntilChanged()
+            .flatMapLatest { _ in self.latestRound }
+            .map { "\($0)" }
             .flatMap {
                 NetworkManager.share.callLottoWithSingle(round: $0)
             }
             .bind(with: self) { owner, value in
-                print("single button", value)
+                print("view did load", value)
                 owner.resultLotto.onNext(value)
             }
             .disposed(by: disposeBag)
@@ -95,7 +97,18 @@ final class ViewModel {
         
         return Output(selectedItem: selectedItem,
                       roundList: roundList,
-                      resultLotto: resultLotto.asDriver(onErrorDriveWith: .empty()))
+                      resultLotto: resultLotto.asDriver(onErrorJustReturn: nil)
+                      )
+    }
+
+    private func getLatestRound() {
+        let standardDate = Date.fromString("2025-02-22")
+        let weeks = Calendar.current.dateComponents([.weekOfMonth], from: standardDate!, to: Date())
+        var currentRound = latestRound.value
+        currentRound += weeks.weekOfMonth ?? 0
+        latestRound.accept(currentRound)
+        selectedItem.onNext("\(currentRound)")
+        print("get latest round", latestRound.value)
     }
     
 }
