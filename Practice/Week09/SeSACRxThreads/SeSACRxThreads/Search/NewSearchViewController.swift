@@ -37,7 +37,7 @@ final class NewSearchViewController: UIViewController {
         let input = NewSearchBarModel.Input(searchTap: searchBar.rx.searchButtonClicked,
                                 searchText: searchBar.rx.text.orEmpty)
         // output - list
-        let output = viewModel.transform(input: input)
+        let output = viewModel.transform2(input: input)
         
         output.list
             .bind(to: tableView.rx.items(cellIdentifier: SearchTableViewCell.identifier, cellType: SearchTableViewCell.self)) { (row, element, cell) in

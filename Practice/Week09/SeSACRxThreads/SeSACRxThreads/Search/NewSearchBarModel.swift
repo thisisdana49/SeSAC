@@ -40,26 +40,27 @@ final class NewSearchBarModel {
             .map { "\($0)" }
             .flatMap {  // 구독에 구독과 같은 중첩 구조를 사용하지 않기 위해 map 대신에 flatMap을 사용
                 // Observable
-//                NetworkManager.share.callBoxOffice(date: $0)
-//                    .debug("movie")
-//                    .catch { error in
-//                        // 무조건 하나의 데이터를 주는게 아니라,에러 상황에 따라 적절한 데이터를 반환
-////                        switch error as? APIError {
-////                        case .invalidURL:
-////                        case .statusError:
-////                        case .unknownResponse:
-////                        default:
-////                        }
-//                        
-//                        print("movie error", error)
-//                        return Observable.just(Movie(boxOfficeResult: BoxOfficeResult(dailyBoxOfficeList: [])))
-//                    }
+                NetworkManager.share.callBoxOffice(date: $0)
+                    .debug("movie")
                 // Single
-                NetworkManager.share.callBoxOfficeWithSingle(date: $0)
-                    .catch { error in
-                        return Single.just(Movie(boxOfficeResult: BoxOfficeResult(dailyBoxOfficeList: [])))
-                    }
-                    .debug("single movie")
+//                NetworkManager.share.callBoxOfficeWithSingle(date: $0)
+//                    .catch { error in
+//                        return Single.just(Movie(boxOfficeResult: BoxOfficeResult(dailyBoxOfficeList: [])))
+//                    }
+//                    .debug("single movie")
+            }
+            .catch { error in
+                // 무조건 하나의 데이터를 주는게 아니라,에러 상황에 따라 적절한 데이터를 반환
+//                        switch error as? APIError {
+//                        case .invalidURL:
+//                        case .statusError:
+//                        case .unknownResponse:
+//                        default:
+//                        }
+                
+                print("movie error", error)
+                return Observable.just(Movie(boxOfficeResult: BoxOfficeResult(dailyBoxOfficeList: [])))
+                // Observable.just는 유한한, 한 번만 보내는 객체이기 때문에 tap 입장에서는 이제 끝난 것으로 인식하고 dispose 되는 것
             }
             .debug("tap")
             .subscribe(with: self) { owner, value in
@@ -77,6 +78,45 @@ final class NewSearchBarModel {
         return Output(list: list)
     }
     
+    
+    func transform2(input: Input) -> Output {
+        let list = PublishSubject<[DailyBoxOfficeList]>()
+        
+        input.searchTap
+            .throttle(.seconds(1), scheduler: MainScheduler.instance)
+            .withLatestFrom(input.searchText)
+            .distinctUntilChanged()
+            .map {
+                guard let text = Int($0) else {
+                    return 20250223
+                }
+                print(text)
+                return text
+            }
+            .map { "\($0)" }
+            .flatMap {
+                NetworkManager.share.callBoxOfficeWithSingle2(date: $0)
+            }
+            .debug("tap")
+            .subscribe(with: self) { owner, value in
+                print("next searchTap", value)
+                switch value {
+                case .success(let movie):
+                    list.onNext(movie.boxOfficeResult.dailyBoxOfficeList)
+                case .failure(let error):
+                    list.onNext([])
+                }
+            } onError: { owner, error in
+                print("onError searchTap")
+            } onCompleted: { owner in
+                print("onCompleted searchTap")
+            } onDisposed: { owner in
+                print("onDisposed searchTap")
+            }
+            .disposed(by: disposeBag)
+        
+        return Output(list: list)
+    }
     
 //    func transform2(input: Input) -> Output {
 //        //        let list = Observable.just(["sampleData1", "sampleData2", "sampleData3"])
