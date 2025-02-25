@@ -44,7 +44,7 @@ class ViewController: UIViewController, ViewConfiguration {
         view.addSubview(roundTitlelabel)
         view.addSubview(resultView)
         
-        for i in 0...7 {
+        for _ in 0...7 {
             let label = UILabel()
             resultView.addArrangedSubview(label)
         }

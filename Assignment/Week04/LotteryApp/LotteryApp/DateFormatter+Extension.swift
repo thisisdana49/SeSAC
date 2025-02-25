@@ -13,16 +13,11 @@ extension DateFormatter {
         formatter.locale = Locale(identifier: "ko_KR")
         return formatter
     }()
-    
-    static func getDateFormatter() -> DateFormatter {
-        return krDateFormatter
-    }
 }
 
 extension Date {
-    
     func toFormattedString(_ dateFormat: String = "HH:mm") -> String {
-        let dateFormatter = DateFormatter.getDateFormatter()
+        let dateFormatter = DateFormatter.krDateFormatter
         dateFormatter.dateFormat = dateFormat
         return dateFormatter.string(from: self)
     }
