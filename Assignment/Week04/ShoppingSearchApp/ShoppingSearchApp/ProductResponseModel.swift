@@ -1,5 +1,5 @@
 //
-//  Shop.swift
+//  ProductResponse.swift
 //  ShoppingSearchApp
 //
 //  Created by 조다은 on 1/15/25.

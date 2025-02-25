@@ -15,7 +15,7 @@ class SearchResultView: BaseView {
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
     let totalLabel = UILabel()
     let stackView = UIStackView()
-    let sortButtons: [UIButton] = []
+    var sortButtons: [UIButton] = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,6 +29,7 @@ class SearchResultView: BaseView {
         for i in 0..<standardLists.count {
             let button = CustomButton(title: standardLists[i], tag: i)
             stackView.addArrangedSubview(button)
+            sortButtons.append(button)
         }
     }
     
@@ -61,6 +62,7 @@ class SearchResultView: BaseView {
     
     override func configureView() {
         backgroundColor = .black
+        collectionView.backgroundColor = .black
         
         totalLabel.textColor = .systemGreen
         totalLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
