@@ -31,7 +31,7 @@ class ItemCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureData(item: ItemDetail) {
+    func configureData(item: Product) {
         if let image = URL(string: item.image) {
             thumbnailImageView.kf.setImage(with: image)
         }

@@ -159,40 +159,6 @@ final class NetworkManager {
             }.resume()
             return Disposables.create()
         }
-        
-        //    func callBoxOffice(date: String,
-        //                       completionHandler: @escaping ((Result<Movie, APIError>) -> Void)
-        //    ) {
-        //        let urlString =  "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=\(Key.apiKey)&targetDt=\(date)"
-        //        guard let url = URL(string: urlString) else {
-        //            completionHandler(.failure(.invalidURL))
-        //            return
-        //        }
-        //
-        //        URLSession.shared.dataTask(with: url) { data, response, error in
-        //            if let error = error {
-        //                completionHandler(.failure(.unknownResponse))
-        //                return
-        //            }
-        //
-        //            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-        //                completionHandler(.failure(.statusError))
-        //                return
-        //            }
-        ////            if let data = data, let appData = try? JSONDecoder().decode(Movie.self, from: data) {
-        //            if let data = data {
-        //                do {
-        //                    let result = try JSONDecoder().decode(Movie.self, from: data)
-        //                    completionHandler(.success(result))
-        //                } catch {
-        //                    completionHandler(.failure(.unknownResponse))
-        //                }
-        //            } else {
-        //                completionHandler(.failure(.unknownResponse))
-        //            }
-        //        }.resume()
-        //    }
-        
     }
     
     func callBoxOffice(date: String) -> Observable<Movie> {

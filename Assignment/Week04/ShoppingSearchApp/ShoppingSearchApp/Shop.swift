@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct Item: Decodable {
+struct ProductResponse: Decodable {
     let total: Int
     let start: Int
-    var items: [ItemDetail]
+    var items: [Product]
 }
 
-struct ItemDetail: Decodable {
+struct Product: Decodable {
     let image: String
     let mallName: String
     let title: String

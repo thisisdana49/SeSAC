@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
-class MainViewController: UIViewController {
+final class MainViewController: BaseViewController {
 
     let viewModel = MainViewModel()
     let mainView = MainView()
+    var searchBar = UISearchBar()
     
     override func loadView() {
         view = mainView
@@ -20,39 +23,37 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         configureNavController()
-        bindData()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationItem.searchController?.searchBar.text = ""
     }
     
-    private func bindData() {
+    override func bindViewModel() {
+        let input = MainViewModel.Input(searchBarText: searchBar.rx.text.orEmpty,
+                                        returnKeyTap: searchBar.rx.searchButtonClicked)
+        let output = viewModel.transform(input: input)
         
-        viewModel.outputSearchBarText.lazyBind { [weak self] value in
-            self?.navigationItem.searchController?.searchBar.text = ""
-        }
+        output.searchResult
+            .debug("searchResult")
+            .drive(with: self) { owner, value in
+                let vc = SearchResultViewController(keyword: value)
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
         
-        viewModel.outputPushVC.lazyBind { [weak self] value in
-            let vc = SearchResultViewController()
-            // TODO: forced unwrapping
-            vc.viewModel.keyword = value
-            
-            self?.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-    
-}
-
-// MARK: UISearchBar Delegate
-extension MainViewController: UISearchBarDelegate {
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        print(#function)
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.inputReturnKeyTapped.value = searchBar.text
+//        viewModel.outputSearchBarText.lazyBind { [weak self] value in
+//            self?.navigationItem.searchController?.searchBar.text = ""
+//        }
+//        
+//        viewModel.outputPushVC.lazyBind { [weak self] value in
+//            let vc = SearchResultViewController()
+//            // TODO: forced unwrapping
+//            vc.viewModel.keyword = value
+//            
+//            self?.navigationController?.pushViewController(vc, animated: true)
+//        }
     }
     
 }
@@ -61,8 +62,7 @@ extension MainViewController {
     
     private func configureNavController() {
         let searchController = UISearchController()
-        let searchBar = searchController.searchBar
-        searchBar.delegate = self
+        self.searchBar = searchController.searchBar
 
         searchController.searchBar.tintColor = .lightGray
         

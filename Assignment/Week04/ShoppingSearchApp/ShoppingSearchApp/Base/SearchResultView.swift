@@ -15,6 +15,7 @@ class SearchResultView: BaseView {
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCollectionViewLayout())
     let totalLabel = UILabel()
     let stackView = UIStackView()
+    let sortButtons: [UIButton] = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,12 +43,12 @@ class SearchResultView: BaseView {
             make.top.equalTo(totalLabel.snp.bottom)
             make.leading.equalToSuperview()
 //            make.width.equalToSuperview()
-            make.height.equalTo(52)
+            make.height.equalTo(44)
         }
         
         for (_, button) in stackView.subviews.enumerated() {
             button.snp.makeConstraints { make in
-                make.verticalEdges.equalToSuperview().inset(8)
+                make.verticalEdges.equalToSuperview()
             }
         }
         
