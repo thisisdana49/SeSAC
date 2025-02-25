@@ -20,7 +20,8 @@ final class NetworkManager {
     static let share = NetworkManager()
     private init() { }
     
-    private let isMock = true
+    // 서버 점검으로 인한 더미 데이터...🫠
+    private let isMock = false
     
     func callLotto(round: String) -> Observable<Lotto> {
         
