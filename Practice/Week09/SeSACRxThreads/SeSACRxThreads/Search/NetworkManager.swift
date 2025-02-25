@@ -142,9 +142,9 @@ final class NetworkManager {
                 if let data {
                     do {
                         let result = try JSONDecoder().decode(Movie.self, from: data)
-//                        value.onError(APIError.statusError)
-                        value.onNext(result)
-                        value.onCompleted()
+                        value.onError(APIError.statusError)
+//                        value.onNext(result)
+//                        value.onCompleted()
                         // flatMap으로 나갈 경우 옵저버블이 계속 쌓임
                         // 값이 전달되었다면 disposed 되도록 해주어야 함 => 스트림 누수 방지
                     } catch {

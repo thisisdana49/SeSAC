@@ -39,12 +39,31 @@ final class NewSearchBarModel {
             }
             .map { "\($0)" }
             .flatMap {  // 구독에 구독과 같은 중첩 구조를 사용하지 않기 위해 map 대신에 flatMap을 사용
-//                NetworkManager.share.callBoxOffice(date: $0).debug("movie")
+                // Observable
+//                NetworkManager.share.callBoxOffice(date: $0)
+//                    .debug("movie")
+//                    .catch { error in
+//                        // 무조건 하나의 데이터를 주는게 아니라,에러 상황에 따라 적절한 데이터를 반환
+////                        switch error as? APIError {
+////                        case .invalidURL:
+////                        case .statusError:
+////                        case .unknownResponse:
+////                        default:
+////                        }
+//                        
+//                        print("movie error", error)
+//                        return Observable.just(Movie(boxOfficeResult: BoxOfficeResult(dailyBoxOfficeList: [])))
+//                    }
+                // Single
                 NetworkManager.share.callBoxOfficeWithSingle(date: $0)
+                    .catch { error in
+                        return Single.just(Movie(boxOfficeResult: BoxOfficeResult(dailyBoxOfficeList: [])))
+                    }
+                    .debug("single movie")
             }
             .debug("tap")
             .subscribe(with: self) { owner, value in
-                //print("next searchTap", value)
+                print("next searchTap", value)
                 list.onNext(value.boxOfficeResult.dailyBoxOfficeList)
             } onError: { owner, error in
                 print("onError searchTap")
