@@ -18,6 +18,7 @@ final class MainViewModel: BaseViewModel {
     
     struct Output {
         let searchResult: Driver<String>
+        let error: Driver<String>
         //        let outputSearchBarText: Observable<String?> = Observable(nil)
         //        let outputPushVC: Observable<String?> = Observable(nil)
     }
@@ -25,18 +26,23 @@ final class MainViewModel: BaseViewModel {
 //    private let searchResult = PublishRelay<String>() // mark - scope issue
     
     func transform(input: Input) -> Output {
-        let searchResult = PublishRelay<String>() // mark - scope issue
+        let searchResult = PublishRelay<String>()
+        let errorSubject = PublishSubject<String>()
+        
         input.returnKeyTap
             .withLatestFrom(input.searchBarText)
             .debug()
-            .bind(with: self) { owner, value in
-                print("return key tap", value)
-                searchResult.accept(value)
-//                owner.pushViewController(keyword: value)
-            }
+            .subscribe(onNext: { text in
+                if text.count < 3 {
+                    errorSubject.onNext("검색어는 3글자 이상이어야 합니다.")
+                } else {
+                    searchResult.accept(text)
+                }
+            })
             .disposed(by: disposeBag)
         
-        return Output(searchResult: searchResult.asDriver(onErrorJustReturn: ""))
+        return Output(searchResult: searchResult.asDriver(onErrorJustReturn: ""),
+                      error: errorSubject.asDriver(onErrorDriveWith: .empty()))
     }
     
 //    private func pushViewController(keyword: String?) {

@@ -13,6 +13,7 @@ final class SearchResultViewModel: BaseViewModel {
     
     private(set) var keyword: BehaviorRelay<String>
     private var sortStandard: BehaviorRelay<String> = BehaviorRelay(value: "sim")
+    private let errorSubject = PublishSubject<String>()
     
     struct Input {
         let fetchData: Observable<Void>
@@ -22,6 +23,7 @@ final class SearchResultViewModel: BaseViewModel {
     struct Output {
         let resultProduct: Driver<[ItemModel]>
         let totalProduct: Driver<String>
+        let error: Driver<String>
         //        let outputScrollToTop: Observable<Void?> = Observable(nil)
     }
     
@@ -39,7 +41,7 @@ final class SearchResultViewModel: BaseViewModel {
         
         input.fetchData
             .flatMap { [weak self] _ in
-                self?.fetchProducts() ?? Observable.empty()
+                self?.fetchProducts() ?? Single.just(ProductResponse(total: 0, start: 0, items: []))
             }
             .map { value -> [ItemModel] in
                 totalProduct.accept("\(value.total) 개의 검색 결과")
@@ -55,7 +57,7 @@ final class SearchResultViewModel: BaseViewModel {
             })
             .debug("sortStandard")
             .flatMap { [weak self] _ in
-                self?.fetchProducts() ?? Observable.empty()
+                self?.fetchProducts() ?? Single.just(ProductResponse(total: 0, start: 0, items: []))
             }
             .map { value -> [ItemModel] in
                 totalProduct.accept("\(value.total) 개의 검색 결과")
@@ -66,7 +68,8 @@ final class SearchResultViewModel: BaseViewModel {
             .disposed(by: disposeBag)
         
         return Output(resultProduct: resultProduct.asDriver(onErrorDriveWith: .empty()),
-                      totalProduct: totalProduct.asDriver())
+                      totalProduct: totalProduct.asDriver(),
+                      error: errorSubject.asDriver(onErrorDriveWith: .empty()))
         
         //        inputSortButtonTapped.lazyBind { [weak self] value in
         //            self?.start = 1
@@ -75,46 +78,44 @@ final class SearchResultViewModel: BaseViewModel {
         //        }
     }
     
-    private func fetchProducts() -> Observable<ProductResponse> {
+    private func fetchProducts() -> Single<ProductResponse> {
         return NetworkManager.share.callSearch(searchWord: keyword.value,
                                                sortWith: sortStandard.value,
                                                start: start,
                                                display: display)
-        .asObservable()
-        .catchErrorJustReturn(ProductResponse(total: 0, start: 0, items: []))
-    }
-    
-    private func fetchData() {
-        //        NetworkManager.share.searchItem(searchWord: keyword, sortWith: sortStandard, start: self.start, display: self.display) { [weak self] value in
-        //            if self?.start == 1 {
-        //                self?.outputItem.value = value
-        //                print(#function, value.total)
-        //                self?.outputTotalText.value = "\(value.total.formatted(.number))개의 검색 결과"
-        //            } else {
-        //                self?.outputItem.value?.items.append(contentsOf: value.items)
-        //            }
-        //
-        //            if self?.start == 1 {
-        //                self?.outputScrollToTop.value = ()
-        //            }
-        //        }
-        
-        
-        //        NetworkManager.shared.searchItem(searchWord: keyword, sortWith: sortStandard, start: start, display: display) { value in
-        //            if self.start == 1 {
-        //                self.item = value
-        //                if let total = self.item?.total {
-        //                    self.mainView.totalLabel.text = "\(total.formatted(.number))개의 검색 결과"
-        //                }
-        //            } else {
-        //                self.item?.items.append(contentsOf: value.items)
-        //            }
-        //            self.mainView.collectionView.reloadData()
-        //
-        //            if self.start == 1 {
-        //                self.mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-        //            }
-        //        }
+        .catch { [weak self] error in
+            if let apiError = error as? APIError {
+                switch apiError {
+                case .invalidURL:
+                    return Single.error(APIError.invalidURL)
+                case .unknownResponse:
+                    return Single.just(ProductResponse(total: 0, start: 0, items: []))
+                case .statusError:
+                    return Single.just(ProductResponse(total: 0, start: 0, items: []))
+                case .apiError(let message, let code):
+//                    print("API Error - Message: \(message), Code: \(code)")
+                    self?.errorSubject.onNext(message)
+                    return Single.just(ProductResponse(total: 0, start: 0, items: []))
+                }
+            } else {
+                return Single.just(ProductResponse(total: 0, start: 0, items: []))
+            }
+        }
     }
     
 }
+//    private func fetchData() {
+//        NetworkManager.share.searchItem(searchWord: keyword, sortWith: sortStandard, start: self.start, display: self.display) { [weak self] value in
+//            if self?.start == 1 {
+//                self?.outputItem.value = value
+//                print(#function, value.total)
+//                self?.outputTotalText.value = "\(value.total.formatted(.number))개의 검색 결과"
+//            } else {
+//                self?.outputItem.value?.items.append(contentsOf: value.items)
+//            }
+//
+//            if self?.start == 1 {
+//                self?.outputScrollToTop.value = ()
+//            }
+//        }
+//    }

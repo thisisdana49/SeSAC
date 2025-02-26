@@ -68,6 +68,20 @@ final class SearchResultViewController: BaseViewController {
                 self?.mainView.totalLabel.text = value
             }
             .disposed(by: disposeBag)
+        
+        output.error
+            .drive(onNext: { [weak self] errorMessage in
+                print("오류", errorMessage)
+                if !errorMessage.isEmpty {
+                    AlertManager.shared.showAlert(
+                        on: self!,
+                        title: "검색 요청 오류",
+                        message: errorMessage,
+                        actions: [UIAlertAction(title: "확인", style: .cancel)]
+                    )
+                }
+            })
+            .disposed(by: disposeBag)
 //
 //        viewModel.outputScrollToTop.lazyBind { [weak self] _ in
 //            self?.mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)

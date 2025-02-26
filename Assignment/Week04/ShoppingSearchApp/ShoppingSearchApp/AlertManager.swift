@@ -7,19 +7,23 @@
 
 import UIKit
 
-class AlertManager {
+final class AlertManager {
     
     static let shared = AlertManager()
     
-    private init() { }
+    private init() {}
     
-    func showAlert(title: String? = "오류 알림", message: String?, onConfirm: @escaping ()->(), over viewController: UIViewController) {
-        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        ac.addAction(UIAlertAction(title: title, style: .default, handler: { (_) in
-            onConfirm()
-        }))
-        viewController.present(ac, animated: true)
+    func showAlert(
+        on viewController: UIViewController,
+        title: String,
+        message: String,
+        actions: [UIAlertAction] = [UIAlertAction(title: "확인", style: .cancel),]
+    ) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        actions.forEach { alert.addAction($0) }
+        DispatchQueue.main.async {
+            viewController.present(alert, animated: true, completion: nil)
+        }
     }
     
 }

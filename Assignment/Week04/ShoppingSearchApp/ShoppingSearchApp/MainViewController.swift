@@ -43,6 +43,14 @@ final class MainViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        output.error
+            .drive(onNext: { [weak self] errorMessage in
+                if !errorMessage.isEmpty {
+                    AlertManager.shared.showAlert(on: self ?? UIViewController(), title: "입력 오류", message: errorMessage)
+                }
+            })
+            .disposed(by: disposeBag)
+        
 //        viewModel.outputSearchBarText.lazyBind { [weak self] value in
 //            self?.navigationItem.searchController?.searchBar.text = ""
 //        }

@@ -13,6 +13,7 @@ enum APIError: Error {
     case invalidURL
     case unknownResponse
     case statusError
+    case apiError(message: String, code: String)
 }
 
 final class NetworkManager {
@@ -21,10 +22,10 @@ final class NetworkManager {
     
     private init() {}
     
-    func callSearch(searchWord: String?, sortWith sortStandard: String?, start: Int?, display: Int?) -> Single<ProductResponse> {
+    func callSearch(searchWord: String, sortWith sortStandard: String, start: Int, display: Int) -> Single<ProductResponse> {
         return Single.create { value in
             
-            let url = "https://openapi.naver.com/v1/search/shop.json?query=\(searchWord!)&sort=\(sortStandard!)&start=\(start!)&display=\(display!)"
+            let url = "https://openapi.naver.com/v1/search/shop.json?query=\(searchWord)&sort=\(sortStandard)&start=\(start)&display=\(display)"
             let header: HTTPHeaders = [
                 "X-Naver-Client-Id": Key.naverClientID,
                 "X-Naver-Client-Secret": Key.naverClientSecret
@@ -37,7 +38,14 @@ final class NetworkManager {
                 case .success(let item):
                     value(.success(item))
                 case .failure(let error):
-                    print(error)
+                    if let data = response.data,
+                       let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                       let errorMessage = json["errorMessage"] as? String,
+                       let errorCode = json["errorCode"] as? String {
+                        value(.failure(APIError.apiError(message: errorMessage, code: errorCode)))
+                    } else {
+                        value(.failure(APIError.unknownResponse))
+                    }
                 }
             }
             return Disposables.create()
