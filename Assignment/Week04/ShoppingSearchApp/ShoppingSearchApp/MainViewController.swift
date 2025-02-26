@@ -27,6 +27,8 @@ final class MainViewController: BaseViewController {
         bindViewModel()
     }
     
+    deinit {  print("Main VC Deinit") }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationItem.searchController?.searchBar.text = ""
     }
@@ -86,11 +88,20 @@ extension MainViewController {
             leftView.image = leftView.image?.withRenderingMode(.alwaysTemplate)
             leftView.tintColor = .lightGray
         }
-        self.navigationItem.searchController = searchController
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.navigationItem.title = "쇼핑쇼핑"
+        navigationItem.searchController = searchController
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationItem.title = "쇼핑쇼핑"
         
-        self.navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = .white
+        
+        let leftBarButton = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(leftBarButtonTapped))
+        navigationItem.leftBarButtonItem = leftBarButton
+        navigationItem.hidesSearchBarWhenScrolling = false
+    }
+    
+    @objc
+    private func leftBarButtonTapped() {
+        navigationController?.pushViewController(LikeBoxViewController(), animated: true)
     }
     
 }

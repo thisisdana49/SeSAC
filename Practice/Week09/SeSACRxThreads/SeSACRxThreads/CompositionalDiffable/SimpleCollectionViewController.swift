@@ -170,8 +170,8 @@ extension SimpleCollectionViewController: UICollectionViewDelegate {
         
 //        let data = list[indexPath.item]
 //        dump(data)
-        
-        dump(dataSource.itemIdentifier(for: indexPath))
+        let dummy = dataSource.itemIdentifier(for: indexPath)
+        dump(dummy)
         
 //        let product = Product(name: "고래밥\(Int.random(in: 1...100))")
 //        list.insert(product, at: 2)
