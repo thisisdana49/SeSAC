@@ -93,6 +93,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3EA40B612D66EF180051D0CB /* Recap */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Recap; sourceTree = "<group>"; };
+		3EEAA4A12D6E9DA300DF4CFF /* CompositionalDiffable */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = CompositionalDiffable; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +148,7 @@
 		041280222AEF9BAB00972552 /* SeSACRxThreads */ = {
 			isa = PBXGroup;
 			children = (
+				3EEAA4A12D6E9DA300DF4CFF /* CompositionalDiffable */,
 				3EA40B612D66EF180051D0CB /* Recap */,
 				041280532AEF9C1F00972552 /* SignUp */,
 				041280542AEF9C2600972552 /* SignIn */,
@@ -251,6 +253,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				3EA40B612D66EF180051D0CB /* Recap */,
+				3EEAA4A12D6E9DA300DF4CFF /* CompositionalDiffable */,
 			);
 			name = SeSACRxThreads;
 			packageProductDependencies = (
