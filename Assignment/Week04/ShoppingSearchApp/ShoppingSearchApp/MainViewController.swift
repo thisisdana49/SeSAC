@@ -9,6 +9,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
+// TODO: deinit Test
 final class MainViewController: BaseViewController {
 
     let viewModel = MainViewModel()

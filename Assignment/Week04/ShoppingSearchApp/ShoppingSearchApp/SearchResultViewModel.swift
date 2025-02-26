@@ -83,6 +83,7 @@ final class SearchResultViewModel: BaseViewModel {
                                                sortWith: sortStandard.value,
                                                start: start,
                                                display: display)
+        .debug()
         .catch { [weak self] error in
             if let apiError = error as? APIError {
                 switch apiError {

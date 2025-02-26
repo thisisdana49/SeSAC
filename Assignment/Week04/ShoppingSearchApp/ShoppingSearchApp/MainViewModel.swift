@@ -23,7 +23,8 @@ final class MainViewModel: BaseViewModel {
         //        let outputPushVC: Observable<String?> = Observable(nil)
     }
     
-//    private let searchResult = PublishRelay<String>() // mark - scope issue
+//    private let searchResult = PublishSubject<String>() // mark - scope issue
+//    let errorSubject = PublishSubject<String>()
     
     func transform(input: Input) -> Output {
         let searchResult = PublishRelay<String>()
@@ -31,18 +32,21 @@ final class MainViewModel: BaseViewModel {
         
         input.returnKeyTap
             .withLatestFrom(input.searchBarText)
-            .debug()
+            .debug("returnKeyTap")
             .subscribe(onNext: { text in
                 if text.count < 3 {
                     errorSubject.onNext("검색어는 3글자 이상이어야 합니다.")
+//                    self.errorSubject.onNext("검색어는 3글자 이상이어야 합니다.")
                 } else {
+                    print("searchResult")
                     searchResult.accept(text)
+//                    self.searchResult.accept(text)
                 }
             })
             .disposed(by: disposeBag)
         
         return Output(searchResult: searchResult.asDriver(onErrorJustReturn: ""),
-                      error: errorSubject.asDriver(onErrorDriveWith: .empty()))
+                      error: errorSubject.asDriver(onErrorJustReturn: ""))
     }
     
 //    private func pushViewController(keyword: String?) {

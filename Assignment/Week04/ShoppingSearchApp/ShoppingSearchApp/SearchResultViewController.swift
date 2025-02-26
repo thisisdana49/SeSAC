@@ -39,6 +39,7 @@ final class SearchResultViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        bindViewModel()
     }
     
     override func bindViewModel() {
