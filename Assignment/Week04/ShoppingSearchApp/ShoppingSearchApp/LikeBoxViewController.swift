@@ -65,7 +65,6 @@ final class LikeBoxViewController: UIViewController {
             content.secondaryTextProperties.color = .systemGray
             
             content.image = UIImage(systemName: "cart.fill")
-            content.imageProperties.maximumSize = CGSize(width: 200, height: 200)
             content.imageProperties.tintColor = .systemPurple
             
             cell.contentConfiguration = content
@@ -78,7 +77,6 @@ final class LikeBoxViewController: UIViewController {
         }
         
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            // Q. list[indexPath.row] ??
             let cell = collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: itemIdentifier)
             return cell
         })
@@ -110,8 +108,6 @@ extension LikeBoxViewController: UISearchBarDelegate {
 extension LikeBoxViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
-        
         products.remove(at: indexPath.row)
         print(dataSource.itemIdentifier(for: indexPath)!)
         updateSnapshot()

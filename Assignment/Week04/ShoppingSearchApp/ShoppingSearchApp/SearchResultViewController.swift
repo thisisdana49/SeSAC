@@ -83,10 +83,12 @@ final class SearchResultViewController: BaseViewController {
                 }
             })
             .disposed(by: disposeBag)
-//
-//        viewModel.outputScrollToTop.lazyBind { [weak self] _ in
-//            self?.mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-//        }
+        
+        output.scrollToTop
+            .drive(with: self) { owner, _ in
+                owner.mainView.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
     
     @MainActor required init?(coder: NSCoder) {

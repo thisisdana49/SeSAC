@@ -14,6 +14,7 @@ final class SearchResultViewModel: BaseViewModel {
     private(set) var keyword: BehaviorRelay<String>
     private var sortStandard: BehaviorRelay<String> = BehaviorRelay(value: "sim")
     private let errorSubject = PublishSubject<String>()
+    private let scrollToTop = PublishSubject<Void>()
     
     struct Input {
         let fetchData: Observable<Void>
@@ -24,7 +25,7 @@ final class SearchResultViewModel: BaseViewModel {
         let resultProduct: Driver<[ItemModel]>
         let totalProduct: Driver<String>
         let error: Driver<String>
-        //        let outputScrollToTop: Observable<Void?> = Observable(nil)
+        let scrollToTop: Driver<Void>
     }
     
     let sortStandards = ["sim", "date", "dsc", "asc"]
@@ -59,8 +60,9 @@ final class SearchResultViewModel: BaseViewModel {
             .flatMap { [weak self] _ in
                 self?.fetchProducts() ?? Single.just(ProductResponse(total: 0, start: 0, items: []))
             }
-            .map { value -> [ItemModel] in
+            .map { [weak self] value -> [ItemModel] in
                 totalProduct.accept("\(value.total) 개의 검색 결과")
+                self?.scrollToTop.onNext(())
                 let itemModel = ItemModel(items: value.items)
                 return [itemModel]
             }
@@ -69,7 +71,8 @@ final class SearchResultViewModel: BaseViewModel {
         
         return Output(resultProduct: resultProduct.asDriver(onErrorDriveWith: .empty()),
                       totalProduct: totalProduct.asDriver(),
-                      error: errorSubject.asDriver(onErrorDriveWith: .empty()))
+                      error: errorSubject.asDriver(onErrorDriveWith: .empty()),
+                      scrollToTop: scrollToTop.asDriver(onErrorJustReturn: ()))
         
         //        inputSortButtonTapped.lazyBind { [weak self] value in
         //            self?.start = 1
