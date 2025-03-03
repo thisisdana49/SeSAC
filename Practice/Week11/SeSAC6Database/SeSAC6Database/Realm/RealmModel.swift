@@ -39,6 +39,8 @@ class JackTable: Object {
     @Persisted var regDate: Date     // 등록일
     @Persisted var like: Bool        // 좋아요
     
+//    @Persisted var Poster: Data?
+    
     // 어떻게 연결 되어있는지, Column의 명
     @Persisted(originProperty: "detail")
     var folder: LinkingObjects<Folder>

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FSCalendar
 import RealmSwift
 import SnapKit
 /*
@@ -15,6 +16,7 @@ import SnapKit
 class MainViewController: UIViewController {
 
     let tableView = UITableView()
+    let calendar = FSCalendar()
     
     var list: Results<JackTable>!
 //    var list: [JackTable] = []
@@ -57,10 +59,16 @@ class MainViewController: UIViewController {
     
     private func configureHierarchy() {
         view.addSubview(tableView)
+        view.addSubview(calendar)
     }
     
     private func configureView() {
         view.backgroundColor = .white
+        
+        calendar.backgroundColor = .systemGreen
+        calendar.delegate = self
+        calendar.dataSource = self
+        
         tableView.rowHeight = 130
         tableView.delegate = self
         tableView.dataSource = self
@@ -72,9 +80,14 @@ class MainViewController: UIViewController {
     }
     
     private func configureConstraints() {
+        calendar.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(250)
+        }
          
         tableView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(calendar.snp.bottom)
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
      
@@ -109,6 +122,32 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let data = list[indexPath.row]
         repository.deleteItem(data: data)
         tableView.reloadData()
+    }
+    
+}
+
+extension MainViewController: FSCalendarDelegate, FSCalendarDataSource {
+    
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        print(#function, date)
+        return 2
+    }
+    
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        print(#function, date)
+        
+        // 선택한 날짜
+        let start = Calendar.current.startOfDay(for: date)
+        // 선택한 날짜의 다음날 날짜
+        let end: Date = Calendar.current.date(byAdding: .day, value: 1, to: start)!
+        
+        // Realm where filter, iOS NSPredicate
+        let name = "식비"
+        let predicate = NSPredicate(format: "regDate >= %@ && regDate < %@", start as NSDate, end as NSDate)
+        
+        let realm = try! Realm()
+        let result = realm.objects(JackTable.self).filter(predicate)
+        dump(result)
     }
     
 }

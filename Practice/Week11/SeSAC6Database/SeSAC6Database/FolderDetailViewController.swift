@@ -85,12 +85,14 @@ extension FolderDetailViewController: UITableViewDelegate, UITableViewDataSource
         cell.titleLabel.text = data.title
         cell.subTitleLabel.text = data.category
         cell.overviewLabel.text = "\(data.money.formatted())"
+        cell.thumbnailImageView.image = loadImageFromDocument(filename: "\(data.id)")
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = list[indexPath.row]
+        removeImageFromDocument(filename: data.id.stringValue)
         repository.deleteItem(data: data)
         tableView.reloadData()
     }

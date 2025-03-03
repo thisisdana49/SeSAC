@@ -8,9 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		04753C102D7671530069A260 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 04753C0F2D7671530069A260 /* SnapKit */; };
-		3EA1C4FB2D77F80E00D99949 /* FolderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA1C4FA2D77F80E00D99949 /* FolderDetailViewController.swift */; };
+		3EA1C7412D7A732300D99949 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 3EA1C7402D7A732300D99949 /* FSCalendar */; };
+		3EA1C90C2D7E6E0B00D99949 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3EA1C90B2D7E6E0B00D99949 /* Zip */; };
 		3EEAA6CC2D76878400DF4CFF /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3EEAA6CB2D76878400DF4CFF /* RealmSwift */; };
 		3EEAA6CD2D7687E500DF4CFF /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 3EEAA6CB2D76878400DF4CFF /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3EF08A7A2D81211C0068234A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3EF08A782D81211C0068234A /* Localizable.strings */; };
+		3EF08A802D8125980068234A /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF08A7F2D8125980068234A /* String+Extension.swift */; };
+		3EF08A872D81346C0068234A /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 3EF08A862D81346C0068234A /* InfoPlist.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,7 +33,11 @@
 
 /* Begin PBXFileReference section */
 		04753BF02D7670890069A260 /* SeSAC6Database.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSAC6Database.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3EA1C4FA2D77F80E00D99949 /* FolderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderDetailViewController.swift; sourceTree = "<group>"; };
+		3EF08A792D81211C0068234A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3EF08A7D2D8121500068234A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3EF08A7E2D8121510068234A /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3EF08A7F2D8125980068234A /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		3EF08A862D81346C0068234A /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -59,6 +67,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EEAA6CC2D76878400DF4CFF /* RealmSwift in Frameworks */,
+				3EA1C7412D7A732300D99949 /* FSCalendar in Frameworks */,
+				3EA1C90C2D7E6E0B00D99949 /* Zip in Frameworks */,
 				04753C102D7671530069A260 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,7 +79,9 @@
 		04753BE72D7670890069A260 = {
 			isa = PBXGroup;
 			children = (
-				3EA1C4FA2D77F80E00D99949 /* FolderDetailViewController.swift */,
+				3EF08A862D81346C0068234A /* InfoPlist.xcstrings */,
+				3EF08A7F2D8125980068234A /* String+Extension.swift */,
+				3EF08A782D81211C0068234A /* Localizable.strings */,
 				04753BF22D7670890069A260 /* SeSAC6Database */,
 				04753BF12D7670890069A260 /* Products */,
 			);
@@ -106,6 +118,8 @@
 			packageProductDependencies = (
 				04753C0F2D7671530069A260 /* SnapKit */,
 				3EEAA6CB2D76878400DF4CFF /* RealmSwift */,
+				3EA1C7402D7A732300D99949 /* FSCalendar */,
+				3EA1C90B2D7E6E0B00D99949 /* Zip */,
 			);
 			productName = SeSAC6Database;
 			productReference = 04753BF02D7670890069A260 /* SeSAC6Database.app */;
@@ -132,12 +146,16 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
+				ja,
 			);
 			mainGroup = 04753BE72D7670890069A260;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				04753C0E2D7671530069A260 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				3EEAA6CA2D76878400DF4CFF /* XCRemoteSwiftPackageReference "realm-swift" */,
+				3EA1C73F2D7A732300D99949 /* XCRemoteSwiftPackageReference "FSCalendar" */,
+				3EA1C90A2D7E6E0B00D99949 /* XCRemoteSwiftPackageReference "Zip" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 04753BF12D7670890069A260 /* Products */;
@@ -154,6 +172,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EF08A7A2D81211C0068234A /* Localizable.strings in Resources */,
+				3EF08A872D81346C0068234A /* InfoPlist.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,11 +184,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3EA1C4FB2D77F80E00D99949 /* FolderDetailViewController.swift in Sources */,
+				3EF08A802D8125980068234A /* String+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3EF08A782D81211C0068234A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3EF08A792D81211C0068234A /* en */,
+				3EF08A7D2D8121500068234A /* ja */,
+				3EF08A7E2D8121510068234A /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		04753C042D76708B0069A260 /* Debug */ = {
@@ -238,6 +271,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -292,6 +326,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -301,6 +336,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -348,6 +384,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -384,6 +421,22 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		3EA1C73F2D7A732300D99949 /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.4;
+			};
+		};
+		3EA1C90A2D7E6E0B00D99949 /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.2;
+			};
+		};
 		3EEAA6CA2D76878400DF4CFF /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -399,6 +452,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 04753C0E2D7671530069A260 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		3EA1C7402D7A732300D99949 /* FSCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3EA1C73F2D7A732300D99949 /* XCRemoteSwiftPackageReference "FSCalendar" */;
+			productName = FSCalendar;
+		};
+		3EA1C90B2D7E6E0B00D99949 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3EA1C90A2D7E6E0B00D99949 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
 		};
 		3EEAA6CB2D76878400DF4CFF /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;

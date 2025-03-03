@@ -12,7 +12,7 @@ protocol JackRepository {
     func getFileURL()
     func fetchAll() -> Results<JackTable>
 //    func createItem()
-    func createItemInFolder(folder: Folder)
+    func createItemInFolder(folder: Folder, data: JackTable)
     func deleteItem(data: JackTable)
     func updateItem(data: JackTable)
 }
@@ -29,18 +29,18 @@ final class JackTableRepository: JackRepository {
             .sorted(byKeyPath: "money", ascending: false)
     }
     
-    func createItemInFolder(folder: Folder) {
+    func createItemInFolder(folder: Folder, data: JackTable) {
         // Creat
         do {
             try realm.write {
                 // 어떤 폴더에 넣어줄지
 //                let folder = realm.objects(Folder.self).where { $0.name == "개인" }.first!
                 
-                let data = JackTable(money: .random(in: 100...10000) * 100,
-                                     category: "식비",
-                                     title: ["돈까스", "김밥", "만두"].randomElement()!,
-                                     status: true,
-                                     memo: nil)
+//                let data = JackTable(money: .random(in: 100...10000) * 100,
+//                                     category: "식비",
+//                                     title: ["돈까스", "김밥", "만두"].randomElement()!,
+//                                     status: true,
+//                                     memo: nil)
                 folder.detail.append(data)
 //                realm.add(data)
                 print("렘 저장 완료")

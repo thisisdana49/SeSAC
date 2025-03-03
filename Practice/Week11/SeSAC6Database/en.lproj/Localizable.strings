@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  SeSAC6Database
+
+  Created by 조다은 on 3/12/25.
+  
+*/
+
+"navigation_title_folder" = "폴더 타이틀eng";
+"navigation_title_nickname" = "My name is %@";
+"cell_age" = "I'm %lld years old.";
+"test_text" = "테스트 텍스트eng";

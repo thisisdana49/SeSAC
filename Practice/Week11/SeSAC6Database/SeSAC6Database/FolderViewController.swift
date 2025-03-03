@@ -16,6 +16,11 @@ class FolderViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        let title = NSLocalizedString("navigation_title_nickname", comment: "")
+//        let titleFormat = String(format: title, "고래밥")
+//        navigationItem.title = titleFormat
+        navigationItem.title = "navigation_title_nickname".localized(with: "고래밥")
 
 //        repository.createItem(name: "개인")
 //        repository.createItem(name: "계모임")
@@ -49,6 +54,10 @@ class FolderViewController: UIViewController{
         let image = UIImage(systemName: "star")
         let item = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rightBarButtonItemClicked))
         navigationItem.rightBarButtonItem = item
+        
+        let image2 = UIImage(systemName: "pencil")
+        let item2 = UIBarButtonItem(image: image2, style: .plain, target: self, action: #selector(leftBarButtonItemClicked))
+        navigationItem.leftBarButtonItem = item2
     }
     
     private func configureConstraints() {
@@ -60,6 +69,12 @@ class FolderViewController: UIViewController{
 
     @objc func rightBarButtonItemClicked() {
         let vc = MainViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+    @objc func leftBarButtonItemClicked() {
+        let vc = BackupViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -77,17 +92,29 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
         let data = list[indexPath.row]
         cell.titleLabel.text = data.name
         cell.subTitleLabel.text = "\(data.detail.count)개"
+//        cell.overviewLabel.text = "test_text".localized
+        cell.overviewLabel.text = "cell_age".localized(number: indexPath.row)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let data = list[indexPath.row]
-//        let vc = FolderDetailViewController()
-//        vc.list = data.detail
-//        vc.id = data.id
-//        navigationController?.pushViewController(vc, animated: true)
+        let data = list[indexPath.row]
+        let vc = FolderDetailViewController()
+        vc.list = data.detail
+        vc.id = data.id
+        navigationController?.pushViewController(vc, animated: true)
         
+        // 폴더 삭제
+        // 폴더 지울 때 세부 항목도 지울 것인지?
+        // 폴더 지울 때 세부 항목을 다른 폴더로 이동해줄 것인지?
+//        let data = list[indexPath.row]
+//        repository.deleteItem(data: data)
+//        tableView.reloadData()
+        
+        // Embedded Object
+//        let data = list[indexPath.row]
+//        repository.createMemo(data: data)
     }
     
 }

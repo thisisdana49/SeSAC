@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 import RealmSwift
 import SnapKit
 
@@ -44,7 +45,12 @@ class AddViewController: UIViewController {
     }
     
     @objc func addButtonClicked() {
-        print(#function)
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 3
+        configuration.filter = .any(of: [.videos, .images])
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
     }
  
     
@@ -54,7 +60,17 @@ class AddViewController: UIViewController {
         // folder repo 안으로 옮겨 내부 메서드로 만들어 외부에 제공할 수 있음.
         let folder = folderRepository.fetchAll().where { $0.id == id }.first!
         
-        repository.createItemInFolder(folder: folder)
+        let data = JackTable(money: .random(in: 100...10000) * 100,
+                             category: "식비",
+                             title: ["돈까스", "김밥", "만두"].randomElement()!,
+                             status: true,
+                             memo: nil)
+        
+        repository.createItemInFolder(folder: folder, data: data)
+        
+        if let image = photoImageView.image {
+            saveImageToDocument(image: image, filename: "\(data.id)")
+        }
         
         navigationController?.popViewController(animated: true)
     }
@@ -130,4 +146,26 @@ class AddViewController: UIViewController {
         
     }
     
+}
+
+extension AddViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        
+        picker.dismiss(animated: true)
+        
+        let itemProvider = results.first?.itemProvider
+        
+        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                
+                DispatchQueue.main.async {
+                    self.photoImageView.image = image as? UIImage
+                }
+                
+            }
+            
+        }
+    }
 }
