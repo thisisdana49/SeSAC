@@ -45,7 +45,7 @@ final class SearchResultViewModel: BaseViewModel {
                 self?.fetchProducts() ?? Single.just(ProductResponse(total: 0, start: 0, items: []))
             }
             .map { value -> [ItemModel] in
-                totalProduct.accept("\(value.total) 개의 검색 결과")
+                totalProduct.accept("\(Int(value.total).formatted()) 개의 검색 결과")
                 let itemModel = ItemModel(items: value.items)
                 return [itemModel]
             }
@@ -54,6 +54,8 @@ final class SearchResultViewModel: BaseViewModel {
         
         input.sortButtonTapped
             .do(onNext: { [weak self] index in
+                self?.start = 1
+                print("😀start with", self?.start)
                 self?.sortStandard.accept(self?.sortStandards[index] ?? "sim")
             })
             .debug("sortStandard")
@@ -73,12 +75,6 @@ final class SearchResultViewModel: BaseViewModel {
                       totalProduct: totalProduct.asDriver(),
                       error: errorSubject.asDriver(onErrorDriveWith: .empty()),
                       scrollToTop: scrollToTop.asDriver(onErrorJustReturn: ()))
-        
-        //        inputSortButtonTapped.lazyBind { [weak self] value in
-        //            self?.start = 1
-        //            self?.sortStandard = (self?.sortStandards[value])!
-        //            self?.fetchData()
-        //        }
     }
     
     private func fetchProducts() -> Single<ProductResponse> {
@@ -86,7 +82,7 @@ final class SearchResultViewModel: BaseViewModel {
                                                sortWith: sortStandard.value,
                                                start: start,
                                                display: display)
-        .debug()
+//        .debug()
         .catch { [weak self] error in
             if let apiError = error as? APIError {
                 switch apiError {

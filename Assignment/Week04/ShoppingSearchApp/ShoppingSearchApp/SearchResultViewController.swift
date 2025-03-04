@@ -60,7 +60,6 @@ final class SearchResultViewController: BaseViewController {
         }
         
         output.resultProduct
-//            .debug("언제오니")
             .drive(mainView.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
 
@@ -115,14 +114,14 @@ extension SearchResultViewController {
                         .disposed(by: disposeBag)
                 }
         
-//        for (_, view) in mainView.stackView.subviews.enumerated() {
-//            guard let button = view as? UIButton else { return }
-////            button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
-//            
-//            if button.tag == 0 {
-//                button.isSelected = true
-//            }
-//        }
+        for (_, view) in mainView.stackView.subviews.enumerated() {
+            guard let button = view as? UIButton else { return }
+//            button.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
+            
+            if button.tag == 0 {
+                button.isSelected = true
+            }
+        }
         
     }
     

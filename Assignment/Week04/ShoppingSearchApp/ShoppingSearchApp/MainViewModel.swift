@@ -19,8 +19,6 @@ final class MainViewModel: BaseViewModel {
     struct Output {
         let searchResult: Driver<String>
         let error: Driver<String>
-        //        let outputSearchBarText: Observable<String?> = Observable(nil)
-        //        let outputPushVC: Observable<String?> = Observable(nil)
     }
     
 //    private let searchResult = PublishSubject<String>() // mark - scope issue

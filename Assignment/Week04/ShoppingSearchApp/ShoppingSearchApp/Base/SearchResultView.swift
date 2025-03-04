@@ -36,15 +36,15 @@ class SearchResultView: BaseView {
     override func configureLayout() {
         totalLabel.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
-            make.width.equalToSuperview()
+            make.leading.equalToSuperview().inset(16)
             make.height.equalTo(30)
         }
         
         stackView.snp.makeConstraints { make in
             make.top.equalTo(totalLabel.snp.bottom)
-            make.leading.equalToSuperview()
+            make.leading.equalToSuperview().offset(12)
 //            make.width.equalToSuperview()
-            make.height.equalTo(44)
+            make.height.equalTo(36)
         }
         
         for (_, button) in stackView.subviews.enumerated() {
@@ -54,7 +54,7 @@ class SearchResultView: BaseView {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(stackView.snp.bottom)
+            make.top.equalTo(stackView.snp.bottom).offset(12)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview()
         }
@@ -69,9 +69,9 @@ class SearchResultView: BaseView {
         
         stackView.backgroundColor = .black
         stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fillProportionally
         stackView.spacing = 4
-        stackView.alignment = .leading
+        stackView.alignment = .center
     }
     
     

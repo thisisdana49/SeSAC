@@ -15,6 +15,7 @@ struct ProductResponse: Decodable {
 
 struct Product: Decodable, Hashable, Identifiable {
     let id = UUID()
+    let productId: String
     let image: String
     let mallName: String
     let title: String
