@@ -22,6 +22,7 @@ final class SearchResultViewModel: BaseViewModel {
     }
     
     struct Output {
+        let productList: BehaviorRelay<[Product]>
         let resultProduct: Driver<[ItemModel]>
         let totalProduct: Driver<String>
         let error: Driver<String>
@@ -30,13 +31,14 @@ final class SearchResultViewModel: BaseViewModel {
     
     let sortStandards = ["sim", "date", "dsc", "asc"]
     var start: Int = 1
-    var display: Int = 100
+    var display: Int = 10
     
     init(keyword: String) {
         self.keyword = BehaviorRelay(value: keyword)
     }
     
     func transform(input: Input) -> Output {
+        let productList: BehaviorRelay<[Product]> = BehaviorRelay(value: [])
         let resultProduct = PublishRelay<[ItemModel]>()
         let totalProduct: BehaviorRelay<String> = BehaviorRelay(value: "")
         
@@ -45,6 +47,7 @@ final class SearchResultViewModel: BaseViewModel {
                 self?.fetchProducts() ?? Single.just(ProductResponse(total: 0, start: 0, items: []))
             }
             .map { value -> [ItemModel] in
+                productList.accept(value.items)
                 totalProduct.accept("\(Int(value.total).formatted()) 개의 검색 결과")
                 let itemModel = ItemModel(items: value.items)
                 return [itemModel]
@@ -63,6 +66,7 @@ final class SearchResultViewModel: BaseViewModel {
                 self?.fetchProducts() ?? Single.just(ProductResponse(total: 0, start: 0, items: []))
             }
             .map { [weak self] value -> [ItemModel] in
+                productList.accept(value.items)
                 totalProduct.accept("\(value.total) 개의 검색 결과")
                 self?.scrollToTop.onNext(())
                 let itemModel = ItemModel(items: value.items)
@@ -71,7 +75,8 @@ final class SearchResultViewModel: BaseViewModel {
             .bind(to: resultProduct)
             .disposed(by: disposeBag)
         
-        return Output(resultProduct: resultProduct.asDriver(onErrorDriveWith: .empty()),
+        return Output(productList: productList,
+                      resultProduct: resultProduct.asDriver(onErrorDriveWith: .empty()),
                       totalProduct: totalProduct.asDriver(),
                       error: errorSubject.asDriver(onErrorDriveWith: .empty()),
                       scrollToTop: scrollToTop.asDriver(onErrorJustReturn: ()))

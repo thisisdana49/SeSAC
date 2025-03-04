@@ -38,9 +38,11 @@ class ItemCollectionViewCell: UICollectionViewCell {
         mallNameLabel.text = item.mallName
         titleLabel.text = item.title.cleanedTag()
         priceLabel.text = Int(item.lprice)?.formatted(.number)
-        likeButton.setProductID(item.productId)
+        likeButton.setProductInfo(with: item)
         print("set product ID", item.productId)
     }
+    
+//    func configureLikeButton(item: Pro)
 
     internal func configureHierarchy() {
         contentView.addSubview(thumbnailImageView)

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 import RxCocoa
 import RxDataSources
 import RxSwift
@@ -24,8 +25,11 @@ extension ItemModel: SectionModelType {
 
 final class SearchResultViewController: BaseViewController {
     
+    let realm = try! Realm()
+    
     private let viewModel: SearchResultViewModel
     private var mainView = SearchResultView()
+    private var productList: [Product] = []
     
     init(keyword: String) {
         self.viewModel = SearchResultViewModel(keyword: keyword)
@@ -38,6 +42,7 @@ final class SearchResultViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(realm.configuration.fileURL)
         configureUI()
         bindViewModel()
     }
@@ -58,6 +63,13 @@ final class SearchResultViewController: BaseViewController {
             cell.configureData(item: item)
             return cell
         }
+        
+        output.productList
+            .bind(with: self) { owner, products in
+                owner.productList = products
+//                dump(owner.productList)
+            }
+            .disposed(by: disposeBag)
         
         output.resultProduct
             .drive(mainView.collectionView.rx.items(dataSource: dataSource))
@@ -96,6 +108,20 @@ final class SearchResultViewController: BaseViewController {
     
 }
 
+extension SearchResultViewController: UICollectionViewDelegate  {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        let selectedItem = productList[indexPath.row]
+//        let data = LikeListTable(productId: selectedItem.productId,
+//                                 title: selectedItem.title,
+//                                 mallName: selectedItem.mallName,
+//                                 image: selectedItem.image,
+//                                 lprice: selectedItem.lprice,
+//                                 like: true)
+//        realm.add(data)
+    }
+}
 
 extension SearchResultViewController {
     
@@ -104,6 +130,7 @@ extension SearchResultViewController {
         self.navigationController?.navigationBar.topItem?.title = ""
         
 //        mainView.collectionView.prefetchDataSource = self
+        mainView.collectionView.delegate = self
         mainView.collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.id)
         
         for (index, button) in mainView.sortButtons.enumerated() {
