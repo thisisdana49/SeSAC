@@ -101,7 +101,7 @@ extension MainViewController {
     
     @objc
     private func leftBarButtonTapped() {
-//        navigationController?.pushViewController(LikeBoxViewController(), animated: true)
+        navigationController?.pushViewController(LikeBoxViewController(), animated: true)
     }
     
 }

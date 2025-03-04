@@ -41,8 +41,6 @@ class ItemCollectionViewCell: UICollectionViewCell {
         likeButton.setProductInfo(with: item)
         print("set product ID", item.productId)
     }
-    
-//    func configureLikeButton(item: Pro)
 
     internal func configureHierarchy() {
         contentView.addSubview(thumbnailImageView)
@@ -97,14 +95,10 @@ class ItemCollectionViewCell: UICollectionViewCell {
         thumbnailImageView.clipsToBounds = true
         thumbnailImageView.contentMode = .scaleAspectFill
         
-        likeButton.setImage(UIImage(systemName: "heart")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
-        likeButton.setImage(UIImage(systemName: "heart.fill")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .highlighted)
-        likeButton.setImage(UIImage(systemName: "heart.fill")?.withTintColor(.black, renderingMode: .alwaysOriginal), for: .selected)
         likeButton.setTitle("", for: .normal)
         likeButton.backgroundColor = .white
         likeButton.layer.cornerRadius = 15
         likeButton.isUserInteractionEnabled = true
-        likeButton.addTarget(self, action: #selector(heartButtonTapped), for: .touchUpInside)
         
         mallNameLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)

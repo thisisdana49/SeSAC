@@ -108,21 +108,6 @@ final class SearchResultViewController: BaseViewController {
     
 }
 
-extension SearchResultViewController: UICollectionViewDelegate  {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        let selectedItem = productList[indexPath.row]
-//        let data = LikeListTable(productId: selectedItem.productId,
-//                                 title: selectedItem.title,
-//                                 mallName: selectedItem.mallName,
-//                                 image: selectedItem.image,
-//                                 lprice: selectedItem.lprice,
-//                                 like: true)
-//        realm.add(data)
-    }
-}
-
 extension SearchResultViewController {
     
     func configureUI() {
@@ -130,7 +115,6 @@ extension SearchResultViewController {
         self.navigationController?.navigationBar.topItem?.title = ""
         
 //        mainView.collectionView.prefetchDataSource = self
-        mainView.collectionView.delegate = self
         mainView.collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.id)
         
         for (index, button) in mainView.sortButtons.enumerated() {

@@ -50,9 +50,8 @@ final class CustomLikeButton: UIButton {
     @objc
     private func buttonTapped() {
         print("button tapped", product.productId, isSelected)
-//        isSelected.toggle()
-        // DB에 저장
-        if !isSelected {
+//         DB에 저장
+        if isSelected {
             do {
                 try realm.write {
                     let data = LikeListTable(productId: product.productId,
@@ -62,11 +61,11 @@ final class CustomLikeButton: UIButton {
                                              lprice: product.lprice,
                                              like: true)
                     realm.add(data)
+                    print("** DB 저장", product.productId)
                 }
             } catch {
                 print("렘에 저장이 실패한 경우")
             }
-//            UserDefaultsManager.saveLikedMovie(movieID)
         } else {
             // DB에서 삭제
             do {
@@ -75,11 +74,11 @@ final class CustomLikeButton: UIButton {
                         .filter { [weak self] in
                             $0.productId == self?.product.productId }
                     realm.delete(data)
+                    print("** DB 삭제", product.productId)
                 }
             } catch {
                 print("렘 데이터 삭제")
             }
-//            UserDefaultsManager.removeLikedMovie(movieID)
         }
         updateButtonUI()
     }
@@ -89,8 +88,9 @@ final class CustomLikeButton: UIButton {
         var isSelectedProduct = realm.objects(LikeListTable.self).filter { [weak self] in
             $0.productId == self?.product.productId
         }.count > 0
+        print(#function, isSelectedProduct)
         isSelected = isSelectedProduct
-
+        
         var config = configuration
         config?.image = isSelectedProduct ? selectedImage : unselectedImage
         configuration = config
