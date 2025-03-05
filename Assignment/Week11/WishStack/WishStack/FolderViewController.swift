@@ -16,13 +16,17 @@ final class FolderViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureHierarchy()
         configureView()
         configureConstraints()
         
+        // 폴더 마이그레이션 코드
+//        repository.createItem(name: "생필품")
+//        repository.createItem(name: "패션/뷰티")
+//        repository.createItem(name: "여행")
+        
         list = repository.fetchAll()
-        dump(list)
+//        dump(list)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,10 +44,10 @@ final class FolderViewController: UIViewController{
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.id)
+        navigationItem.title = "WishStack"
     }
     
     private func configureConstraints() {
-         
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
