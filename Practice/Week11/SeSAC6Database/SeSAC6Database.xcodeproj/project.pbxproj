@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04753C102D7671530069A260 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 04753C0F2D7671530069A260 /* SnapKit */; };
+		3EA1C4FB2D77F80E00D99949 /* FolderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA1C4FA2D77F80E00D99949 /* FolderDetailViewController.swift */; };
 		3EEAA6CC2D76878400DF4CFF /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3EEAA6CB2D76878400DF4CFF /* RealmSwift */; };
 		3EEAA6CD2D7687E500DF4CFF /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 3EEAA6CB2D76878400DF4CFF /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		04753BF02D7670890069A260 /* SeSAC6Database.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSAC6Database.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EA1C4FA2D77F80E00D99949 /* FolderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -67,6 +69,7 @@
 		04753BE72D7670890069A260 = {
 			isa = PBXGroup;
 			children = (
+				3EA1C4FA2D77F80E00D99949 /* FolderDetailViewController.swift */,
 				04753BF22D7670890069A260 /* SeSAC6Database */,
 				04753BF12D7670890069A260 /* Products */,
 			);
@@ -161,6 +164,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EA1C4FB2D77F80E00D99949 /* FolderDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

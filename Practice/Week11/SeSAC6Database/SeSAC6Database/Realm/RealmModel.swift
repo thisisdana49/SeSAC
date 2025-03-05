@@ -9,6 +9,7 @@ import Foundation
 import RealmSwift
 
 class JackTable: Object {
+    
     @Persisted(primaryKey: true) var id: ObjectId // PK - index embed
     @Persisted var money: Int        // 금액
     @Persisted var category: String  // 카테고리
@@ -17,6 +18,10 @@ class JackTable: Object {
     @Persisted var memo: String?     // 메모
     @Persisted var regDate: Date     // 등록일
     @Persisted var like: Bool        // 좋아요
+    
+    // 어떻게 연결 되어있는지, Column의 명
+    @Persisted(originProperty: "detail")
+    var folder: LinkingObjects<Folder>
     
     convenience init(money: Int,
                      category: String,
@@ -32,14 +37,5 @@ class JackTable: Object {
         self.memo = memo
         self.regDate = Date()
         self.like = false
-    }
-}
-
-class Folder: Object {
-    @Persisted var name: String
-    
-    convenience init(name: String) {
-        self.init()
-        self.name = name
     }
 }

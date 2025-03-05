@@ -20,7 +20,10 @@ class AddViewController: UIViewController {
     let contentTextField = UITextField()
     
     // realm
-    let realm = try! Realm()
+//    let realm = try! Realm()
+    var id: ObjectId!
+    let repository: JackRepository = JackTableRepository()
+    let folderRepository: FolderRepository = FolderTableRepository()
        
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,26 +50,11 @@ class AddViewController: UIViewController {
     
     @objc func saveButtonClicked() {
         print(#function)
-
-        // Creat
-        do {
-            try realm.write {
-//                let data = JackTable(money: .random(in: 100...10000),
-//                                     category: categoryField.text!,
-//                                     title: titleTextField.text!,
-//                                     status: false,
-//                                     memo: memoField.text)
-                let data = JackTable(money: .random(in: 100...10000) * 100,
-                                     category: "생활비",
-                                     title: "린스",
-                                     status: true,
-                                     memo: nil)
-                realm.add(data)
-                print("렘 저장 완료")
-            }
-        } catch {
-            print("렘에 저장이 실패한 경우")
-        }
+        
+        // folder repo 안으로 옮겨 내부 메서드로 만들어 외부에 제공할 수 있음.
+        let folder = folderRepository.fetchAll().where { $0.id == id }.first!
+        
+        repository.createItemInFolder(folder: folder)
         
         navigationController?.popViewController(animated: true)
     }

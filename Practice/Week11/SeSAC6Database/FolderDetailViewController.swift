@@ -1,49 +1,32 @@
 //
-//  MainViewController.swift
+//  FolderDetailViewController.swift
 //  SeSAC6Database
 //
-//  Created by Jack on 3/4/25.
+//  Created by 조다은 on 3/5/25.
 //
 
 import UIKit
 import RealmSwift
 import SnapKit
-/*
- 데이터 수정
- 뷰 갱신
- */
-class MainViewController: UIViewController {
+
+class FolderDetailViewController: UIViewController {
 
     let tableView = UITableView()
     
-    var list: Results<JackTable>!
-//    var list: [JackTable] = []
-    
-//    let realm = try! Realm()    // Document/default.realm 을 가져오는 것과 동일
+    var list: List<JackTable>!
+    var id: ObjectId!
+
     let repository: JackRepository = JackTableRepository()
     let folderRepository: FolderRepository = FolderTableRepository()
      
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        folderRepository.createItem(name: "개인")
-//        folderRepository.createItem(name: "계모임")
-//        folderRepository.createItem(name: "회사")
-//        folderRepository.createItem(name: "멘토")
-        
+
         print(#function)
         print(repository.getFileURL())
         configureHierarchy()
         configureView()
         configureConstraints()
-        
-//        dump(realm.objects(JackTable.self))
-//        list = realm.objects(JackTable.self).sorted(byKeyPath: "category", ascending: false)
-//        list = realm.objects(JackTable.self)
-////            .where { $0.title.contains("sesa", options: .caseInsensitive) }
-//            .sorted(byKeyPath: "money", ascending: false)
-//        list = Array(data)
-        list = repository.fetchAll()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,12 +63,13 @@ class MainViewController: UIViewController {
      
     @objc func rightBarButtonItemClicked() {
         let vc = AddViewController()
+        vc.id = id
         navigationController?.pushViewController(vc, animated: true)
     }
 
 }
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension FolderDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return list.count
@@ -98,8 +82,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let data = list[indexPath.row]
         
 //        cell.testUI()
-        cell.titleLabel.text = "\(data.title), \(data.category)"
-        cell.subTitleLabel.text = data.folder.first?.name
+        cell.titleLabel.text = data.title
+        cell.subTitleLabel.text = data.category
         cell.overviewLabel.text = "\(data.money.formatted())"
         
         return cell
@@ -110,5 +94,4 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         repository.deleteItem(data: data)
         tableView.reloadData()
     }
-    
 }
