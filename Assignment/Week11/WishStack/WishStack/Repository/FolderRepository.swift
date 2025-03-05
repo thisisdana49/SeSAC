@@ -9,6 +9,8 @@ import Foundation
 import RealmSwift
 
 protocol FolderRepository {
+    func getCurrentFolder(id: ObjectId) -> Folder
+    func getCurrentFolderName(id: ObjectId) -> String
     func createItem(name: String)
     func fetchAll() -> Results<Folder>
 }
@@ -16,6 +18,14 @@ protocol FolderRepository {
 final class FolderTableRepository: FolderRepository {
     
     private let realm = try! Realm()
+    
+    func getCurrentFolder(id: RealmSwift.ObjectId) -> Folder {
+        return fetchAll().where { $0.id == id }.first!
+    }
+    
+    func getCurrentFolderName(id: RealmSwift.ObjectId) -> String {
+        return fetchAll().where { $0.id == id }.first!.name
+    }
     
     func createItem(name: String) {
         do {

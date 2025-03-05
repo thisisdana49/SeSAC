@@ -12,16 +12,13 @@ class Wish: Object {
     
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted(indexed: true) var title: String
-    @Persisted var note: String?
     
     @Persisted(originProperty: "list")
     var folder: LinkingObjects<Folder>
     
-    convenience init(title: String,
-                     note: String? = ""
-    ) {
+    convenience init(title: String) {
         self.init()
         self.title = title
-        self.note = note
     }
+    
 }

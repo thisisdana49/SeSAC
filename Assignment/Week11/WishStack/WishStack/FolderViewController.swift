@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import SnapKit
 
 final class FolderViewController: UIViewController{
 
@@ -73,9 +74,8 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = list[indexPath.row]
-        let vc = FolderListViewController()
-//        vc.list = data.list
-//        vc.id = data.id
+        let vc = FolderListViewController(list: data.list, id: data.id)
+
         navigationController?.pushViewController(vc, animated: true)
     }
     

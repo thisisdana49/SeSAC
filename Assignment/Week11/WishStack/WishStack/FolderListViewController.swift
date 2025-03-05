@@ -7,15 +7,18 @@
 
 import UIKit
 import RealmSwift
+import SnapKit
 
 final class FolderListViewController: UIViewController {
 
-    let tableView = UITableView()
+    let searchBar = UISearchBar()
+    let tableView = UITableView(frame: .zero, style: .insetGrouped)
     
     var list: List<Wish>
     var id: ObjectId!
 
     let repository: WishRepository = WishTableRepository()
+    let folderRepository: FolderRepository = FolderTableRepository()
      
     init(list: List<Wish>, id: ObjectId!) {
         self.list = list
@@ -39,38 +42,54 @@ final class FolderListViewController: UIViewController {
     }
     
     private func configureHierarchy() {
+        view.addSubview(searchBar)
         view.addSubview(tableView)
     }
     
     private func configureView() {
         view.backgroundColor = .white
-        tableView.rowHeight = 130
+        navigationItem.title = folderRepository.getCurrentFolderName(id: id)
+        
+        searchBar.delegate = self
+        
+        tableView.rowHeight = 64
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.id)
-          
-        let image = UIImage(systemName: "plus")
-        let item = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rightBarButtonItemClicked))
-        navigationItem.rightBarButtonItem = item
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ListCell")
     }
     
     private func configureConstraints() {
-         
-        tableView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+        searchBar.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(48)
         }
-    }
-     
-    @objc func rightBarButtonItemClicked() {
-//        let vc = AddViewController()
-//        vc.id = id
-//        navigationController?.pushViewController(vc, animated: true)
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+}
+
+extension FolderListViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let inputText = searchBar.text else { return }
+        let folder = folderRepository.getCurrentFolder(id: id)
+        let wish = Wish(title: inputText)
+        
+        repository.createItemInFolder(folder: folder, wish: wish)
+        
+        tableView.reloadData()
+        searchBar.text = ""
+    }
+    
 }
 
 extension FolderListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -81,13 +100,11 @@ extension FolderListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.id) as! ListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell")!
         
         let data = list[indexPath.row]
         
-        cell.titleLabel.text = data.title
-        cell.subTitleLabel.text = data.note
-//        cell.overviewLabel.text = "\(data.money.formatted())"
+        cell.textLabel?.text = data.title
         
         return cell
     }
