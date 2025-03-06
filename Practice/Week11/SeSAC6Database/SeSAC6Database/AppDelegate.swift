@@ -6,13 +6,60 @@
 //
 
 import UIKit
+import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
  
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // 현재 사용자가 쓰고 있는 DB Schema Version
+        migration()
+        let realm = try! Realm()
+        do {
+            let version = try schemaVersionAtURL(realm.configuration.fileURL!)
+            print(realm.configuration.fileURL)
+            print("Schema Version", version)
+        } catch {
+            print("Schema Failed")
+        }
         return true
+    }
+    
+    private func migration() {
+        let config = Realm.Configuration(schemaVersion: 5) { migration, oldSchemaVersion in
+            // 0 -> 1: Folder에 Like 추가
+            // 단순히 테이블, 컬럼 추가 삭제에는 코드 필요 X
+            if oldSchemaVersion < 1 {
+                
+            }
+            // 1 -> 2: Folder에 Like 삭제
+            if oldSchemaVersion < 2 {
+                
+            }
+            // 2 -> 3:
+            if oldSchemaVersion < 3 {
+                migration.enumerateObjects(ofType: Folder.className()) { oldObject, newObject in
+                    guard let newObject = newObject else { return }
+                    
+                    newObject["like"] = true
+                }
+            }
+            // 3 -> 4: Folder like를 favorite으로 수정
+            if oldSchemaVersion < 4 {
+                migration.renameProperty(onType: Folder.className(), from: "like", to: "favorite")
+            }
+            // 4 -> 5: Folder nameDescription 추가
+            // Folder name 필드 활용
+            if oldSchemaVersion < 5 {
+                migration.enumerateObjects(ofType: Folder.className()) { oldObject, newObject in
+                    guard let oldObject = oldObject, let newObject = newObject else { return }
+                    
+                    newObject["nameDescription"] = "\(oldObject["name"] ?? "") 폴더에 대해서 설명해주세요"
+                }
+            }
+        }
+        
+        Realm.Configuration.defaultConfiguration = config
     }
 
     // MARK: UISceneSession Lifecycle

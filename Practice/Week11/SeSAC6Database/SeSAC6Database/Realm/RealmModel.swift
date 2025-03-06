@@ -5,6 +5,26 @@
 //  Created by 조다은 on 3/4/25.
 //
 
+//class User: Hashable, Equatable {
+//    
+//    static func == (lhs: User, rhs: User) -> Bool {
+//        <#code#>
+//    }
+//    
+//    func hash(into hasher: inout Hasher) {
+//        <#code#>
+//    }
+//    
+//    let id = UUID()
+//    let name: String
+//    let age: Int
+//    
+//    init(name: String, age: Int) {
+//        self.name = name
+//        self.age = age
+//    }
+//}
+
 import Foundation
 import RealmSwift
 

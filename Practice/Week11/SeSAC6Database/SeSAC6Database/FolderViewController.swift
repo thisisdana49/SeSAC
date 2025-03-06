@@ -17,6 +17,11 @@ class FolderViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
 
+//        repository.createItem(name: "개인")
+//        repository.createItem(name: "계모임")
+//        repository.createItem(name: "회사")
+//        repository.createItem(name: "멘토")
+        
         configureHierarchy()
         configureView()
         configureConstraints()
@@ -77,11 +82,12 @@ extension FolderViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let data = list[indexPath.row]
-        let vc = FolderDetailViewController()
-        vc.list = data.detail
-        vc.id = data.id
-        navigationController?.pushViewController(vc, animated: true)
+//        let data = list[indexPath.row]
+//        let vc = FolderDetailViewController()
+//        vc.list = data.detail
+//        vc.id = data.id
+//        navigationController?.pushViewController(vc, animated: true)
+        
     }
     
 }
