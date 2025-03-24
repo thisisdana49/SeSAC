@@ -102,4 +102,31 @@ class ImageNetworkManager {
         return UIImage(data: data)!
     }
     
+    func fetchAsyncLet() async throws -> [UIImage] {
+        async let one = ImageNetworkManager.shared.fetchAsyncAwait()
+        async let two = ImageNetworkManager.shared.fetchAsyncAwait()
+        async let three = ImageNetworkManager.shared.fetchAsyncAwait()
+        
+        return try await [one, two, three]
+        // 하지만 통신 요청 수가 유동적일 경우 활용할 수 없음.
+    }
+    
+    func fetchTaskGroup() async throws -> [UIImage] {
+        
+        return try await withThrowingTaskGroup(of: UIImage.self) { group in
+            for item in 0..<10 {
+                group.addTask {
+                    try await self.fetchAsyncAwait()
+                }
+            }
+            
+            var resultImages: [UIImage] = []
+            
+            for try await item in group {
+                resultImages.append(item)
+            }
+            return resultImages
+        }
+    }
+    
 }
