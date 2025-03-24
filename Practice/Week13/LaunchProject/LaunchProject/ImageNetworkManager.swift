@@ -91,6 +91,14 @@ class ImageNetworkManager {
         // await: 비동기 함수가 동작할 예정이니, 응답이 올 때까지 이 코드에서 기다리세요.
         let (data, response) = try await URLSession.shared.data(for: request)
         
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw JackError.invalidResponse
+        }
+        
+        guard let image = UIImage(data: data) else {
+            throw JackError.invalidImage
+        }
+        
         return UIImage(data: data)!
     }
     
