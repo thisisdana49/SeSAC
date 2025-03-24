@@ -89,19 +89,9 @@ class ImageNetworkManager {
         
         // async: data~~ 함수는 비동기로 동작할 함수입니다. (== DispatchQueue.global.async
         // await: 비동기 함수가 동작할 예정이니, 응답이 올 때까지 이 코드에서 기다리세요.
-        print("===1===", Thread.isMainThread)
         let (data, response) = try await URLSession.shared.data(for: request)
-        print("===2===", Thread.isMainThread)
         
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw JackError.invalidResponse
-        }
-        
-        guard let image = UIImage(data: data) else {
-            throw JackError.invalidImage
-        }
-        
-        return image
+        return UIImage(data: data)!
     }
     
 }
