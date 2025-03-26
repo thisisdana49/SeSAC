@@ -41,7 +41,7 @@ class CombineViewModel {
         let input = Input()
         input.viewDidLoadTrigger
             .sink { [weak self] _ in
-                <#code#>
+//                <#code#>
             }
             .store(in: &cancellables)
     }

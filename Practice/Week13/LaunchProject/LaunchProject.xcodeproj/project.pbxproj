@@ -6,8 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3EE1E9822D937F8F00681B6B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3EE1E9812D937F8F00681B6B /* SnapKit */; };
+		3EE1E9882D93A29100681B6B /* OrderBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1E9872D93A29100681B6B /* OrderBookViewController.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		3EE1E2B92D8A68BD00681B6B /* LaunchProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaunchProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EE1E9872D93A29100681B6B /* OrderBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderBookViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EE1E9822D937F8F00681B6B /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +52,7 @@
 		3EE1E2B02D8A68BD00681B6B = {
 			isa = PBXGroup;
 			children = (
+				3EE1E9872D93A29100681B6B /* OrderBookViewController.swift */,
 				3EE1E2BB2D8A68BD00681B6B /* LaunchProject */,
 				3EE1E2BA2D8A68BD00681B6B /* Products */,
 			);
@@ -78,6 +86,7 @@
 			);
 			name = LaunchProject;
 			packageProductDependencies = (
+				3EE1E9812D937F8F00681B6B /* SnapKit */,
 			);
 			productName = LaunchProject;
 			productReference = 3EE1E2B92D8A68BD00681B6B /* LaunchProject.app */;
@@ -107,6 +116,9 @@
 			);
 			mainGroup = 3EE1E2B02D8A68BD00681B6B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3EE1E9802D937F8F00681B6B /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3EE1E2BA2D8A68BD00681B6B /* Products */;
 			projectDirPath = "";
@@ -132,6 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EE1E9882D93A29100681B6B /* OrderBookViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +356,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3EE1E9802D937F8F00681B6B /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3EE1E9812D937F8F00681B6B /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3EE1E9802D937F8F00681B6B /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3EE1E2B12D8A68BD00681B6B /* Project object */;
 }
