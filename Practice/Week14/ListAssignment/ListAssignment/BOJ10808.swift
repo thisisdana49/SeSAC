@@ -14,7 +14,8 @@ func boj10808() {
     var arr: [Int] = .init(repeating: 0, count: 26)
 
     for char in chars {
-        arr[Int(char.asciiValue!) - 97] += 1
+//        arr[Int(char.asciiValue!) - 97] += 1
+        arr[Int(char.asciiValue!) - Int(UnicodeScalar("a").value)] += 1
     }
 
     print(arr.map { String($0) }.joined(separator: " "))
